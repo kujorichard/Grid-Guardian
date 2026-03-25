@@ -1,0 +1,621 @@
+[gd_scene format=3 uid="uid://main46"]
+
+[ext_resource type="Script" uid="uid://cmh0hmd2ohn2e" path="res://scripts/Main.gd" id="1_main"]
+[ext_resource type="Texture2D" uid="uid://doq5udfxamg6f" path="res://{scenes,scripts,assets}/Map Assets/City Background.png" id="2_rvslj"]
+[ext_resource type="Texture2D" uid="uid://bua53528au7ic" path="res://{scenes,scripts,assets}/Map Assets/Smoke particle.png" id="3_0bbpv"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rarhs"]
+lifetime_randomness = 0.12
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 40.0
+gravity = Vector3(0, 98, 0)
+
+[node name="Main" type="Control" unique_id=1954261795]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_main")
+
+[node name="Background" type="ColorRect" parent="." unique_id=268568531]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.07, 0.09, 0.15, 1)
+
+[node name="Screens" type="Node" parent="." unique_id=1133756491]
+
+[node name="MenuScreen" type="CenterContainer" parent="Screens" unique_id=138293938]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Screens/MenuScreen" unique_id=1099831612]
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="LblTitle" type="Label" parent="Screens/MenuScreen/VBox" unique_id=905058462]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.85, 1, 1)
+theme_override_font_sizes/font_size = 52
+text = "⚡ GRID GUARDIAN"
+horizontal_alignment = 1
+
+[node name="LblSubtitle" type="Label" parent="Screens/MenuScreen/VBox" unique_id=1755523036]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.8, 0.9, 1)
+theme_override_font_sizes/font_size = 18
+text = "Manage your city's energy grid.
+Balance coal, solar, and wind.
+Keep the lights on — and the air clean."
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="Screens/MenuScreen/VBox" unique_id=681234043]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="BtnPlay" type="Button" parent="Screens/MenuScreen/VBox" unique_id=718414774]
+custom_minimum_size = Vector2(260, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "▶  START GAME"
+
+[node name="LblHint" type="Label" parent="Screens/MenuScreen/VBox" unique_id=295861234]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.6, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+text = "Survive 6 minutes without blackout or pollution crisis"
+horizontal_alignment = 1
+
+[node name="GameScreen" type="Control" parent="Screens" unique_id=725830366]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopBar" type="HBoxContainer" parent="Screens/GameScreen" unique_id=918481455]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 48.0
+grow_horizontal = 2
+theme_override_constants/separation = 20
+
+[node name="LblGameTitle" type="Label" parent="Screens/GameScreen/TopBar" unique_id=1153839085]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.3, 0.85, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "⚡ GRID GUARDIAN"
+
+[node name="LblTimeOfDay" type="Label" parent="Screens/GameScreen/TopBar" unique_id=425405672]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
+theme_override_font_sizes/font_size = 16
+text = "🌅 Morning"
+
+[node name="LblTimer" type="Label" parent="Screens/GameScreen/TopBar" unique_id=444137205]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_font_sizes/font_size = 22
+text = "6:00"
+
+[node name="LblScore" type="Label" parent="Screens/GameScreen/TopBar" unique_id=162362175]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Score: 0"
+
+[node name="LblCoins" type="Label" parent="Screens/GameScreen/TopBar" unique_id=1016929159]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+theme_override_font_sizes/font_size = 16
+text = "💰 200"
+
+[node name="CityOverlay" type="Control" parent="Screens/GameScreen" unique_id=944729719]
+visible = false
+layout_mode = 1
+anchor_top = 0.07
+anchor_right = 1.0
+anchor_bottom = 0.35
+
+[node name="LblBlackout" type="Label" parent="Screens/GameScreen/CityOverlay" unique_id=1073028049]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -30.0
+offset_right = 200.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.3, 0.2, 1)
+theme_override_font_sizes/font_size = 28
+text = "⚠️ BLACKOUT RISK!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MetersLabel" type="Label" parent="Screens/GameScreen" unique_id=460000776]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.36
+anchor_right = 0.5
+anchor_bottom = 0.41
+offset_left = 5.0
+offset_top = 298.8
+offset_right = -479.0
+offset_bottom = 298.8
+theme_override_colors/font_color = Color(0.55, 0.65, 0.8, 1)
+theme_override_font_sizes/font_size = 13
+text = "CITY STATUS"
+
+[node name="Meters" type="VBoxContainer" parent="Screens/GameScreen" unique_id=1068034042]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.032
+anchor_top = 0.54
+anchor_right = 0.50100005
+anchor_bottom = 0.69600004
+offset_left = -29.960003
+offset_top = 205.19998
+offset_right = -30.28003
+offset_bottom = 204.87997
+theme_override_constants/separation = 10
+
+[node name="StabilityRow" type="HBoxContainer" parent="Screens/GameScreen/Meters" unique_id=1924226113]
+layout_mode = 2
+
+[node name="LblStabTitle" type="Label" parent="Screens/GameScreen/Meters/StabilityRow" unique_id=648127388]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "⚡ Power Stability"
+
+[node name="StabilityBar" type="ProgressBar" parent="Screens/GameScreen/Meters/StabilityRow" unique_id=91572431]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+value = 80.0
+show_percentage = false
+
+[node name="LblVal" type="Label" parent="Screens/GameScreen/Meters/StabilityRow/StabilityBar" unique_id=1811986210]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "80%"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PollutionRow" type="HBoxContainer" parent="Screens/GameScreen/Meters" unique_id=1430378093]
+layout_mode = 2
+
+[node name="LblPollTitle" type="Label" parent="Screens/GameScreen/Meters/PollutionRow" unique_id=1194068560]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "🌫️ Pollution Level"
+
+[node name="PollutionBar" type="ProgressBar" parent="Screens/GameScreen/Meters/PollutionRow" unique_id=1885805340]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+value = 20.0
+show_percentage = false
+
+[node name="LblVal" type="Label" parent="Screens/GameScreen/Meters/PollutionRow/PollutionBar" unique_id=902805489]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "20%"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SatisfactionRow" type="HBoxContainer" parent="Screens/GameScreen/Meters" unique_id=1966364585]
+layout_mode = 2
+
+[node name="LblSatTitle" type="Label" parent="Screens/GameScreen/Meters/SatisfactionRow" unique_id=1765327135]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "😊 Public Satisfaction"
+
+[node name="SatisfactionBar" type="ProgressBar" parent="Screens/GameScreen/Meters/SatisfactionRow" unique_id=2141209368]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+value = 70.0
+show_percentage = false
+
+[node name="LblVal" type="Label" parent="Screens/GameScreen/Meters/SatisfactionRow/SatisfactionBar" unique_id=131133080]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "70%"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SupplyDemand" type="HBoxContainer" parent="Screens/GameScreen" unique_id=1201220880]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.73
+anchor_right = 0.5
+anchor_bottom = 0.81
+offset_left = 9.0
+offset_top = -469.60004
+offset_right = -195.0
+offset_bottom = -469.60004
+theme_override_constants/separation = 30
+
+[node name="LblDemand" type="Label" parent="Screens/GameScreen/SupplyDemand" unique_id=2143657825]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.6, 0.3, 1)
+theme_override_font_sizes/font_size = 15
+text = "Demand: 65 MW"
+
+[node name="LblSupply" type="Label" parent="Screens/GameScreen/SupplyDemand" unique_id=24620548]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.9, 0.5, 1)
+theme_override_font_sizes/font_size = 15
+text = "Supply: 70 MW"
+
+[node name="LblBalance" type="Label" parent="Screens/GameScreen/SupplyDemand" unique_id=1416116175]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "✅ +5 MW surplus"
+
+[node name="ControlsLabel" type="Label" parent="Screens/GameScreen" unique_id=727193740]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.591
+anchor_top = 0.37600002
+anchor_right = 0.70600003
+anchor_bottom = 0.42600003
+offset_left = -0.4800415
+offset_top = 0.27999878
+offset_right = 0.3199463
+offset_bottom = 0.27996826
+theme_override_colors/font_color = Color(0.55, 0.65, 0.8, 1)
+theme_override_font_sizes/font_size = 13
+text = "ENERGY CONTROLS"
+
+[node name="Controls" type="VBoxContainer" parent="Screens/GameScreen" unique_id=1104946911]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.88
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 762.0
+offset_top = -334.59998
+offset_right = 527.0
+offset_bottom = -344.59998
+theme_override_constants/separation = 8
+
+[node name="CoalRow" type="HBoxContainer" parent="Screens/GameScreen/Controls" unique_id=1444063138]
+layout_mode = 2
+
+[node name="LblCoalTitle" type="Label" parent="Screens/GameScreen/Controls/CoalRow" unique_id=1279867816]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.6, 0.3, 1)
+theme_override_font_sizes/font_size = 14
+text = "🏭 Coal"
+
+[node name="CoalSlider" type="HSlider" parent="Screens/GameScreen/Controls/CoalRow" unique_id=1091259299]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+value = 50.0
+
+[node name="LblVal" type="Label" parent="Screens/GameScreen/Controls/CoalRow/CoalSlider" unique_id=1346977781]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = -10.0
+offset_right = 50.0
+offset_bottom = 10.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "50%"
+
+[node name="SolarRow" type="HBoxContainer" parent="Screens/GameScreen/Controls" unique_id=1793000591]
+layout_mode = 2
+
+[node name="LblSolarTitle" type="Label" parent="Screens/GameScreen/Controls/SolarRow" unique_id=865204014]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.2, 1)
+theme_override_font_sizes/font_size = 14
+text = "☀️ Solar"
+
+[node name="SolarSlider" type="HSlider" parent="Screens/GameScreen/Controls/SolarRow" unique_id=154140804]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+value = 30.0
+
+[node name="LblVal" type="Label" parent="Screens/GameScreen/Controls/SolarRow/SolarSlider" unique_id=654695662]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = -10.0
+offset_right = 50.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "30%"
+
+[node name="WindRow" type="HBoxContainer" parent="Screens/GameScreen/Controls" unique_id=267497623]
+layout_mode = 2
+
+[node name="LblWindTitle" type="Label" parent="Screens/GameScreen/Controls/WindRow" unique_id=286491438]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "🌬️ Wind"
+
+[node name="WindSlider" type="HSlider" parent="Screens/GameScreen/Controls/WindRow" unique_id=808382362]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+value = 20.0
+
+[node name="LblVal" type="Label" parent="Screens/GameScreen/Controls/WindRow/WindSlider" unique_id=1398107650]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = -10.0
+offset_right = 50.0
+offset_bottom = 10.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "20%"
+
+[node name="UpgradesLabel" type="Label" parent="Screens/GameScreen" unique_id=1839116492]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.52
+anchor_top = 0.07
+anchor_right = 1.0
+anchor_bottom = 0.13
+offset_left = 95.400024
+offset_top = 346.6
+offset_right = -434.0
+offset_bottom = 346.6
+theme_override_colors/font_color = Color(0.55, 0.65, 0.8, 1)
+theme_override_font_sizes/font_size = 13
+text = "UPGRADES"
+
+[node name="Upgrades" type="VBoxContainer" parent="Screens/GameScreen" unique_id=568686190]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.52
+anchor_top = 0.13
+anchor_right = 1.0
+anchor_bottom = 0.52
+offset_left = 96.400024
+offset_top = 328.4
+offset_right = -24.599976
+offset_bottom = 328.4
+theme_override_constants/separation = 8
+
+[node name="BtnBattery" type="Button" parent="Screens/GameScreen/Upgrades" unique_id=1313369724]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "🔋 Battery Storage
+💰 500"
+
+[node name="BtnGrid" type="Button" parent="Screens/GameScreen/Upgrades" unique_id=1257033549]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "🔌 Grid Upgrade
+💰 400"
+
+[node name="BtnBetterSolar" type="Button" parent="Screens/GameScreen/Upgrades" unique_id=611231988]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "🌞 Better Solar
+💰 350"
+
+[node name="BtnStableWind" type="Button" parent="Screens/GameScreen/Upgrades" unique_id=1663780770]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "🌬️ Stable Wind
+💰 300"
+
+[node name="EventPanel" type="PanelContainer" parent="Screens/GameScreen" unique_id=211149121]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.52
+anchor_top = 0.55
+anchor_right = 1.0
+anchor_bottom = 0.82
+offset_left = 10.0
+offset_right = -20.0
+
+[node name="VBox" type="VBoxContainer" parent="Screens/GameScreen/EventPanel" unique_id=321778856]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="LblTitle" type="Label" parent="Screens/GameScreen/EventPanel/VBox" unique_id=1885621999]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+theme_override_font_sizes/font_size = 18
+text = "⛈️ Storm Warning"
+
+[node name="LblDesc" type="Label" parent="Screens/GameScreen/EventPanel/VBox" unique_id=1996258827]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.88, 0.95, 1)
+theme_override_font_sizes/font_size = 13
+text = "Heavy storm hits the city!
+Solar drops, Wind surges."
+autowrap_mode = 3
+
+[node name="HideTimer" type="Timer" parent="Screens/GameScreen/EventPanel" unique_id=1157574996]
+wait_time = 6.0
+one_shot = true
+
+[node name="Map" type="Node2D" parent="Screens/GameScreen" unique_id=1852244671]
+
+[node name="Background" type="Sprite2D" parent="Screens/GameScreen/Map" unique_id=1289871442]
+position = Vector2(415.00003, 390)
+scale = Vector2(0.9185714, 0.91857153)
+texture = ExtResource("2_rvslj")
+
+[node name="Buildings" type="Node2D" parent="Screens/GameScreen/Map" unique_id=1151160845]
+
+[node name="PollutionOverlay" type="ColorRect" parent="Screens/GameScreen/Map" unique_id=785891860]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.3764706, 0.3764706, 0.3764706, 0.60784316)
+
+[node name="Smoke" type="GPUParticles2D" parent="Screens/GameScreen/Map" unique_id=639531328]
+position = Vector2(418, 369)
+scale = Vector2(0.5, 0.5)
+skew = -0.26005405
+amount = 5
+amount_ratio = 0.6685
+texture = ExtResource("3_0bbpv")
+lifetime = 6.699999999999999
+process_material = SubResource("ParticleProcessMaterial_rarhs")
+
+[node name="Character" type="Sprite2D" parent="Screens/GameScreen" unique_id=153435969]
+
+[node name="GameOverScreen" type="CenterContainer" parent="Screens" unique_id=1632994653]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Screens/GameOverScreen" unique_id=1543702575]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="LblGameOver" type="Label" parent="Screens/GameOverScreen/VBox" unique_id=1612632314]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.3, 0.2, 1)
+theme_override_font_sizes/font_size = 48
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="LblReason" type="Label" parent="Screens/GameOverScreen/VBox" unique_id=1159613253]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "💀 Total Blackout!
+The city went dark."
+horizontal_alignment = 1
+
+[node name="LblScore" type="Label" parent="Screens/GameOverScreen/VBox" unique_id=756685714]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.5, 1)
+theme_override_font_sizes/font_size = 18
+text = "Final Score: 0"
+horizontal_alignment = 1
+
+[node name="BtnRestart" type="Button" parent="Screens/GameOverScreen/VBox" unique_id=789885326]
+custom_minimum_size = Vector2(240, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "🔄  TRY AGAIN"
+
+[node name="WinScreen" type="CenterContainer" parent="Screens" unique_id=576735018]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Screens/WinScreen" unique_id=1924130550]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="LblWin" type="Label" parent="Screens/WinScreen/VBox" unique_id=214664283]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 1, 0.5, 1)
+theme_override_font_sizes/font_size = 52
+text = "🏆 CITY SAVED!"
+horizontal_alignment = 1
+
+[node name="LblSub" type="Label" parent="Screens/WinScreen/VBox" unique_id=412459404]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "You kept the lights on and the air clean.
+The city thanks you!"
+horizontal_alignment = 1
+
+[node name="LblScore" type="Label" parent="Screens/WinScreen/VBox" unique_id=826804039]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.3, 1)
+theme_override_font_sizes/font_size = 22
+text = "🏆 Final Score: 0"
+horizontal_alignment = 1
+
+[node name="BtnRestart" type="Button" parent="Screens/WinScreen/VBox" unique_id=34552663]
+custom_minimum_size = Vector2(240, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "🔄  PLAY AGAIN"
+
+[connection signal="pressed" from="Screens/MenuScreen/VBox/BtnPlay" to="." method="_on_btn_play_pressed"]
+[connection signal="pressed" from="Screens/GameScreen/Upgrades/BtnBattery" to="." method="_on_btn_battery_pressed"]
+[connection signal="pressed" from="Screens/GameScreen/Upgrades/BtnGrid" to="." method="_on_btn_grid_pressed"]
+[connection signal="pressed" from="Screens/GameScreen/Upgrades/BtnBetterSolar" to="." method="_on_btn_better_solar_pressed"]
+[connection signal="pressed" from="Screens/GameScreen/Upgrades/BtnStableWind" to="." method="_on_btn_stable_wind_pressed"]
+[connection signal="timeout" from="Screens/GameScreen/EventPanel/HideTimer" to="." method="_on_hide_timer_timeout"]
+[connection signal="pressed" from="Screens/GameOverScreen/VBox/BtnRestart" to="." method="_on_btn_restart_pressed"]
+[connection signal="pressed" from="Screens/WinScreen/VBox/BtnRestart" to="." method="_on_btn_restart_pressed"]
