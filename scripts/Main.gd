@@ -54,6 +54,9 @@ extends Control
 @onready var lbl_go_score     : Label = $Screens/GameOverScreen/VBox/LblScore
 @onready var lbl_win_score    : Label = $Screens/WinScreen/VBox/LblScore
 
+# Map Display
+@onready var map : Node2D = $Screens/GameScreen/Map
+
 var GM : Node
 
 func _ready() -> void:
@@ -66,9 +69,23 @@ func _ready() -> void:
 	GM.time_updated.connect(_on_time_updated)
 	GM.upgrade_purchased.connect(_on_upgrade_purchased)
 
-	slider_coal.value_changed.connect(func(v): GM.set_coal(v);  _update_slider_label(lbl_coal_val,  v))
-	slider_solar.value_changed.connect(func(v): GM.set_solar(v); _update_slider_label(lbl_solar_val, v))
-	slider_wind.value_changed.connect(func(v): GM.set_wind(v);  _update_slider_label(lbl_wind_val,  v))
+	slider_coal.value_changed.connect(func(v):
+		GM.set_coal(v)
+		_update_slider_label(lbl_coal_val, v)
+		map.update_city(GM.coal_level, GM.solar_level, GM.wind_level, GM.pollution)
+	)
+
+	slider_solar.value_changed.connect(func(v):
+		GM.set_solar(v)
+		_update_slider_label(lbl_solar_val, v)
+		map.update_city(GM.coal_level, GM.solar_level, GM.wind_level, GM.pollution)
+	)
+
+	slider_wind.value_changed.connect(func(v):
+		GM.set_wind(v)
+		_update_slider_label(lbl_wind_val, v)
+		map.update_city(GM.coal_level, GM.solar_level, GM.wind_level, GM.pollution)
+	)
 
 	_show_screen("menu")
 	panel_event.hide()

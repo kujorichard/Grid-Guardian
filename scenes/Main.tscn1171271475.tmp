@@ -533,16 +533,6 @@ texture = ExtResource("2_rvslj")
 
 [node name="Buildings" type="Node2D" parent="Screens/GameScreen/Map" unique_id=1151160845]
 
-[node name="Smoke" type="GPUParticles2D" parent="Screens/GameScreen/Map" unique_id=639531328]
-position = Vector2(415, 428)
-scale = Vector2(2, 1)
-skew = -0.2600541
-amount = 10
-amount_ratio = 0.6685
-texture = ExtResource("3_0bbpv")
-lifetime = 6.6499999999999995
-process_material = SubResource("ParticleProcessMaterial_rarhs")
-
 [node name="PollutionOverlay" type="ColorRect" parent="Screens/GameScreen/Map" unique_id=785891860]
 anchors_preset = 15
 anchor_right = 1.0
@@ -550,6 +540,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.3764706, 0.3764706, 0.3764706, 0.60784316)
+
+[node name="Smoke" type="GPUParticles2D" parent="Screens/GameScreen/Map" unique_id=639531328]
+position = Vector2(415, 428)
+scale = Vector2(2, 1)
+skew = -0.26005405
+amount = 7
+amount_ratio = 0.6685
+texture = ExtResource("3_0bbpv")
+lifetime = 6.6499999999999995
+process_material = SubResource("ParticleProcessMaterial_rarhs")
 
 [node name="Character" type="Sprite2D" parent="Screens/GameScreen" unique_id=153435969]
 
