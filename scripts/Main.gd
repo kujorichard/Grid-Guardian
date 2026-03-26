@@ -33,6 +33,15 @@ extends Control
 @onready var lbl_supply       : Label        = $Screens/GameScreen/SupplyDemand/LblSupply
 @onready var lbl_balance      : Label        = $Screens/GameScreen/SupplyDemand/LblBalance
 
+# Energy supply meters
+@onready var bar_coal_supply   : ProgressBar  = $Screens/GameScreen/EnergySupply/CoalSupplyRow/CoalSupplyBar
+@onready var bar_solar_supply  : ProgressBar  = $Screens/GameScreen/EnergySupply/SolarSupplyRow/SolarSupplyBar
+@onready var bar_wind_supply   : ProgressBar  = $Screens/GameScreen/EnergySupply/WindSupplyRow/WindSupplyBar
+@onready var lbl_coal_sup_val  : Label        = $Screens/GameScreen/EnergySupply/CoalSupplyRow/CoalSupplyBar/LblVal
+@onready var lbl_solar_sup_val : Label        = $Screens/GameScreen/EnergySupply/SolarSupplyRow/SolarSupplyBar/LblVal
+@onready var lbl_wind_sup_val  : Label        = $Screens/GameScreen/EnergySupply/WindSupplyRow/WindSupplyBar/LblVal
+@onready var btn_buy_coal      : Button       = $Screens/GameScreen/EnergySupply/BtnBuyCoal
+
 # Event panel
 @onready var panel_event      : PanelContainer = $Screens/GameScreen/EventPanel
 @onready var lbl_event_title  : Label          = $Screens/GameScreen/EventPanel/VBox/LblTitle
@@ -68,6 +77,8 @@ func _ready() -> void:
 	GM.game_won.connect(_on_game_won)
 	GM.time_updated.connect(_on_time_updated)
 	GM.upgrade_purchased.connect(_on_upgrade_purchased)
+	GM.energy_supply_updated.connect(_on_energy_supply_updated)
+	GM.coal_price_updated.connect(_on_coal_price_updated)
 
 	slider_coal.value_changed.connect(func(v):
 		GM.set_coal(v)
@@ -117,6 +128,8 @@ func _init_game_ui() -> void:
 	_update_slider_label(lbl_wind_val,  GM.wind_level)
 	lbl_blackout.hide()
 	_refresh_upgrade_buttons()
+	_update_buy_coal_button(GM.coal_price)
+	_on_energy_supply_updated(GM.coal_supply, GM.solar_supply, GM.wind_supply)
 
 # ─── Signal handlers ──────────────────────────────────────────────────────────
 func _on_meters_updated(stab: float, poll: float, sat: float) -> void:
@@ -175,6 +188,22 @@ func _on_upgrade_purchased(_id: String) -> void:
 
 func _on_hide_timer_timeout() -> void:
 	panel_event.hide()
+
+func _on_energy_supply_updated(coal_sup: float, solar_sup: float, wind_sup: float) -> void:
+	_set_bar(bar_coal_supply,  lbl_coal_sup_val,  coal_sup, Color(0.8, 0.6, 0.3), Color(0.4, 0.2, 0.1))
+	_set_bar(bar_solar_supply, lbl_solar_sup_val, solar_sup, Color(1.0, 0.9, 0.2), Color(0.5, 0.3, 0.1))
+	_set_bar(bar_wind_supply,  lbl_wind_sup_val,  wind_sup,  Color(0.4, 0.8, 1.0), Color(0.2, 0.3, 0.5))
+	_update_buy_coal_button(GM.coal_price)
+
+func _on_coal_price_updated(price: int) -> void:
+	_update_buy_coal_button(price)
+
+func _on_btn_buy_coal_pressed() -> void:
+	GM.buy_coal()
+
+func _update_buy_coal_button(price: int) -> void:
+	btn_buy_coal.text = "⛏️ Buy Coal (+20%%)\n💰 %d" % price
+	btn_buy_coal.disabled = GM.coins < price or GM.coal_supply >= 100.0
 
 # ─── Upgrade button handlers ──────────────────────────────────────────────────
 func _on_btn_battery_pressed()      -> void: _try_upgrade("battery")

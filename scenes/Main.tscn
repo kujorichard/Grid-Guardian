@@ -311,6 +311,128 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 15
 text = "✅ +5 MW surplus"
 
+[node name="EnergySupplyLabel" type="Label" parent="Screens/GameScreen"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.591
+anchor_top = 0.07
+anchor_right = 0.75
+anchor_bottom = 0.12
+offset_left = -0.48
+offset_top = 0.28
+offset_right = 0.32
+offset_bottom = 0.28
+theme_override_colors/font_color = Color(0.55, 0.65, 0.8, 1)
+theme_override_font_sizes/font_size = 13
+text = "ENERGY SUPPLY"
+
+[node name="EnergySupply" type="VBoxContainer" parent="Screens/GameScreen"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.591
+anchor_top = 0.12
+anchor_right = 0.97
+anchor_bottom = 0.34
+offset_left = -0.48
+offset_top = 6.0
+offset_right = -24.6
+offset_bottom = 0.0
+theme_override_constants/separation = 8
+
+[node name="CoalSupplyRow" type="HBoxContainer" parent="Screens/GameScreen/EnergySupply"]
+layout_mode = 2
+
+[node name="LblTitle" type="Label" parent="Screens/GameScreen/EnergySupply/CoalSupplyRow"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.6, 0.3, 1)
+theme_override_font_sizes/font_size = 13
+text = "🏭 Coal Stock"
+
+[node name="CoalSupplyBar" type="ProgressBar" parent="Screens/GameScreen/EnergySupply/CoalSupplyRow"]
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+size_flags_horizontal = 3
+value = 50.0
+show_percentage = false
+
+[node name="LblVal" type="Label" parent="Screens/GameScreen/EnergySupply/CoalSupplyRow/CoalSupplyBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 11
+text = "50%"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SolarSupplyRow" type="HBoxContainer" parent="Screens/GameScreen/EnergySupply"]
+layout_mode = 2
+
+[node name="LblTitle" type="Label" parent="Screens/GameScreen/EnergySupply/SolarSupplyRow"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.2, 1)
+theme_override_font_sizes/font_size = 13
+text = "☀️ Solar Stock"
+
+[node name="SolarSupplyBar" type="ProgressBar" parent="Screens/GameScreen/EnergySupply/SolarSupplyRow"]
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+size_flags_horizontal = 3
+value = 10.0
+show_percentage = false
+
+[node name="LblVal" type="Label" parent="Screens/GameScreen/EnergySupply/SolarSupplyRow/SolarSupplyBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 11
+text = "10%"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WindSupplyRow" type="HBoxContainer" parent="Screens/GameScreen/EnergySupply"]
+layout_mode = 2
+
+[node name="LblTitle" type="Label" parent="Screens/GameScreen/EnergySupply/WindSupplyRow"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 13
+text = "🌬️ Wind Stock"
+
+[node name="WindSupplyBar" type="ProgressBar" parent="Screens/GameScreen/EnergySupply/WindSupplyRow"]
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+size_flags_horizontal = 3
+value = 20.0
+show_percentage = false
+
+[node name="LblVal" type="Label" parent="Screens/GameScreen/EnergySupply/WindSupplyRow/WindSupplyBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 11
+text = "20%"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnBuyCoal" type="Button" parent="Screens/GameScreen/EnergySupply"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "⛏️ Buy Coal (+20%)
+💰 60"
+
 [node name="ControlsLabel" type="Label" parent="Screens/GameScreen" unique_id=727193740]
 layout_mode = 1
 anchors_preset = -1
@@ -638,6 +760,7 @@ text = "🔄  PLAY AGAIN"
 [connection signal="pressed" from="Screens/GameScreen/Upgrades/BtnGrid" to="." method="_on_btn_grid_pressed"]
 [connection signal="pressed" from="Screens/GameScreen/Upgrades/BtnBetterSolar" to="." method="_on_btn_better_solar_pressed"]
 [connection signal="pressed" from="Screens/GameScreen/Upgrades/BtnStableWind" to="." method="_on_btn_stable_wind_pressed"]
+[connection signal="pressed" from="Screens/GameScreen/EnergySupply/BtnBuyCoal" to="." method="_on_btn_buy_coal_pressed"]
 [connection signal="timeout" from="Screens/GameScreen/EventPanel/HideTimer" to="." method="_on_hide_timer_timeout"]
 [connection signal="pressed" from="Screens/GameOverScreen/VBox/BtnRestart" to="." method="_on_btn_restart_pressed"]
 [connection signal="pressed" from="Screens/WinScreen/VBox/BtnRestart" to="." method="_on_btn_restart_pressed"]
