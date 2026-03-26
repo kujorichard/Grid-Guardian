@@ -4,6 +4,9 @@
 [ext_resource type="Script" uid="uid://8tsxfjob445i" path="res://scenes/Map.gd" id="2_rarhs"]
 [ext_resource type="Texture2D" uid="uid://doq5udfxamg6f" path="res://{scenes,scripts,assets}/Map Assets/City Background.png" id="2_rvslj"]
 [ext_resource type="Texture2D" uid="uid://bua53528au7ic" path="res://{scenes,scripts,assets}/Map Assets/Smoke particle.png" id="3_0bbpv"]
+[ext_resource type="Texture2D" uid="uid://cet85l1eq4pf2" path="res://{scenes,scripts,assets}/Map Assets/Coal Plant.png" id="3_vcsgt"]
+[ext_resource type="Texture2D" uid="uid://dntjatrxtdc8t" path="res://{scenes,scripts,assets}/Map Assets/WindTurbine.png" id="4_c01mt"]
+[ext_resource type="Texture2D" uid="uid://bd8fudnc8s88y" path="res://{scenes,scripts,assets}/Map Assets/SolarPanel.png" id="6_nxtc6"]
 
 [sub_resource type="Gradient" id="Gradient_0bbpv"]
 offsets = PackedFloat32Array(0, 0.10638298, 0.25177306, 0.4007092, 0.4929078, 0.69148934, 0.86170214, 1)
@@ -989,12 +992,78 @@ text = "✅ +5 MW surplus"
 [node name="Map" type="Node2D" parent="Screens/GameScreen" unique_id=1852244671]
 script = ExtResource("2_rarhs")
 
-[node name="Background" type="Sprite2D" parent="Screens/GameScreen/Map" unique_id=1289871442]
+[node name="Buildings" type="Node2D" parent="Screens/GameScreen/Map" unique_id=1151160845]
+
+[node name="WindPlant" type="Node2D" parent="Screens/GameScreen/Map/Buildings" unique_id=1990598075]
+
+[node name="Wind4" type="Sprite2D" parent="Screens/GameScreen/Map/Buildings/WindPlant" unique_id=1126970640]
+position = Vector2(400, 264)
+scale = Vector2(0.277, 0.277)
+texture = ExtResource("4_c01mt")
+
+[node name="Wind3" type="Sprite2D" parent="Screens/GameScreen/Map/Buildings/WindPlant" unique_id=37529845]
+position = Vector2(470, 298)
+scale = Vector2(0.277, 0.277)
+texture = ExtResource("4_c01mt")
+
+[node name="Wind2" type="Sprite2D" parent="Screens/GameScreen/Map/Buildings/WindPlant" unique_id=2012445414]
+position = Vector2(539, 332)
+scale = Vector2(0.277, 0.277)
+texture = ExtResource("4_c01mt")
+
+[node name="Wind1" type="Sprite2D" parent="Screens/GameScreen/Map/Buildings/WindPlant" unique_id=235691655]
+position = Vector2(607.00006, 366)
+scale = Vector2(0.2769152, 0.27691516)
+texture = ExtResource("4_c01mt")
+
+[node name="CoalPlant" type="Node2D" parent="Screens/GameScreen/Map/Buildings" unique_id=859273340]
+
+[node name="Coal3" type="Sprite2D" parent="Screens/GameScreen/Map/Buildings/CoalPlant" unique_id=1737151242]
+position = Vector2(213.00005, 248)
+scale = Vector2(0.641, 0.641)
+texture = ExtResource("3_vcsgt")
+
+[node name="Coal4" type="Sprite2D" parent="Screens/GameScreen/Map/Buildings/CoalPlant" unique_id=1996067771]
+position = Vector2(123.00001, 299.00003)
+scale = Vector2(0.641, 0.641)
+texture = ExtResource("3_vcsgt")
+
+[node name="Coal1" type="Sprite2D" parent="Screens/GameScreen/Map/Buildings/CoalPlant" unique_id=2017639635]
+position = Vector2(301, 299)
+scale = Vector2(0.6339285, 0.6339284)
+texture = ExtResource("3_vcsgt")
+
+[node name="Coal2" type="Sprite2D" parent="Screens/GameScreen/Map/Buildings/CoalPlant" unique_id=1111402726]
+position = Vector2(213.00009, 351.00003)
+scale = Vector2(0.6410715, 0.6410715)
+texture = ExtResource("3_vcsgt")
+
+[node name="Background" type="Sprite2D" parent="Screens/GameScreen/Map/Buildings" unique_id=1289871442]
 position = Vector2(415.00003, 390.12497)
 scale = Vector2(0.9185714, 0.9192857)
 texture = ExtResource("2_rvslj")
 
-[node name="Buildings" type="Node2D" parent="Screens/GameScreen/Map" unique_id=1151160845]
+[node name="SolarPlant" type="Node2D" parent="Screens/GameScreen/Map/Buildings" unique_id=299721011]
+
+[node name="Solar4" type="Sprite2D" parent="Screens/GameScreen/Map/Buildings/SolarPlant" unique_id=33768535]
+position = Vector2(667.00006, 414)
+scale = Vector2(0.338, 0.338)
+texture = ExtResource("6_nxtc6")
+
+[node name="Solar3" type="Sprite2D" parent="Screens/GameScreen/Map/Buildings/SolarPlant" unique_id=536163404]
+position = Vector2(604.00006, 450.00003)
+scale = Vector2(0.338, 0.338)
+texture = ExtResource("6_nxtc6")
+
+[node name="Solar2" type="Sprite2D" parent="Screens/GameScreen/Map/Buildings/SolarPlant" unique_id=1771378287]
+position = Vector2(541, 486.00003)
+scale = Vector2(0.338, 0.338)
+texture = ExtResource("6_nxtc6")
+
+[node name="Solar1" type="Sprite2D" parent="Screens/GameScreen/Map/Buildings/SolarPlant" unique_id=287620243]
+position = Vector2(478.00003, 523)
+scale = Vector2(0.33817858, 0.33817858)
+texture = ExtResource("6_nxtc6")
 
 [node name="Smoke" type="GPUParticles2D" parent="Screens/GameScreen/Map" unique_id=639531328]
 position = Vector2(415, 428)

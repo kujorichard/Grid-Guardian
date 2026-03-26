@@ -1,35 +1,57 @@
 extends Node2D
 
 @onready var smoke : GPUParticles2D = $Smoke
-@onready var buildings : Node2D = $Buildings
+
+@onready var coal_sprites  : Array = [
+	$Buildings/CoalPlant/Coal1,
+	$Buildings/CoalPlant/Coal2,
+	$Buildings/CoalPlant/Coal3,
+	$Buildings/CoalPlant/Coal4
+]
+@onready var solar_sprites : Array = [
+	$Buildings/SolarPlant/Solar1,
+	$Buildings/SolarPlant/Solar2,
+	$Buildings/SolarPlant/Solar3,
+	$Buildings/SolarPlant/Solar4
+]
+@onready var wind_sprites  : Array = [
+	$Buildings/WindPlant/Wind1,
+	$Buildings/WindPlant/Wind2,
+	$Buildings/WindPlant/Wind3,
+	$Buildings/WindPlant/Wind4
+]
+
+func _ready():
+	# Hide all pre-placed sprites initially
+	for s in coal_sprites + solar_sprites + wind_sprites:
+		s.visible = false
+
+func _percent_to_count(percent: float) -> int:
+	if percent <= 0: return 0
+	elif percent <= 25: return 1
+	elif percent <= 50: return 2
+	elif percent <= 75: return 3
+	else: return 4
 
 func update_city(coal: int, solar: int, wind: int, pollution: float) -> void:
-	"""
-	coal, solar, wind: counts of buildings
-	pollution: 0–100, from GameManager
-	"""
+	var coal_count  = _percent_to_count(coal)
+	var solar_count = _percent_to_count(solar)
+	var wind_count  = _percent_to_count(wind)
+
+	for i in range(coal_sprites.size()):
+		coal_sprites[i].visible = i < coal_count
+	for i in range(solar_sprites.size()):
+		solar_sprites[i].visible = i < solar_count
+	for i in range(wind_sprites.size()):
+		wind_sprites[i].visible = i < wind_count
+	
 	_update_smoke(pollution)
-	#_spawn_buildings(coal, solar, wind)
 
+# Smoke function stays the same
 func _update_smoke(pollution: float) -> void:
-	# Always emit some particles to avoid Godot errors
 	smoke.amount = 10  
-
-	# Fade alpha based on pollution (0 = invisible, 1 = fully opaque)
 	smoke.modulate.a = lerp(0.4, 1.0, pollution / 100.0)
-
-	# Optional: scale particles for visual intensity (smaller smoke at low pollution)
 	var scale_factor = lerp(0.3, 1.0, clamp(pollution / 100.0, 0.0, 1.0))
 	smoke.scale = Vector2.ONE * scale_factor
-
-	# Show/hide smoke for very low pollution
 	smoke.visible = pollution > 5
-
-	# Restart to immediately reflect any changes (optional if you adjust scale/alpha only)
 	smoke.restart()
-
-#func _spawn_buildings(coal: int, solar: int, wind: int) -> void:
-	#buildings.clear()  # remove previous icons
-	## placeholder: just print for now
-	#print("Coal:", coal, "Solar:", solar, "Wind:", wind)
-	## later you can instance building scenes here

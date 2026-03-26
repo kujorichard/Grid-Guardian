@@ -184,7 +184,7 @@ func _on_meters_updated(stab: float, poll: float, sat: float) -> void:
 	else:
 		lbl_blackout.hide()
 
-	map.update_city(GM.coal_capacity, GM.solar_capacity, GM.wind_capacity, GM.pollution)
+	map.update_city(GM.coal_supply, GM.solar_supply, GM.wind_supply, GM.pollution)
 	_refresh_contract_buttons()
 	_refresh_capacity_buttons()
 
