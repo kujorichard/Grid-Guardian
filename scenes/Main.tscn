@@ -105,11 +105,413 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="RightSidebar" type="PanelContainer" parent="Screens/GameScreen" unique_id=1740047283]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.62
+anchor_top = 0.06
+anchor_right = 0.98
+anchor_bottom = 0.98
+
+[node name="Margin" type="MarginContainer" parent="Screens/GameScreen/RightSidebar" unique_id=783738196]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="Screens/GameScreen/RightSidebar/Margin" unique_id=630924972]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="FlashPanel" type="PanelContainer" parent="Screens/GameScreen/RightSidebar/Margin/VBox" unique_id=502938421]
+visible = false
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="Screens/GameScreen/RightSidebar/Margin/VBox/FlashPanel" unique_id=745299311]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="LblFlashTitle" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox/FlashPanel/VBox" unique_id=1048512032]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 16
+text = "⚡ Flash Contract"
+
+[node name="LblFlashDesc" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox/FlashPanel/VBox" unique_id=1874936021]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.98, 1)
+theme_override_font_sizes/font_size = 12
+text = "Limited-time offer"
+
+[node name="FlashTimerBar" type="ProgressBar" parent="Screens/GameScreen/RightSidebar/Margin/VBox/FlashPanel/VBox" unique_id=663012884]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+size_flags_horizontal = 3
+value = 100.0
+show_percentage = false
+
+[node name="BtnFlashAccept" type="Button" parent="Screens/GameScreen/RightSidebar/Margin/VBox/FlashPanel/VBox" unique_id=1309477645]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Accept Flash"
+
+[node name="OverclockPanel" type="PanelContainer" parent="Screens/GameScreen/RightSidebar/Margin/VBox" unique_id=2140057317]
+visible = false
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel" unique_id=1592588430]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="LblTitle" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel/VBox" unique_id=149620231]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "OVERCLOCK"
+
+[node name="RowCoal" type="HBoxContainer" parent="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel/VBox" unique_id=1789065214]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="LblName" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel/VBox/RowCoal" unique_id=1277443691]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Coal"
+
+[node name="StressBar" type="ProgressBar" parent="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel/VBox/RowCoal" unique_id=1866239085]
+custom_minimum_size = Vector2(80, 14)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LblMult" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel/VBox/RowCoal" unique_id=1005836712]
+custom_minimum_size = Vector2(52, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "x1.0"
+
+[node name="LblState" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel/VBox/RowCoal" unique_id=929707417]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "safe"
+
+[node name="BtnOverclock" type="Button" parent="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel/VBox/RowCoal" unique_id=1640699081]
+custom_minimum_size = Vector2(70, 24)
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "Hold"
+
+[node name="RowSolar" type="HBoxContainer" parent="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel/VBox" unique_id=150559662]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="LblName" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel/VBox/RowSolar" unique_id=1302238778]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Solar"
+
+[node name="StressBar" type="ProgressBar" parent="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel/VBox/RowSolar" unique_id=282736553]
+custom_minimum_size = Vector2(80, 14)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LblMult" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel/VBox/RowSolar" unique_id=1719196529]
+custom_minimum_size = Vector2(52, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "x1.0"
+
+[node name="LblState" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel/VBox/RowSolar" unique_id=1704998623]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "safe"
+
+[node name="BtnOverclock" type="Button" parent="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel/VBox/RowSolar" unique_id=31582890]
+custom_minimum_size = Vector2(70, 24)
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "Hold"
+
+[node name="RowWind" type="HBoxContainer" parent="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel/VBox" unique_id=1876823566]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="LblName" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel/VBox/RowWind" unique_id=1333040904]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Wind"
+
+[node name="StressBar" type="ProgressBar" parent="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel/VBox/RowWind" unique_id=1562448319]
+custom_minimum_size = Vector2(80, 14)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LblMult" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel/VBox/RowWind" unique_id=1012336516]
+custom_minimum_size = Vector2(52, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "x1.0"
+
+[node name="LblState" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel/VBox/RowWind" unique_id=1014605224]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "safe"
+
+[node name="BtnOverclock" type="Button" parent="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel/VBox/RowWind" unique_id=124591774]
+custom_minimum_size = Vector2(70, 24)
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "Hold"
+
+[node name="ContractsLabel" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox" unique_id=727193740]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.65, 0.8, 1)
+theme_override_font_sizes/font_size = 13
+text = "CONTRACTS"
+
+[node name="Contracts" type="VBoxContainer" parent="Screens/GameScreen/RightSidebar/Margin/VBox" unique_id=1104946911]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="RowCoal" type="HBoxContainer" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Contracts" unique_id=1444063138]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LblSource" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Contracts/RowCoal" unique_id=1279867816]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.6, 0.3, 1)
+theme_override_font_sizes/font_size = 13
+text = "🏭 Coal"
+
+[node name="LblOffer" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Contracts/RowCoal" unique_id=1346977781]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 12
+text = "No offer"
+
+[node name="BtnAccept" type="Button" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Contracts/RowCoal" unique_id=1091259299]
+custom_minimum_size = Vector2(90, 28)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Accept"
+
+[node name="RowSolar" type="HBoxContainer" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Contracts" unique_id=1793000591]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LblSource" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Contracts/RowSolar" unique_id=865204014]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.2, 1)
+theme_override_font_sizes/font_size = 13
+text = "☀️ Solar"
+
+[node name="LblOffer" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Contracts/RowSolar" unique_id=654695662]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 12
+text = "No offer"
+
+[node name="BtnAccept" type="Button" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Contracts/RowSolar" unique_id=154140804]
+custom_minimum_size = Vector2(90, 28)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Accept"
+
+[node name="RowWind" type="HBoxContainer" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Contracts" unique_id=267497623]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LblSource" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Contracts/RowWind" unique_id=286491438]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 13
+text = "🌬️ Wind"
+
+[node name="LblOffer" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Contracts/RowWind" unique_id=1398107650]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 12
+text = "No offer"
+
+[node name="BtnAccept" type="Button" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Contracts/RowWind" unique_id=808382362]
+custom_minimum_size = Vector2(90, 28)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Accept"
+
+[node name="CapacityLabel" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox" unique_id=1976935313]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.65, 0.8, 1)
+theme_override_font_sizes/font_size = 13
+text = "CAPACITY"
+
+[node name="Capacity" type="VBoxContainer" parent="Screens/GameScreen/RightSidebar/Margin/VBox" unique_id=1957399832]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="RowCoal" type="HBoxContainer" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Capacity" unique_id=1390313109]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LblCap" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Capacity/RowCoal" unique_id=936915802]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Cap: 40 MW"
+
+[node name="BtnBuy" type="Button" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Capacity/RowCoal" unique_id=2039810162]
+custom_minimum_size = Vector2(140, 28)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "+6 MW (160)"
+
+[node name="RowSolar" type="HBoxContainer" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Capacity" unique_id=1747085416]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LblCap" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Capacity/RowSolar" unique_id=364169415]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Cap: 30 MW"
+
+[node name="BtnBuy" type="Button" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Capacity/RowSolar" unique_id=1222538440]
+custom_minimum_size = Vector2(140, 28)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "+6 MW (160)"
+
+[node name="RowWind" type="HBoxContainer" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Capacity" unique_id=1085520998]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LblCap" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Capacity/RowWind" unique_id=1196291445]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Cap: 20 MW"
+
+[node name="BtnBuy" type="Button" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Capacity/RowWind" unique_id=703403464]
+custom_minimum_size = Vector2(140, 28)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "+6 MW (160)"
+
+[node name="Boost" type="VBoxContainer" parent="Screens/GameScreen/RightSidebar/Margin/VBox" unique_id=1262627100]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="RowStatus" type="HBoxContainer" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Boost" unique_id=1208236714]
+layout_mode = 2
+
+[node name="LblStatus" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Boost/RowStatus" unique_id=1464937441]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Boost ready"
+
+[node name="RowButtons" type="HBoxContainer" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Boost" unique_id=1106686486]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnBoostCoal" type="Button" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Boost/RowButtons" unique_id=1145059122]
+custom_minimum_size = Vector2(110, 28)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Boost Coal"
+
+[node name="BtnBoostSolar" type="Button" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Boost/RowButtons" unique_id=2003096322]
+custom_minimum_size = Vector2(110, 28)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Boost Solar"
+
+[node name="BtnBoostWind" type="Button" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Boost/RowButtons" unique_id=692337267]
+custom_minimum_size = Vector2(110, 28)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Boost Wind"
+
+[node name="UpgradesLabel" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox" unique_id=1839116492]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.65, 0.8, 1)
+theme_override_font_sizes/font_size = 13
+text = "UPGRADES"
+
+[node name="Upgrades" type="VBoxContainer" parent="Screens/GameScreen/RightSidebar/Margin/VBox" unique_id=568686190]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnBattery" type="Button" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Upgrades" unique_id=1313369724]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "🔋 Battery Storage
+💰 650"
+
+[node name="BtnGrid" type="Button" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Upgrades" unique_id=1257033549]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "🔌 Grid Upgrade
+💰 550"
+
+[node name="BtnBetterSolar" type="Button" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Upgrades" unique_id=611231988]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "🌞 Better Solar
+💰 500"
+
+[node name="BtnStableWind" type="Button" parent="Screens/GameScreen/RightSidebar/Margin/VBox/Upgrades" unique_id=1663780770]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "🌬️ Stable Wind
+💰 450"
+
+[node name="EventPanel" type="PanelContainer" parent="Screens/GameScreen/RightSidebar/Margin/VBox" unique_id=211149121]
+visible = false
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="Screens/GameScreen/RightSidebar/Margin/VBox/EventPanel" unique_id=321778856]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="LblTitle" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox/EventPanel/VBox" unique_id=1885621999]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+theme_override_font_sizes/font_size = 18
+text = "⛈️ Storm Warning"
+
+[node name="LblDesc" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/VBox/EventPanel/VBox" unique_id=1996258827]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.88, 0.95, 1)
+theme_override_font_sizes/font_size = 13
+text = "Heavy storm hits the city!
+Solar drops, Wind surges."
+autowrap_mode = 3
+
+[node name="HideTimer" type="Timer" parent="Screens/GameScreen/RightSidebar/Margin/VBox/EventPanel" unique_id=1157574996]
+wait_time = 6.0
+one_shot = true
+
 [node name="TopBar" type="HBoxContainer" parent="Screens/GameScreen" unique_id=918481455]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
+offset_left = 19.0
 offset_top = 8.0
+offset_right = -22.0
 offset_bottom = 48.0
 grow_horizontal = 2
 theme_override_constants/separation = 20
@@ -119,7 +521,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.3, 0.85, 1, 1)
 theme_override_font_sizes/font_size = 20
-text = "⚡ GRID GUARDIAN"
+text = "GRID GUARDIAN"
 
 [node name="LblTimeOfDay" type="Label" parent="Screens/GameScreen/TopBar" unique_id=425405672]
 layout_mode = 2
@@ -143,6 +545,169 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
 theme_override_font_sizes/font_size = 16
 text = "💰 200"
+
+[node name="LblStreak" type="Label" parent="Screens/GameScreen/TopBar" unique_id=2045556001]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.9, 0.95, 1)
+theme_override_font_sizes/font_size = 14
+text = "Streak: 0s"
+
+[node name="BtnOverclock" type="Button" parent="Screens/GameScreen/TopBar"]
+custom_minimum_size = Vector2(120, 28)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Overclock"
+
+[node name="OverclockPopup" type="PopupPanel" parent="Screens/GameScreen"]
+visible = false
+size = Vector2(420, 320)
+
+[node name="Margin" type="MarginContainer" parent="Screens/GameScreen/OverclockPopup"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="Screens/GameScreen/OverclockPopup/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="LblTitle" type="Label" parent="Screens/GameScreen/OverclockPopup/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Overclock Tuning"
+
+[node name="RowPlant" type="HBoxContainer" parent="Screens/GameScreen/OverclockPopup/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LblPlant" type="Label" parent="Screens/GameScreen/OverclockPopup/Margin/VBox/RowPlant"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Plant"
+
+[node name="OptPlant" type="OptionButton" parent="Screens/GameScreen/OverclockPopup/Margin/VBox/RowPlant"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RowVoltage" type="HBoxContainer" parent="Screens/GameScreen/OverclockPopup/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LblVoltage" type="Label" parent="Screens/GameScreen/OverclockPopup/Margin/VBox/RowVoltage"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Voltage"
+
+[node name="VoltageSlider" type="HSlider" parent="Screens/GameScreen/OverclockPopup/Margin/VBox/RowVoltage"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 1.0
+step = 0.01
+value = 0.0
+
+[node name="LblVoltageVal" type="Label" parent="Screens/GameScreen/OverclockPopup/Margin/VBox/RowVoltage"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0.00"
+
+[node name="RowCooling" type="HBoxContainer" parent="Screens/GameScreen/OverclockPopup/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LblCooling" type="Label" parent="Screens/GameScreen/OverclockPopup/Margin/VBox/RowCooling"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Cooling"
+
+[node name="CoolingSlider" type="HSlider" parent="Screens/GameScreen/OverclockPopup/Margin/VBox/RowCooling"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 1.0
+step = 0.01
+value = 0.0
+
+[node name="LblCoolingVal" type="Label" parent="Screens/GameScreen/OverclockPopup/Margin/VBox/RowCooling"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0.00"
+
+[node name="RowHeat" type="HBoxContainer" parent="Screens/GameScreen/OverclockPopup/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LblHeat" type="Label" parent="Screens/GameScreen/OverclockPopup/Margin/VBox/RowHeat"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Heat"
+
+[node name="HeatBar" type="ProgressBar" parent="Screens/GameScreen/OverclockPopup/Margin/VBox/RowHeat"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 100.0
+show_percentage = false
+
+[node name="RowDamage" type="HBoxContainer" parent="Screens/GameScreen/OverclockPopup/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LblDamage" type="Label" parent="Screens/GameScreen/OverclockPopup/Margin/VBox/RowDamage"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Damage"
+
+[node name="DamageBar" type="ProgressBar" parent="Screens/GameScreen/OverclockPopup/Margin/VBox/RowDamage"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 100.0
+show_percentage = false
+
+[node name="RowStatus" type="HBoxContainer" parent="Screens/GameScreen/OverclockPopup/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="LblStatusTitle" type="Label" parent="Screens/GameScreen/OverclockPopup/Margin/VBox/RowStatus"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Status"
+
+[node name="LblState" type="Label" parent="Screens/GameScreen/OverclockPopup/Margin/VBox/RowStatus"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "safe"
+
+[node name="LblMult" type="Label" parent="Screens/GameScreen/OverclockPopup/Margin/VBox/RowStatus"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "x1.00"
+
+[node name="RowButtons" type="HBoxContainer" parent="Screens/GameScreen/OverclockPopup/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 2
+
+[node name="BtnSafe" type="Button" parent="Screens/GameScreen/OverclockPopup/Margin/VBox/RowButtons"]
+custom_minimum_size = Vector2(110, 28)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Safe"
+
+[node name="BtnClose" type="Button" parent="Screens/GameScreen/OverclockPopup/Margin/VBox/RowButtons"]
+custom_minimum_size = Vector2(110, 28)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Close"
 
 [node name="CityOverlay" type="Control" parent="Screens/GameScreen" unique_id=944729719]
 visible = false
@@ -177,7 +742,7 @@ anchors_preset = -1
 anchor_top = 0.36
 anchor_right = 0.5
 anchor_bottom = 0.41
-offset_left = 5.0
+offset_left = 10.0
 offset_top = 298.8
 offset_right = -479.0
 offset_bottom = 298.8
@@ -288,7 +853,7 @@ anchors_preset = -1
 anchor_top = 0.73
 anchor_right = 0.5
 anchor_bottom = 0.81
-offset_left = 9.0
+offset_left = 19.0
 offset_top = -469.60004
 offset_right = -195.0
 offset_bottom = -469.60004
@@ -310,218 +875,6 @@ text = "Supply: 70 MW"
 layout_mode = 2
 theme_override_font_sizes/font_size = 15
 text = "✅ +5 MW surplus"
-
-[node name="ControlsLabel" type="Label" parent="Screens/GameScreen" unique_id=727193740]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.591
-anchor_top = 0.37600002
-anchor_right = 0.70600003
-anchor_bottom = 0.42600003
-offset_left = -0.4800415
-offset_top = 0.27999878
-offset_right = 0.3199463
-offset_bottom = 0.27996826
-theme_override_colors/font_color = Color(0.55, 0.65, 0.8, 1)
-theme_override_font_sizes/font_size = 13
-text = "ENERGY CONTROLS"
-
-[node name="Controls" type="VBoxContainer" parent="Screens/GameScreen" unique_id=1104946911]
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.88
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = 762.0
-offset_top = -334.59998
-offset_right = 527.0
-offset_bottom = -344.59998
-theme_override_constants/separation = 8
-
-[node name="CoalRow" type="HBoxContainer" parent="Screens/GameScreen/Controls" unique_id=1444063138]
-layout_mode = 2
-
-[node name="LblCoalTitle" type="Label" parent="Screens/GameScreen/Controls/CoalRow" unique_id=1279867816]
-custom_minimum_size = Vector2(170, 0)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.8, 0.6, 0.3, 1)
-theme_override_font_sizes/font_size = 14
-text = "🏭 Coal"
-
-[node name="CoalSlider" type="HSlider" parent="Screens/GameScreen/Controls/CoalRow" unique_id=1091259299]
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
-size_flags_horizontal = 3
-value = 50.0
-
-[node name="LblVal" type="Label" parent="Screens/GameScreen/Controls/CoalRow/CoalSlider" unique_id=1346977781]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = 8.0
-offset_top = -10.0
-offset_right = 50.0
-offset_bottom = 10.0
-grow_horizontal = 0
-grow_vertical = 2
-theme_override_font_sizes/font_size = 12
-text = "50%"
-
-[node name="SolarRow" type="HBoxContainer" parent="Screens/GameScreen/Controls" unique_id=1793000591]
-layout_mode = 2
-
-[node name="LblSolarTitle" type="Label" parent="Screens/GameScreen/Controls/SolarRow" unique_id=865204014]
-custom_minimum_size = Vector2(170, 0)
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.9, 0.2, 1)
-theme_override_font_sizes/font_size = 14
-text = "☀️ Solar"
-
-[node name="SolarSlider" type="HSlider" parent="Screens/GameScreen/Controls/SolarRow" unique_id=154140804]
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
-size_flags_horizontal = 3
-value = 30.0
-
-[node name="LblVal" type="Label" parent="Screens/GameScreen/Controls/SolarRow/SolarSlider" unique_id=654695662]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = 8.0
-offset_top = -10.0
-offset_right = 50.0
-offset_bottom = 10.0
-grow_horizontal = 0
-grow_vertical = 2
-theme_override_font_sizes/font_size = 12
-text = "30%"
-
-[node name="WindRow" type="HBoxContainer" parent="Screens/GameScreen/Controls" unique_id=267497623]
-layout_mode = 2
-
-[node name="LblWindTitle" type="Label" parent="Screens/GameScreen/Controls/WindRow" unique_id=286491438]
-custom_minimum_size = Vector2(170, 0)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
-theme_override_font_sizes/font_size = 14
-text = "🌬️ Wind"
-
-[node name="WindSlider" type="HSlider" parent="Screens/GameScreen/Controls/WindRow" unique_id=808382362]
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
-size_flags_horizontal = 3
-value = 20.0
-
-[node name="LblVal" type="Label" parent="Screens/GameScreen/Controls/WindRow/WindSlider" unique_id=1398107650]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = 8.0
-offset_top = -10.0
-offset_right = 50.0
-offset_bottom = 10.0
-grow_horizontal = 0
-grow_vertical = 2
-theme_override_font_sizes/font_size = 12
-text = "20%"
-
-[node name="UpgradesLabel" type="Label" parent="Screens/GameScreen" unique_id=1839116492]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.52
-anchor_top = 0.07
-anchor_right = 1.0
-anchor_bottom = 0.13
-offset_left = 95.400024
-offset_top = 346.6
-offset_right = -434.0
-offset_bottom = 346.6
-theme_override_colors/font_color = Color(0.55, 0.65, 0.8, 1)
-theme_override_font_sizes/font_size = 13
-text = "UPGRADES"
-
-[node name="Upgrades" type="VBoxContainer" parent="Screens/GameScreen" unique_id=568686190]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.52
-anchor_top = 0.13
-anchor_right = 1.0
-anchor_bottom = 0.52
-offset_left = 96.400024
-offset_top = 328.4
-offset_right = -24.599976
-offset_bottom = 328.4
-theme_override_constants/separation = 8
-
-[node name="BtnBattery" type="Button" parent="Screens/GameScreen/Upgrades" unique_id=1313369724]
-custom_minimum_size = Vector2(0, 56)
-layout_mode = 2
-theme_override_font_sizes/font_size = 13
-text = "🔋 Battery Storage
-💰 500"
-
-[node name="BtnGrid" type="Button" parent="Screens/GameScreen/Upgrades" unique_id=1257033549]
-custom_minimum_size = Vector2(0, 56)
-layout_mode = 2
-theme_override_font_sizes/font_size = 13
-text = "🔌 Grid Upgrade
-💰 400"
-
-[node name="BtnBetterSolar" type="Button" parent="Screens/GameScreen/Upgrades" unique_id=611231988]
-custom_minimum_size = Vector2(0, 56)
-layout_mode = 2
-theme_override_font_sizes/font_size = 13
-text = "🌞 Better Solar
-💰 350"
-
-[node name="BtnStableWind" type="Button" parent="Screens/GameScreen/Upgrades" unique_id=1663780770]
-custom_minimum_size = Vector2(0, 56)
-layout_mode = 2
-theme_override_font_sizes/font_size = 13
-text = "🌬️ Stable Wind
-💰 300"
-
-[node name="EventPanel" type="PanelContainer" parent="Screens/GameScreen" unique_id=211149121]
-visible = false
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.52
-anchor_top = 0.55
-anchor_right = 1.0
-anchor_bottom = 0.82
-offset_left = 10.0
-offset_right = -20.0
-
-[node name="VBox" type="VBoxContainer" parent="Screens/GameScreen/EventPanel" unique_id=321778856]
-layout_mode = 2
-theme_override_constants/separation = 6
-
-[node name="LblTitle" type="Label" parent="Screens/GameScreen/EventPanel/VBox" unique_id=1885621999]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
-theme_override_font_sizes/font_size = 18
-text = "⛈️ Storm Warning"
-
-[node name="LblDesc" type="Label" parent="Screens/GameScreen/EventPanel/VBox" unique_id=1996258827]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.85, 0.88, 0.95, 1)
-theme_override_font_sizes/font_size = 13
-text = "Heavy storm hits the city!
-Solar drops, Wind surges."
-autowrap_mode = 3
-
-[node name="HideTimer" type="Timer" parent="Screens/GameScreen/EventPanel" unique_id=1157574996]
-wait_time = 6.0
-one_shot = true
 
 [node name="Map" type="Node2D" parent="Screens/GameScreen" unique_id=1852244671]
 script = ExtResource("2_rarhs")
@@ -634,10 +987,33 @@ theme_override_font_sizes/font_size = 20
 text = "🔄  PLAY AGAIN"
 
 [connection signal="pressed" from="Screens/MenuScreen/VBox/BtnPlay" to="." method="_on_btn_play_pressed"]
-[connection signal="pressed" from="Screens/GameScreen/Upgrades/BtnBattery" to="." method="_on_btn_battery_pressed"]
-[connection signal="pressed" from="Screens/GameScreen/Upgrades/BtnGrid" to="." method="_on_btn_grid_pressed"]
-[connection signal="pressed" from="Screens/GameScreen/Upgrades/BtnBetterSolar" to="." method="_on_btn_better_solar_pressed"]
-[connection signal="pressed" from="Screens/GameScreen/Upgrades/BtnStableWind" to="." method="_on_btn_stable_wind_pressed"]
-[connection signal="timeout" from="Screens/GameScreen/EventPanel/HideTimer" to="." method="_on_hide_timer_timeout"]
+[connection signal="pressed" from="Screens/GameScreen/TopBar/BtnOverclock" to="." method="_on_btn_overclock_pressed"]
+[connection signal="pressed" from="Screens/GameScreen/RightSidebar/Margin/VBox/FlashPanel/VBox/BtnFlashAccept" to="." method="_on_btn_flash_accept_pressed"]
+[connection signal="popup_hide" from="Screens/GameScreen/OverclockPopup" to="." method="_on_overclock_popup_hide"]
+[connection signal="item_selected" from="Screens/GameScreen/OverclockPopup/Margin/VBox/RowPlant/OptPlant" to="." method="_on_oc_plant_selected"]
+[connection signal="value_changed" from="Screens/GameScreen/OverclockPopup/Margin/VBox/RowVoltage/VoltageSlider" to="." method="_on_oc_voltage_changed"]
+[connection signal="value_changed" from="Screens/GameScreen/OverclockPopup/Margin/VBox/RowCooling/CoolingSlider" to="." method="_on_oc_cooling_changed"]
+[connection signal="pressed" from="Screens/GameScreen/OverclockPopup/Margin/VBox/RowButtons/BtnSafe" to="." method="_on_oc_safe_pressed"]
+[connection signal="pressed" from="Screens/GameScreen/OverclockPopup/Margin/VBox/RowButtons/BtnClose" to="." method="_on_oc_close_pressed"]
+[connection signal="button_down" from="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel/VBox/RowCoal/BtnOverclock" to="." method="_on_overclock_coal_down"]
+[connection signal="button_up" from="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel/VBox/RowCoal/BtnOverclock" to="." method="_on_overclock_coal_up"]
+[connection signal="button_down" from="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel/VBox/RowSolar/BtnOverclock" to="." method="_on_overclock_solar_down"]
+[connection signal="button_up" from="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel/VBox/RowSolar/BtnOverclock" to="." method="_on_overclock_solar_up"]
+[connection signal="button_down" from="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel/VBox/RowWind/BtnOverclock" to="." method="_on_overclock_wind_down"]
+[connection signal="button_up" from="Screens/GameScreen/RightSidebar/Margin/VBox/OverclockPanel/VBox/RowWind/BtnOverclock" to="." method="_on_overclock_wind_up"]
+[connection signal="pressed" from="Screens/GameScreen/RightSidebar/Margin/VBox/Contracts/RowCoal/BtnAccept" to="." method="_on_btn_accept_coal_pressed"]
+[connection signal="pressed" from="Screens/GameScreen/RightSidebar/Margin/VBox/Contracts/RowSolar/BtnAccept" to="." method="_on_btn_accept_solar_pressed"]
+[connection signal="pressed" from="Screens/GameScreen/RightSidebar/Margin/VBox/Contracts/RowWind/BtnAccept" to="." method="_on_btn_accept_wind_pressed"]
+[connection signal="pressed" from="Screens/GameScreen/RightSidebar/Margin/VBox/Capacity/RowCoal/BtnBuy" to="." method="_on_btn_buy_cap_coal_pressed"]
+[connection signal="pressed" from="Screens/GameScreen/RightSidebar/Margin/VBox/Capacity/RowSolar/BtnBuy" to="." method="_on_btn_buy_cap_solar_pressed"]
+[connection signal="pressed" from="Screens/GameScreen/RightSidebar/Margin/VBox/Capacity/RowWind/BtnBuy" to="." method="_on_btn_buy_cap_wind_pressed"]
+[connection signal="pressed" from="Screens/GameScreen/RightSidebar/Margin/VBox/Boost/RowButtons/BtnBoostCoal" to="." method="_on_btn_boost_coal_pressed"]
+[connection signal="pressed" from="Screens/GameScreen/RightSidebar/Margin/VBox/Boost/RowButtons/BtnBoostSolar" to="." method="_on_btn_boost_solar_pressed"]
+[connection signal="pressed" from="Screens/GameScreen/RightSidebar/Margin/VBox/Boost/RowButtons/BtnBoostWind" to="." method="_on_btn_boost_wind_pressed"]
+[connection signal="pressed" from="Screens/GameScreen/RightSidebar/Margin/VBox/Upgrades/BtnBattery" to="." method="_on_btn_battery_pressed"]
+[connection signal="pressed" from="Screens/GameScreen/RightSidebar/Margin/VBox/Upgrades/BtnGrid" to="." method="_on_btn_grid_pressed"]
+[connection signal="pressed" from="Screens/GameScreen/RightSidebar/Margin/VBox/Upgrades/BtnBetterSolar" to="." method="_on_btn_better_solar_pressed"]
+[connection signal="pressed" from="Screens/GameScreen/RightSidebar/Margin/VBox/Upgrades/BtnStableWind" to="." method="_on_btn_stable_wind_pressed"]
+[connection signal="timeout" from="Screens/GameScreen/RightSidebar/Margin/VBox/EventPanel/HideTimer" to="." method="_on_hide_timer_timeout"]
 [connection signal="pressed" from="Screens/GameOverScreen/VBox/BtnRestart" to="." method="_on_btn_restart_pressed"]
 [connection signal="pressed" from="Screens/WinScreen/VBox/BtnRestart" to="." method="_on_btn_restart_pressed"]

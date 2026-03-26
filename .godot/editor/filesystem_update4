@@ -1,0 +1,7 @@
+res://scripts/PowerPlant.gd
+res://scripts/CoalPlant.gd
+res://scripts/SolarPlant.gd
+res://scripts/WindPlant.gd
+res://scripts/GameManager.gd
+res://scenes/Main.tscn
+res://scripts/Main.gd

@@ -1,16 +1,21 @@
 63f7b34db8d8cdea90c76aacccf841ec
-::res://::1774457935
+::res://::1774503968
 autoload.cfg::TextFile::-1::1774457789::0::1::::<><><>0<>0<><>::
 icon.svg::CompressedTexture2D::8536497646466336907::1774457789::1774457935::1::::<><><>0<>0<>8413a5043bbe1cfb5c14bb628752e641<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
 README.md::TextFile::-1::1774457789::0::1::::<><><>0<>0<><>::
-::res://scenes/::1774457789
-Main.tscn::PackedScene::545555565::1774458758::0::1::::<><><>0<>0<><>::uid://cmh0hmd2ohn2e::::res://scripts/Main.gd<>uid://8tsxfjob445i::::res://scenes/Map.gd<>uid://doq5udfxamg6f::::res://{scenes,scripts,assets}/Map Assets/City Background.png<>uid://bua53528au7ic::::res://{scenes,scripts,assets}/Map Assets/Smoke particle.png
+::res://scenes/::1774499768
+Main.tscn::PackedScene::545555565::1774503618::0::1::::<><><>0<>0<><>::uid://cmh0hmd2ohn2e::::res://scripts/Main.gd<>uid://8tsxfjob445i::::res://scenes/Map.gd<>uid://doq5udfxamg6f::::res://{scenes,scripts,assets}/Map Assets/City Background.png<>uid://bua53528au7ic::::res://{scenes,scripts,assets}/Map Assets/Smoke particle.png
 Map.gd::GDScript::2356589273670410480::1774457789::0::1::::<>Node2D<><>0<>0<><>::
-::res://scripts/::1774457789
-GameManager.gd::GDScript::397598135984744894::1774457789::0::1::::<>Node<><>0<>0<><>::
-Main.gd::GDScript::5631089196857876230::1774457789::0::1::::<>Control<><>0<>0<><>::
+::res://scripts/::1774503760
+CoalPlant.gd::GDScript::1190474039080288805::1774503880::0::1::::CoalPlant<>RefCounted<><>0<>0<><>::
+GameManager.gd::GDScript::397598135984744894::1774503789::0::1::::<>Node<><>0<>0<><>::
+Main.gd::GDScript::5631089196857876230::1774503625::0::1::::<>Control<><>0<>0<><>::
+PowerPlant.gd::GDScript::204303588980027667::1774503494::0::1::::PowerPlant<>RefCounted<><>0<>0<><>::
+SolarPlant.gd::GDScript::8622896692299967459::1774503890::0::1::::SolarPlant<>RefCounted<><>0<>0<><>::
+WindPlant.gd::GDScript::6114432827808712810::1774503885::0::1::::WindPlant<>RefCounted<><>0<>0<><>::
 ::res://{scenes,scripts,assets}/::1774458704
-::res://{scenes,scripts,assets}/Fonts/::1774458711
+::res://{scenes,scripts,assets}/Fonts/::1774458878
+DefaultTheme.tres::Theme::-1::1774458879::0::1::::<><><>0<>0<><>::res://{scenes,scripts,assets}/Fonts/Jersey10-Regular.ttf
 Jersey10-Regular.ttf::FontFile::7767352385239573129::1758142506::1774458788::1::::<><><>0<>0<>3fa8dcf650e88b151485bfda3f03d4e2<>res://.godot/imported/Jersey10-Regular.ttf-2957db6acf9458354e556620bb40812c.fontdata::
 ::res://{scenes,scripts,assets}/Map Assets/::1774457935
 City Background.png::CompressedTexture2D::8176793298077371707::1774457789::1774457935::1::::<><><>0<>0<>d8ae547d0fe112816fb011b3523af88a<>res://.godot/imported/City Background.png-5bbe60ec354e13f495d6a5616392916f.ctex::

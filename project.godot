@@ -28,6 +28,7 @@ window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
 [gui]
+
 theme/custom="res://{scenes,scripts,assets}/Fonts/DefaultTheme.tres"
 
 [rendering]
