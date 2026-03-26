@@ -1,6 +1,7 @@
 extends Node2D
 
 @onready var smoke : GPUParticles2D = $Smoke
+var _smoke_active: bool = false
 
 @onready var coal_sprites  : Array = [
 	$Buildings/CoalPlant/Coal1,
@@ -47,11 +48,17 @@ func update_city(coal: int, solar: int, wind: int, pollution: float) -> void:
 	
 	_update_smoke(pollution)
 
-# Smoke function stays the same
 func _update_smoke(pollution: float) -> void:
 	smoke.amount = 10  
 	smoke.modulate.a = lerp(0.4, 1.0, pollution / 100.0)
 	var scale_factor = lerp(0.3, 1.0, clamp(pollution / 100.0, 0.0, 1.0))
 	smoke.scale = Vector2.ONE * scale_factor
-	smoke.visible = pollution > 5
-	smoke.restart()
+	
+	if pollution > 5:
+		smoke.visible = true
+		if not _smoke_active:
+			smoke.restart()  # Only restart once
+			_smoke_active = true
+	else:
+		smoke.visible = false
+		_smoke_active = false
