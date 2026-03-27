@@ -3,11 +3,11 @@ class_name SolarPlant
 
 func _init() -> void:
 	plant_id = "solar"
-	max_multiplier = 1.7
-	heat_rise_rate = 28.0
-	heat_cool_rate = 32.0
-	damage_rate = 7.0
-	repair_rate = 7.0
+	max_multiplier = 1.65
+	heat_rise_rate = 19.0
+	heat_cool_rate = 34.0
+	damage_rate = 4.5
+	repair_rate = 7.5
 	failure_cooldown = 8.0
 
 func _on_fail() -> void:

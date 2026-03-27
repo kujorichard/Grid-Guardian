@@ -1,5 +1,6 @@
-res://scenes/Map.gd
+res://scripts/GameManager.gd
 res://scripts/Main.gd
+res://scripts/PowerPlant.gd
+res://scripts/CoalPlant.gd
 res://scripts/SolarPlant.gd
 res://scripts/WindPlant.gd
-res://scripts/GameManager.gd

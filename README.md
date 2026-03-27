@@ -1,146 +1,233 @@
-# ⚡ Grid Guardian — QS Impact Game
+# Grid Guardian
 
-A real-time energy grid management game built in **Godot 4**.  
-Balance coal, solar, and wind power. Keep the city alive — and the air clean.
+Real-time grid balancing game built in Godot 4.
+Manage coal, solar, and wind while keeping the city stable, clean, and satisfied.
 
----
+## Quick Start
 
-### Please read CurrentMechanics.md for newer mechanic updates!
+1. Open the project in Godot 4.2+.
+2. Run the main scene.
+3. Survive 360s without hitting any lose condition.
 
----
+Lose conditions:
+- Stability <= 0
+- Pollution >= 100
+- Satisfaction <= 0
 
-## 🚀 Quick Setup (5 minutes)
+## Core Loop
 
-### Requirements
+Game logic runs every 2 seconds (`TICK_INTERVAL`).
+Each tick:
+- Demand is sampled from time-of-day profile + event modifier + small randomness.
+- Supply is computed from coal + solar + wind output.
+- Stability, pollution, satisfaction, score, and coins are updated.
 
-- [Godot 4.2+](https://godotengine.org/download) (use the standard version, not .NET)
+## Supply Model
 
-### Steps
+Stock acts as an on/off gate:
+- Stock > 0: source can output
+- Stock <= 0: source output is forced to 0
 
-1. Download / clone this folder
-2. Open **Godot 4**
-3. Click **"Import"** → select the `GridGuardian/` folder → **"Import & Edit"**
-4. Press **F5** (or the ▶ Play button) to run
+Output formulas:
+- Coal: `(effective_coal_capacity + contract_output + coal_event_bonus) * plant_multiplier`
+- Solar: `(effective_solar_capacity + contract_output + solar_event_bonus) * solar_tod_factor * solar_modifier * plant_multiplier`
+- Wind: `(effective_wind_capacity + contract_output + wind_event_bonus) * wind_tod_factor * wind_noise * wind_modifier * plant_multiplier`
 
-> No plugins, no dependencies, no extra setup needed.
+`wind_noise`:
+- Default: 0.7 to 1.3
+- With Stable Wind upgrade: 0.9 to 1.1
 
----
+## Time-of-Day
 
-## 🎮 How to Play
+Cycle length: 180s (45s each phase)
 
-| Control         | Action                                   |
-| --------------- | ---------------------------------------- |
-| 🏭 Coal slider  | Increase = more power, more pollution    |
-| ☀️ Solar slider | Clean energy — only works during daytime |
-| 🌬️ Wind slider  | Clean energy — unpredictable output      |
-| 💰 Coins        | Earned over time, spent on upgrades      |
+Demand baseline:
+- Morning: 70
+- Afternoon: 80
+- Evening: 90
+- Night: 65
 
-### Win Condition
+Solar TOD factor:
+- Morning: 0.8
+- Afternoon: 1.0
+- Evening: 0.6 (0.75 with Better Solar)
+- Night: 0.15 (0.45 with Better Solar)
 
-Survive **6 minutes** without:
+Wind TOD factor:
+- Morning: 0.85
+- Afternoon: 0.40
+- Evening: 0.80
+- Night: 1.00
 
-- Power stability hitting 0 (blackout)
-- Pollution hitting 100% (city crisis)
-- Satisfaction hitting 0 (public revolt)
+## Starting Values (Current Balance)
 
-### The Three Meters
+From `start_game()` in `scripts/GameManager.gd`:
+- `coal_capacity = 40`
+- `solar_capacity = 35`
+- `wind_capacity = 30`
+- `coal_supply = 50`
+- `solar_supply = 18`
+- `wind_supply = 24`
+- `stability = 80`
+- `pollution = 20`
+- `satisfaction = 70`
+- `coins = 200`
 
-| Meter           | Goes up when... | Goes down when...  |
-| --------------- | --------------- | ------------------ |
-| ⚡ Stability    | Supply ≥ Demand | Deficit / blackout |
-| 🌫️ Pollution    | Coal is high    | Coal is reduced    |
-| 😊 Satisfaction | Stable + clean  | Unstable or dirty  |
+## Energy Stock Consumption and Recharge
 
----
+Per tick at current capacity:
+- Coal consume: `(coal_capacity / MAX_COAL_OUTPUT) * COAL_CONSUME_RATE * coal_consume_modifier`
+- Solar consume: `max((solar_capacity / MAX_SOLAR_OUTPUT) * SOLAR_CONSUME_RATE, 0.8)`
+- Wind consume: `max((wind_capacity / MAX_WIND_OUTPUT) * WIND_CONSUME_RATE, 0.4)`
 
-## 🌍 Time of Day Cycle (every 45s)
+Recharge:
+- Solar: `SOLAR_RECHARGE_RATE * solar_tod_factor * solar_recharge_modifier`
+- Wind: `(wind_gust / 100.0) * WIND_RECHARGE_RATE * wind_recharge_modifier * wind_tod_buff`
+- Wind night recharge buff: `wind_tod_buff = 1.35`
 
-| Time         | Solar | Demand    |
-| ------------ | ----- | --------- |
-| 🌅 Morning   | 60%   | Medium    |
-| ☀️ Afternoon | 100%  | High      |
-| 🌆 Evening   | 30%   | Very High |
-| 🌙 Night     | 0%    | Low       |
+Coal is refilled only via `buy_coal()`.
 
----
+## Overclock Mechanics (Updated)
 
-## 💥 Random Events (every 20–35s)
+Overclock logic lives in `scripts/PowerPlant.gd` and per-plant tuning in:
+- `scripts/CoalPlant.gd`
+- `scripts/SolarPlant.gd`
+- `scripts/WindPlant.gd`
 
-| Event                 | Effect                              |
-| --------------------- | ----------------------------------- |
-| ⛈️ Storm              | Solar ↓ 80%, Wind ↑ 80%             |
-| 🔥 Heatwave           | Demand ↑ 50%                        |
-| 🏭 Factory Boom       | Demand ↑ 35%                        |
-| 🌱 Green Policy       | Bonus coins if pollution < 40%      |
-| 🌤️ Perfect Conditions | Solar +30%, Wind +25%, Demand ↓ 10% |
+### Shared Base Behavior (`PowerPlant.gd`)
 
----
+Current base tuning:
+- `heat_rise_rate = 26.0`
+- `heat_cool_rate = 30.0`
+- `damage_rate = 5.5`
+- `repair_rate = 6.8`
+- `warn_heat = 75.0`
+- `critical_heat = 90.0`
 
-## 🔧 Upgrades
+Important safeguards:
+- Voltage deadzone: `voltage < 0.05` is treated as 0.0 (prevents accidental heating from tiny slider values).
+- Instability is applied only when actively overclocking.
+- Idle passive cooling floor: when not overclocking, cooling strength is at least 0.35.
 
-| Upgrade            | Cost | Effect                               |
-| ------------------ | ---- | ------------------------------------ |
-| 🔋 Battery Storage | 500  | Surplus energy improves stability    |
-| 🔌 Grid Upgrade    | 400  | Deficit impact reduced 40%           |
-| 🌞 Better Solar    | 350  | Solar works during cloudy conditions |
-| 🌬️ Stable Wind     | 300  | Wind output less random              |
+This specifically fixes the issue where wind could appear to build heat while not intentionally overclocked.
 
----
+### Per-Plant Overclock Tuning (Current)
 
-## 📁 Project Structure
+Coal (`scripts/CoalPlant.gd`):
+- `max_multiplier = 2.05`
+- `base_pollution_mult = 1.15`
+- `heat_rise_rate = 22.0`
+- `heat_cool_rate = 30.0`
+- `damage_rate = 4.2`
+- `repair_rate = 6.5`
+- `failure_cooldown = 12.0`
 
-```
-GridGuardian/
-├── project.godot          ← Godot project config + autoloads
-├── icon.svg               ← App icon
-├── scenes/
-│   └── Main.tscn          ← Full UI scene tree
-└── scripts/
-    ├── GameManager.gd     ← Core game logic (autoloaded singleton)
-    └── Main.gd            ← UI controller
-```
+Solar (`scripts/SolarPlant.gd`):
+- `max_multiplier = 1.65`
+- `heat_rise_rate = 18.0`
+- `heat_cool_rate = 34.0`
+- `damage_rate = 4.2`
+- `repair_rate = 7.5`
+- `failure_cooldown = 8.0`
 
----
+Wind (`scripts/WindPlant.gd`):
+- `instability = 0.07`
+- `max_multiplier = 1.8`
+- `heat_rise_rate = 19.0`
+- `heat_cool_rate = 31.0`
+- `damage_rate = 4.8`
+- `repair_rate = 7.2`
+- `failure_cooldown = 10.0`
 
-## 🎨 Extending the Game
+## Economy and Progression
 
-### Add a new event
+Key constants in `scripts/GameManager.gd`:
+- `CAPACITY_STEP = 6.0`
+- `CAPACITY_COST = 160`
+- `BOOST_AMOUNT = 20.0`
+- `BOOST_DURATION = 12.0`
+- `BOOST_COOLDOWN = 20.0`
+- `COIN_INCOME_MULTIPLIER = 1.85`
+- `BALANCE_TOLERANCE = 6.0`
 
-In `GameManager.gd`, find `_trigger_random_event()` and add a new dictionary to the `events` array:
+Balance streak tiers:
+- Tier 1 at 20s
+- Tier 2 at 40s
+- Tier 3 at 60s
 
-```gdscript
-{
-    "id": "my_event",
-    "title": "🌊 Flood Warning",
-    "desc": "Flooding reduces wind farm access.",
-    "solar_mod": 1.0, "wind_mod": 0.4, "demand_mod": 1.2,
-    "duration": 18.0, "color": Color(0.2, 0.5, 0.9)
-}
-```
+## Events
 
-### Add a new upgrade
+Random event trigger window:
+- `EVENT_MIN_INTERVAL = 18.0`
+- `EVENT_MAX_INTERVAL = 26.0`
 
-1. Add an entry to the `upgrades` dictionary in `GameManager.gd`
-2. Add a Button node in `Main.tscn` under `Screens/GameScreen/Upgrades`
-3. Wire the button's `pressed` signal to a new handler in `Main.gd`
-4. Handle the upgrade effect in `_get_solar_output()`, `_get_wind_output()`, or `_game_tick()`
+Flash contracts:
+- Interval: 16s to 26s
+- Decision window: 6s
 
-### Adjust difficulty
+Event effects are configured in `_trigger_random_event()` in `scripts/GameManager.gd`.
+For balancing, adjust:
+- `solar_mod`, `wind_mod`, `demand_mod`
+- `duration`
+- Special modifiers and bonus ranges per event case
 
-In `GameManager.gd`:
+## What to Change and How
 
-- `GAME_DURATION` — how long to survive (seconds)
-- `MAX_COAL_OUTPUT`, `MAX_SOLAR_OUTPUT`, `MAX_WIND_OUTPUT` — power capacities
-- Pollution delta multiplier in `_game_tick()` (currently `3.5`)
-- Demand values per time of day in `_get_demand()`
+Use this as a balancing checklist.
 
----
+### 1) Make overclock safer or harsher
 
-## 🏆 SDG Connection (for QS Impact judging)
+Edit `scripts/PowerPlant.gd`:
+- Safer: lower `heat_rise_rate` / `damage_rate`, increase `heat_cool_rate` / `repair_rate`, raise `warn_heat`.
+- Harsher: do the opposite.
 
-This game directly demonstrates **SDG 7 (Affordable and Clean Energy)** and **SDG 13 (Climate Action)**:
+Edit per-source files for identity:
+- Coal: keep highest output upside, highest pollution pressure.
+- Solar: fastest cooling/repair profile.
+- Wind: control volatility with `instability`.
 
-- Players _feel_ why coal is still used (reliability vs. consequence)
-- Tradeoffs are visceral: no perfect solution exists
-- Renewable unpredictability is simulated, not just stated
-- The consequence meter system makes abstract climate metrics tangible
+### 2) Change early-game difficulty
+
+Edit `start_game()` in `scripts/GameManager.gd`:
+- `coal_supply`, `solar_supply`, `wind_supply`
+- Starting capacities
+- `coins`
+
+### 3) Adjust economy speed
+
+Edit `COIN_INCOME_MULTIPLIER`, `CAPACITY_COST`, and upgrade costs (`upgrades` dictionary).
+
+### 4) Tune demand pressure
+
+Edit `_get_demand()` baselines and `demand_modifier` usage.
+
+### 5) Tune renewable reliability
+
+Edit:
+- `_get_solar_tod_factor()`
+- `_get_wind_tod_factor()`
+- `WIND_GUST_INTERVAL` and gust range logic in `_process()`
+
+### 6) Tune pollution pressure
+
+Edit pollution equation in `_game_tick()`:
+- `coal_ratio * ...`
+- Constant offset (`-1.2`)
+- Event pollution multiplier logic
+
+## Runtime Safety Note (Main UI)
+
+To prevent `Cannot call method 'hide' on a null value` crashes, UI hide calls now go through a guarded helper in `scripts/Main.gd`:
+- `_safe_hide(node)`
+
+If you add or remove nodes from the scene tree, keep this pattern for optional UI nodes.
+
+## Main Files
+
+- `scripts/GameManager.gd`: simulation, balancing, events, economy
+- `scripts/PowerPlant.gd`: shared overclock model
+- `scripts/CoalPlant.gd`: coal profile
+- `scripts/SolarPlant.gd`: solar profile
+- `scripts/WindPlant.gd`: wind profile
+- `scripts/Main.gd`: HUD and UI behavior
+- `scenes/Main.tscn`: node tree for UI and map

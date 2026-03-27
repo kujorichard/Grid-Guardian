@@ -60,9 +60,9 @@ const WIND_GUST_INTERVAL := 20.0
 const COAL_PRICE_INTERVAL := 10.0
 
 # ─── Capacity (MW) ────────────────────────────────────────────────────────────
-var coal_capacity: float = 40.0
-var solar_capacity: float = 50.0
-var wind_capacity: float = 30.0
+var coal_capacity: float = 37.0
+var solar_capacity: float = 32.0
+var wind_capacity: float = 27.0
 
 # ─── Upgrades ──────────────────────────────────────────────────────────────────
 var upgrades := {
@@ -126,6 +126,14 @@ var demand_modifier: float = 1.0
 var active_event: Dictionary = {}
 var event_duration: float = 0.0
 
+# Helper properties for UI access
+var active_event_id: String:
+	get:
+		return str(active_event.get("id", ""))
+var event_time_remaining: float:
+	get:
+		return event_duration
+
 var contract_offers: Array = []
 var active_contracts: Array = []
 var contract_timer: float = 0.0
@@ -163,9 +171,9 @@ func _init_plants() -> void:
 
 func start_game() -> void:
 	_init_plants()
-	coal_capacity = 40.0
-	solar_capacity = 35.0
-	wind_capacity = 30.0
+	coal_capacity = 37.0
+	solar_capacity = 32.0
+	wind_capacity = 27.0
 	stability = 80.0
 	pollution = 20.0
 	satisfaction = 70.0
@@ -183,8 +191,8 @@ func start_game() -> void:
 	active_event = {}
 	# Energy supply reset
 	coal_supply = 50.0
-	solar_supply = 10.0
-	wind_supply = 20.0
+	solar_supply = 18.0
+	wind_supply = 24.0
 	wind_gust = randf_range(10.0, 60.0)
 	wind_gust_timer = 0.0
 	coal_price_min = COAL_PRICE_MIN_DEFAULT
@@ -314,7 +322,7 @@ func _process(delta: float) -> void:
 		_game_tick()
 
 	# Trigger event
-	if event_timer >= next_event_in:
+	if event_timer >= next_event_in and active_event.size() == 0:
 		event_timer = 0.0
 		next_event_in = randf_range(EVENT_MIN_INTERVAL, EVENT_MAX_INTERVAL)
 		_trigger_random_event()
@@ -329,10 +337,10 @@ func _process(delta: float) -> void:
 func _get_demand() -> float:
 	var d := base_demand
 	match time_of_day:
-		"morning": d = 70.0
-		"afternoon": d = 80.0
-		"evening": d = 90.0
-		"night": d = 60.0
+		"morning": d = 75.0
+		"afternoon": d = 83.0
+		"evening": d = 96.0
+		"night": d = 89.0
 	d *= demand_modifier
 	# Add slight random fluctuation
 	d += randf_range(-3.0, 3.0)
@@ -357,20 +365,27 @@ func _get_effective_wind_capacity() -> float:
 func _get_solar_tod_factor() -> float:
 	var tod_factor := 1.0
 	match time_of_day:
-		"morning": tod_factor = 0.6
-		"afternoon": tod_factor = 0.8
-		"evening": tod_factor = 0.4
-		"night": tod_factor = 0.0
-	if bool(upgrades["better_solar"]["owned"]):
-		tod_factor = clamp(tod_factor + 0.35, 0.0, 1.0)
+		"morning": tod_factor = 0.8
+		"afternoon": tod_factor = 1.0
+		"evening": tod_factor = 0.6
+		"night": 
+			if bool(upgrades["better_solar"]["owned"]):
+				tod_factor = 0.45  # 45% output with upgrade
+			else:
+				tod_factor = 0.15  # 15% output without upgrade
+	
+	# Evening gets slight boost with upgrade
+	if time_of_day == "evening" and bool(upgrades["better_solar"]["owned"]):
+		tod_factor = 0.75  # Better evening performance
+	
 	return tod_factor
 
 func _get_wind_tod_factor() -> float:
 	var tod_factor := 1.0
 	match time_of_day:
 		"morning": tod_factor = 0.85 # slightly reduced winds
-		"afternoon": tod_factor = 0.88
-		"evening": tod_factor = 1.0
+		"afternoon": tod_factor = 0.40 # daytime lull
+		"evening": tod_factor = 0.8
 		"night": tod_factor = 1.0
 	return tod_factor
 
@@ -506,15 +521,36 @@ func _game_tick() -> void:
 func _update_energy_supply() -> void:
 	# ── Consumption (proportional to capacity %) ─────────────────────────────
 	var coal_consume := coal_capacity / MAX_COAL_OUTPUT * COAL_CONSUME_RATE * coal_consume_modifier
+	
+	# Solar consumption varies by time of day
 	var solar_consume: float = max(solar_capacity / MAX_SOLAR_OUTPUT * SOLAR_CONSUME_RATE, 0.8)
+	var has_better_solar := bool(upgrades["better_solar"]["owned"])
+	
+	# Evening and night increase solar consumption (battery drain)
+	match time_of_day:
+		"evening":
+			if has_better_solar:
+				solar_consume *= 0.6  # Low depletion with upgrade
+			else:
+				solar_consume *= 1.4  # Drains faster without upgrade
+		"night":
+			if has_better_solar:
+				solar_consume *= 1.0  # Normal depletion with upgrade
+			else:
+				solar_consume *= 2.0  # Drains much faster without upgrade
+	
 	var wind_consume: float = max(wind_capacity / MAX_WIND_OUTPUT * WIND_CONSUME_RATE, 0.4)
 
 	# ── Recharge ─────────────────────────────────────────────────────────────
-	# Solar: only recharges when sun is up
+	# Solar: recharges based on time of day
 	var solar_tod := _get_solar_tod_factor()
 	var solar_recharge := 0.0
 	if solar_tod > 0.0:
 		solar_recharge = SOLAR_RECHARGE_RATE * solar_tod * solar_recharge_modifier
+		
+		# With Better Solar upgrade, get small recharge even at evening
+		if time_of_day == "evening" and has_better_solar:
+			solar_recharge *= 1.2  # Slight boost to evening recharge
 
 	# Wind: based on current wind gust, buffed at night
 	var wind_tod_buff := 1.0
@@ -599,6 +635,15 @@ func get_plant_status(plant_id: String) -> Dictionary:
 		"disabled": plant.disabled_time,
 		"overclocking": plant.voltage > 0.0
 	}
+
+# Getter for overclock states (used by UI)
+var overclock_states: Dictionary:
+	get:
+		return {
+			"coal": get_plant_status("coal"),
+			"solar": get_plant_status("solar"),
+			"wind": get_plant_status("wind")
+		}
 
 # ─── Events ────────────────────────────────────────────────────────────────────
 func _trigger_random_event() -> void:

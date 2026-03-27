@@ -10,13 +10,13 @@ var instability : float = 0.0
 
 var max_multiplier : float = 2.0
 var base_pollution_mult : float = 1.0
-var heat_rise_rate : float = 35.0
-var heat_cool_rate : float = 28.0
+var heat_rise_rate : float = 29.0
+var heat_cool_rate : float = 30.0
 var cooling_power_scale : float = 0.18
-var damage_rate : float = 8.0
-var repair_rate : float = 6.0
-var warn_heat : float = 70.0
-var critical_heat : float = 85.0
+var damage_rate : float = 6.4
+var repair_rate : float = 6.8
+var warn_heat : float = 60.0
+var critical_heat : float = 86.0
 var failure_cooldown : float = 10.0
 
 var disabled_time : float = 0.0
@@ -45,24 +45,44 @@ func update(delta: float) -> void:
 	if disabled_time > 0.0:
 		disabled_time = max(disabled_time - delta, 0.0)
 		heat = max(heat - heat_cool_rate * delta, 0.0)
+		damage = max(damage - repair_rate * delta * 0.5, 0.0)  # Slow repair while disabled
 		output_multiplier = 0.0
 		state = "disabled"
 		if disabled_time <= 0.0:
 			output_multiplier = 1.0
 		return
 
-	var heat_gain := (heat_rise_rate * (voltage + instability)) - (heat_cool_rate * cooling)
+	# Treat very small slider values as zero to avoid accidental passive heating.
+	var effective_voltage := voltage if voltage >= 0.05 else 0.0
+	if effective_voltage > 0.0:
+		effective_voltage += instability
+
+	# Overclock is intentionally demanding: cooling offsets less of the heat load.
+	var cooling_strength := cooling * 1.0
+	if effective_voltage <= 0.0:
+		cooling_strength = max(cooling_strength, 0.35)
+
+	var heat_gain := (heat_rise_rate * effective_voltage) - (heat_cool_rate * cooling_strength)
 	heat = clamp(heat + heat_gain * delta, 0.0, 120.0)
 
+	# Damage calculation
 	var damage_gain := 0.0
 	if heat > warn_heat:
-		damage_gain += (heat - warn_heat) * 0.12
-	if voltage > 0.8:
-		damage_gain += (voltage - 0.8) * 40.0
+		damage_gain += (heat - warn_heat) * 0.11
+	if effective_voltage > 0.8:
+		damage_gain += (effective_voltage - 0.8) * 30.0
 
+	# Apply damage or repair
 	damage = clamp(damage + (damage_gain * damage_rate * delta / 10.0), 0.0, 120.0)
-	if heat < 50.0 and voltage < 0.3:
-		damage = max(damage - repair_rate * delta, 0.0)
+	
+	# Always repair when voltage is low, repair faster when both heat and voltage are low
+	if effective_voltage < 0.6:
+		var repair_multiplier := 1.0
+		if heat < 50.0:
+			repair_multiplier = 2.0  # Faster repair when cool
+		elif heat < 70.0:
+			repair_multiplier = 1.5
+		damage = max(damage - repair_rate * delta * repair_multiplier, 0.0)
 
 	if heat >= 100.0 or damage >= 100.0:
 		_trigger_failure()

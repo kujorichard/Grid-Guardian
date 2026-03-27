@@ -22,7 +22,6 @@ extends Control
 @onready var lbl_sat_val      : Label        = $Screens/GameScreen/Meters/SatisfactionRow/SatisfactionBar/LblVal
 
 # Contracts
-@onready var btn_show_contracts : Button = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/ContractsHeader/BtnShowContracts
 @onready var lbl_contract_coal  : Label   = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Contracts/RowCoal/LblOffer
 @onready var lbl_contract_solar : Label   = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Contracts/RowSolar/LblOffer
 @onready var lbl_contract_wind  : Label   = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Contracts/RowWind/LblOffer
@@ -54,6 +53,7 @@ extends Control
 @onready var lbl_demand       : Label        = $Screens/GameScreen/SupplyDemand/LblDemand
 @onready var lbl_supply       : Label        = $Screens/GameScreen/SupplyDemand/LblSupply
 @onready var lbl_balance      : Label        = $Screens/GameScreen/SupplyDemand/LblBalance
+@onready var lbl_event_status : Label        = get_node_or_null("Screens/GameScreen/SupplyDemand/LblEventStatus")
 
 # Energy supply meters
 @onready var bar_coal_supply   : ProgressBar  = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/EnergySupply/CoalSupplyRow/CoalSupplyBar
@@ -63,12 +63,13 @@ extends Control
 @onready var lbl_solar_sup_val : Label        = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/EnergySupply/SolarSupplyRow/SolarSupplyBar/LblVal
 @onready var lbl_wind_sup_val  : Label        = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/EnergySupply/WindSupplyRow/WindSupplyBar/LblVal
 @onready var btn_buy_coal      : Button       = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/EnergySupply/BtnBuyCoal
+@onready var lbl_oc_warning    : Label        = get_node_or_null("Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/LblOCWarning")
 
 # Event panel
-@onready var panel_event      : PanelContainer = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/EventPanel
-@onready var lbl_event_title  : Label          = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/EventPanel/VBox/LblTitle
-@onready var lbl_event_desc   : Label          = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/EventPanel/VBox/LblDesc
-@onready var timer_event_hide : Timer          = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/EventPanel/HideTimer
+@onready var panel_event      : PanelContainer = $Screens/GameScreen/EventOverlay
+@onready var lbl_event_title  : Label          = $Screens/GameScreen/EventOverlay/VBox/LblTitle
+@onready var lbl_event_desc   : Label          = $Screens/GameScreen/EventOverlay/VBox/LblDesc
+@onready var timer_event_hide : Timer          = $Screens/GameScreen/EventOverlay/HideTimer
 
 # Flash contract panel
 @onready var panel_flash      : PanelContainer = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/FlashPanel
@@ -136,10 +137,10 @@ func _ready() -> void:
 	GM.coal_price_updated.connect(_on_coal_price_updated)
 
 	_show_screen("menu")
-	panel_event.hide()
-	panel_flash.hide()
-	popup_overclock.hide()
-	popup_contracts.hide()
+	_safe_hide(panel_event)
+	_safe_hide(panel_flash)
+	_safe_hide(popup_overclock)
+	_safe_hide(popup_contracts)
 	_opt_init_overclock()
 	_opt_init_contracts()
 
@@ -149,6 +150,9 @@ func _process(_delta: float) -> void:
 			_update_overclock_popup()
 		if popup_contracts.visible:
 			_refresh_show_contracts_popup()
+		_update_event_status()
+		_update_overclock_warning()
+		_update_contract_displays()
 
 # ─── Screen management ────────────────────────────────────────────────────────
 func _show_screen(name: String) -> void:
@@ -169,16 +173,19 @@ func _on_btn_restart_pressed() -> void:
 	_show_screen("game")
 
 func _init_game_ui() -> void:
-	lbl_blackout.hide()
+	_safe_hide(lbl_blackout)
 	lbl_streak.text = "Streak: 0s"
 	_refresh_capacity_labels(GM.coal_capacity, GM.solar_capacity, GM.wind_capacity)
 	_refresh_contract_labels()
 	_refresh_upgrade_buttons()
 	_update_buy_coal_button(GM.coal_price)
 	_on_energy_supply_updated(GM.coal_supply, GM.solar_supply, GM.wind_supply)
-	panel_flash.hide()
-	popup_overclock.hide()
-	popup_contracts.hide()
+	_safe_hide(panel_flash)
+	_safe_hide(popup_overclock)
+	_safe_hide(popup_contracts)
+	_safe_hide(panel_event)
+	_safe_hide(lbl_event_status)
+	_safe_hide(lbl_oc_warning)
 
 # ─── Signal handlers ──────────────────────────────────────────────────────────
 func _on_meters_updated(stab: float, poll: float, sat: float) -> void:
@@ -195,7 +202,7 @@ func _on_meters_updated(stab: float, poll: float, sat: float) -> void:
 		lbl_blackout.show()
 		lbl_blackout.text = "⚠️ BLACKOUT RISK!"
 	else:
-		lbl_blackout.hide()
+		_safe_hide(lbl_blackout)
 
 	map.update_city(GM.coal_supply, GM.solar_supply, GM.wind_supply, GM.pollution)
 	_refresh_contract_buttons()
@@ -211,10 +218,58 @@ func _on_demand_updated(demand: float, supply: float) -> void:
 	lbl_balance.add_theme_color_override("font_color", Color(0.3, 0.9, 0.3) if balance >= 0 else Color(1.0, 0.3, 0.2))
 
 func _on_event_triggered(ev: Dictionary) -> void:
+	if lbl_event_title == null or lbl_event_desc == null:
+		return
 	lbl_event_title.text = ev.get("title", "Event")
 	lbl_event_desc.text  = ev.get("desc",  "")
-	panel_event.show()
-	timer_event_hide.start(6.0)
+	if panel_event != null:
+		panel_event.show()
+	if timer_event_hide != null:
+		timer_event_hide.start(3.0)
+
+# Updates the event status line (name + timer) near supply/demand
+func _update_event_status() -> void:
+	if lbl_event_status == null:
+		return
+	if GM.active_event_id != "" and GM.event_time_remaining > 0:
+		lbl_event_status.text = "🎯 %s: %.0fs" % [GM.active_event_id.capitalize(), GM.event_time_remaining]
+		lbl_event_status.show()
+	else:
+		_safe_hide(lbl_event_status)
+
+# Shows warning when any overclocked plant is at critical level
+func _update_overclock_warning() -> void:
+	if lbl_oc_warning == null:
+		return
+	var warnings : Array[String] = []
+	for source in ["coal", "solar", "wind"]:
+		var state : Dictionary = GM.overclock_states.get(source, {})
+		var voltage : float = state.get("voltage", 0.0)
+		var heat : float = state.get("heat", 0.0)
+		var plant_state : String = str(state.get("state", "safe"))
+		
+		# Show warnings for all non-safe states
+		if plant_state == "disabled":
+			warnings.append("🚫 %s OFFLINE (%.0fs)" % [source.capitalize(), state.get("disabled", 0.0)])
+		elif voltage > 0.0:  # Only show if actively overclocking
+			if plant_state == "failing":
+				warnings.append("🔥 %s FAILING (%.0f°C)" % [source.capitalize(), heat])
+			elif plant_state == "critical":
+				warnings.append("⚠️ %s CRITICAL (%.0f°C)" % [source.capitalize(), heat])
+			elif plant_state == "warning":
+				warnings.append("🔶 %s Warning (%.0f°C)" % [source.capitalize(), heat])
+	
+	if warnings.size() > 0:
+		lbl_oc_warning.text = " | ".join(warnings)
+		lbl_oc_warning.add_theme_color_override("font_color", Color(1.0, 0.3, 0.2))
+		lbl_oc_warning.show()
+	else:
+		_safe_hide(lbl_oc_warning)
+
+# Updates contract labels to show active contracts with time remaining
+func _update_contract_displays() -> void:
+	_refresh_contract_labels()
+	_refresh_contract_buttons()
 
 func _on_flash_contract_updated(offer: Dictionary, time_left: float, time_total: float) -> void:
 	var source := str(offer.get("source", "")).capitalize()
@@ -229,7 +284,7 @@ func _on_flash_contract_updated(offer: Dictionary, time_left: float, time_total:
 	panel_flash.show()
 
 func _on_flash_contract_ended(_reason: String) -> void:
-	panel_flash.hide()
+	_safe_hide(panel_flash)
 
 func _on_time_updated(elapsed: float, total: float) -> void:
 	var remaining := total - elapsed
@@ -255,7 +310,7 @@ func _on_upgrade_purchased(_id: String) -> void:
 	_refresh_upgrade_buttons()
 
 func _on_hide_timer_timeout() -> void:
-	panel_event.hide()
+	_safe_hide(panel_event)
 
 func _on_energy_supply_updated(coal_sup: float, solar_sup: float, wind_sup: float) -> void:
 	_set_bar(bar_coal_supply,  lbl_coal_sup_val,  coal_sup, Color(0.8, 0.6, 0.3), Color(0.4, 0.2, 0.1))
@@ -348,10 +403,6 @@ func _on_btn_boost_wind_pressed() -> void: GM.activate_boost("wind")
 func _on_btn_flash_accept_pressed() -> void:
 	GM.accept_flash_contract()
 
-func _on_btn_show_contracts_pressed() -> void:
-	popup_contracts.popup_centered()
-	_refresh_show_contracts_popup()
-
 func _on_contract_plant_selected(index: int) -> void:
 	var meta = opt_contract_plant.get_item_metadata(index)
 	if meta != null:
@@ -359,7 +410,7 @@ func _on_contract_plant_selected(index: int) -> void:
 	_refresh_show_contracts_popup()
 
 func _on_contracts_close_pressed() -> void:
-	popup_contracts.hide()
+	_safe_hide(popup_contracts)
 
 func _on_btn_overclock_pressed() -> void:
 	popup_overclock.popup_centered()
@@ -404,11 +455,10 @@ func _on_oc_safe_pressed() -> void:
 	_update_overclock_popup_labels()
 
 func _on_oc_close_pressed() -> void:
-	_apply_overclock_safe_defaults()
-	popup_overclock.hide()
+	_safe_hide(popup_overclock)
 
 func _on_overclock_popup_hide() -> void:
-	_apply_overclock_safe_defaults()
+	pass # Don't reset overclock settings when menu closes
 
 func _set_upgrade_btn(btn: Button, id: String) -> void:
 	var u     : Dictionary = GM.upgrades[id]
@@ -422,6 +472,10 @@ func _set_upgrade_btn(btn: Button, id: String) -> void:
 		btn.text     = "%s\n💰 %d" % [label, cost]
 		btn.disabled = GM.coins < cost
 
+func _safe_hide(node: Variant) -> void:
+	if node != null and is_instance_valid(node) and node.has_method("hide"):
+		node.hide()
+
 # ─── Helpers ──────────────────────────────────────────────────────────────────
 func _set_bar(bar: ProgressBar, lbl: Label, val: float,
 			  good_color: Color, bad_color: Color, invert: bool = false) -> void:
@@ -434,16 +488,30 @@ func _set_bar(bar: ProgressBar, lbl: Label, val: float,
 	bar.add_theme_color_override("fill_color_hover", good_color.lerp(bad_color, 1.0 - t))
 
 func _refresh_contract_labels() -> void:
-	_set_contract_label(lbl_contract_coal, contract_offers_by_source.get("coal", {}))
-	_set_contract_label(lbl_contract_solar, contract_offers_by_source.get("solar", {}))
-	_set_contract_label(lbl_contract_wind, contract_offers_by_source.get("wind", {}))
+	_set_contract_label(lbl_contract_coal, "coal", contract_offers_by_source.get("coal", {}))
+	_set_contract_label(lbl_contract_solar, "solar", contract_offers_by_source.get("solar", {}))
+	_set_contract_label(lbl_contract_wind, "wind", contract_offers_by_source.get("wind", {}))
 
 func _refresh_contract_buttons() -> void:
-	_set_contract_btn(btn_contract_coal, contract_offers_by_source.get("coal", {}))
-	_set_contract_btn(btn_contract_solar, contract_offers_by_source.get("solar", {}))
-	_set_contract_btn(btn_contract_wind, contract_offers_by_source.get("wind", {}))
+	_set_contract_btn(btn_contract_coal, "coal", contract_offers_by_source.get("coal", {}))
+	_set_contract_btn(btn_contract_solar, "solar", contract_offers_by_source.get("solar", {}))
+	_set_contract_btn(btn_contract_wind, "wind", contract_offers_by_source.get("wind", {}))
 
-func _set_contract_label(lbl: Label, offer: Dictionary) -> void:
+func _set_contract_label(lbl: Label, source: String, offer: Dictionary) -> void:
+	# Check if there's an active contract for this source
+	var active : Array = GM.get_active_contracts_for_source(source)
+	if active.size() > 0:
+		# Show active contract status
+		var c : Dictionary = active[0]
+		var out := float(c.get("output", 0.0))
+		var remaining := maxf(float(c.get("remaining", 0.0)), 0.0)
+		var upkeep := int(c.get("upkeep", 0))
+		lbl.text = "✅ +%.0f MW | %.0fs left | 💸 %d" % [out, remaining, upkeep]
+		lbl.add_theme_color_override("font_color", Color(0.3, 0.9, 0.4))
+		return
+	
+	# No active contract - show offer
+	lbl.remove_theme_color_override("font_color")
 	if offer.size() == 0:
 		lbl.text = "No offer"
 		return
@@ -453,7 +521,14 @@ func _set_contract_label(lbl: Label, offer: Dictionary) -> void:
 	var upkeep := int(offer.get("upkeep", 0))
 	lbl.text = "+%.0f MW | %.0fs | 💰 %d | Upkeep %d" % [out, dur, upfront, upkeep]
 
-func _set_contract_btn(btn: Button, offer: Dictionary) -> void:
+func _set_contract_btn(btn: Button, source: String, offer: Dictionary) -> void:
+	# Hide button if active contract exists for this source
+	var active : Array = GM.get_active_contracts_for_source(source)
+	if active.size() > 0:
+		btn.text = "Active"
+		btn.disabled = true
+		return
+	
 	if offer.size() == 0:
 		btn.text = "No offer"
 		btn.disabled = true

@@ -3,12 +3,12 @@ class_name WindPlant
 
 func _init() -> void:
 	plant_id = "wind"
-	instability = 0.15
+	instability = 0.07
 	max_multiplier = 1.8
-	heat_rise_rate = 34.0
-	heat_cool_rate = 26.0
-	damage_rate = 8.0
-	repair_rate = 6.0
+	heat_rise_rate = 20.0
+	heat_cool_rate = 31.0
+	damage_rate = 5.1
+	repair_rate = 7.2
 	failure_cooldown = 10.0
 
 func _on_fail() -> void:
