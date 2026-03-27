@@ -40,14 +40,15 @@ const FLASH_MAX_INTERVAL := 26.0
 const FLASH_WINDOW := 6.0
 const CAPACITY_STEP := 6.0
 const CAPACITY_COST := 160
-const BOOST_DURATION := 8.0
-const BOOST_COOLDOWN := 24.0
-const BOOST_AMOUNT := 18.0
+const BOOST_DURATION := 12.0
+const BOOST_COOLDOWN := 20.0
+const BOOST_AMOUNT := 20.0
+const COIN_INCOME_MULTIPLIER := 1.85
 
 # Energy supply consumption / recharge rates (per tick at 100% utilization)
 const COAL_CONSUME_RATE := 2.0
 const SOLAR_CONSUME_RATE := 1.8
-const WIND_CONSUME_RATE := 1.5
+const WIND_CONSUME_RATE := 1
 const DEBUFF_CONSUME_MULTIPLIER := 1.5
 const SOLAR_RECHARGE_RATE := 4.5
 const WIND_RECHARGE_RATE := 3.5
@@ -60,8 +61,8 @@ const COAL_PRICE_INTERVAL := 10.0
 
 # ─── Capacity (MW) ────────────────────────────────────────────────────────────
 var coal_capacity: float = 40.0
-var solar_capacity: float = 30.0
-var wind_capacity: float = 20.0
+var solar_capacity: float = 50.0
+var wind_capacity: float = 30.0
 
 # ─── Upgrades ──────────────────────────────────────────────────────────────────
 var upgrades := {
@@ -101,6 +102,12 @@ var drought_timer: float = 0.0
 var solar_recharge_modifier: float = 1.0
 var wind_recharge_modifier: float = 1.0
 var coal_consume_modifier: float = 1.0
+
+# Event-based output bonuses (MW added during events, reset when event clears)
+var solar_event_bonus: float = 0.0
+var wind_event_bonus: float = 0.0
+var coal_event_bonus: float = 0.0
+var event_pollution_modifier: float = 1.0
 
 # ─── Internal state ────────────────────────────────────────────────────────────
 var game_running: bool = false
@@ -143,6 +150,7 @@ var wind_plant : WindPlant
 
 # ─── Demand curve ──────────────────────────────────────────────────────────────
 var base_demand: float = 65.0
+var coin_income_carry: float = 0.0
 
 func _ready() -> void:
 	randomize()
@@ -156,8 +164,8 @@ func _init_plants() -> void:
 func start_game() -> void:
 	_init_plants()
 	coal_capacity = 40.0
-	solar_capacity = 30.0
-	wind_capacity = 20.0
+	solar_capacity = 35.0
+	wind_capacity = 30.0
 	stability = 80.0
 	pollution = 20.0
 	satisfaction = 70.0
@@ -188,6 +196,10 @@ func start_game() -> void:
 	solar_recharge_modifier = 1.0
 	wind_recharge_modifier = 1.0
 	coal_consume_modifier = 1.0
+	solar_event_bonus = 0.0
+	wind_event_bonus = 0.0
+	coal_event_bonus = 0.0
+	event_pollution_modifier = 1.0
 	# Contract / boost reset
 	contract_offers = []
 	active_contracts = []
@@ -203,6 +215,7 @@ func start_game() -> void:
 	boost_cooldown_left = 0.0
 	balance_streak = 0.0
 	balance_tier = 0
+	coin_income_carry = 0.0
 	for k in upgrades:
 		upgrades[k]["owned"] = false
 	game_running = true
@@ -352,20 +365,30 @@ func _get_solar_tod_factor() -> float:
 		tod_factor = clamp(tod_factor + 0.35, 0.0, 1.0)
 	return tod_factor
 
+func _get_wind_tod_factor() -> float:
+	var tod_factor := 1.0
+	match time_of_day:
+		"morning": tod_factor = 0.85 # slightly reduced winds
+		"afternoon": tod_factor = 0.88
+		"evening": tod_factor = 1.0
+		"night": tod_factor = 1.0
+	return tod_factor
+
 func _get_solar_output() -> float:
-	var base := (_get_effective_solar_capacity() + _get_contract_output("solar"))
+	var base := (_get_effective_solar_capacity() + _get_contract_output("solar") + solar_event_bonus)
 	var tod_factor := _get_solar_tod_factor()
 	return base * tod_factor * solar_modifier * _get_plant_multiplier("solar")
 
 func _get_wind_output() -> float:
-	var base := (_get_effective_wind_capacity() + _get_contract_output("wind"))
+	var base := (_get_effective_wind_capacity() + _get_contract_output("wind") + wind_event_bonus)
+	var tod_factor := _get_wind_tod_factor()
 	var noise := randf_range(0.7, 1.3)
 	if bool(upgrades["stable_wind"]["owned"]):
 		noise = randf_range(0.9, 1.1)
-	return base * noise * wind_modifier * _get_plant_multiplier("wind")
+	return base * tod_factor * noise * wind_modifier * _get_plant_multiplier("wind")
 
 func _get_coal_output() -> float:
-	return (_get_effective_coal_capacity() + _get_contract_output("coal")) * _get_plant_multiplier("coal")
+	return (_get_effective_coal_capacity() + _get_contract_output("coal") + coal_event_bonus) * _get_plant_multiplier("coal")
 
 func _get_contract_output(source: String) -> float:
 	var total := 0.0
@@ -402,13 +425,13 @@ func _game_tick() -> void:
 		var severity: float = abs(gap)
 		if bool(upgrades["grid"]["owned"]):
 			severity *= 0.5
-		stability_delta = - severity * 0.25
+		stability_delta = - severity * 0.22
 
 	stability = clamp(stability + stability_delta, 0.0, 100.0)
 
 	# ── Pollution ────────────────────────────────────────────────────────────
 	var coal_ratio := coal_out / MAX_COAL_OUTPUT
-	var pollution_delta: float = (coal_ratio * 3.5 * coal_plant.pollution_multiplier) - 1.2
+	var pollution_delta: float = ((coal_ratio * 2 * coal_plant.pollution_multiplier) - 1.2) * event_pollution_modifier
 	pollution = clamp(pollution + pollution_delta, 0.0, 100.0)
 
 	# ── Satisfaction ─────────────────────────────────────────────────────────
@@ -424,7 +447,7 @@ func _game_tick() -> void:
 	# ── Score & coins ─────────────────────────────────────────────────────────
 	var tick_score := int(stability * 0.5 + satisfaction * 0.3 - pollution * 0.2)
 	score += max(tick_score, 0)
-	coins += 8 # passive income
+	var base_coin_income := 8.0
 
 	# ── Balance streak (planning + stability) ────────────────────────────────
 	if abs(gap) <= BALANCE_TOLERANCE:
@@ -454,7 +477,10 @@ func _game_tick() -> void:
 			tier_bonus_coins = 6
 
 	score += tier_bonus_score
-	coins += tier_bonus_coins
+	var scaled_coin_income := (base_coin_income + float(tier_bonus_coins)) * COIN_INCOME_MULTIPLIER + coin_income_carry
+	var income_payout := int(floor(scaled_coin_income))
+	coin_income_carry = scaled_coin_income - float(income_payout)
+	coins += income_payout
 
 	if new_tier != balance_tier:
 		balance_tier = new_tier
@@ -490,8 +516,11 @@ func _update_energy_supply() -> void:
 	if solar_tod > 0.0:
 		solar_recharge = SOLAR_RECHARGE_RATE * solar_tod * solar_recharge_modifier
 
-	# Wind: based on current wind gust
-	var wind_recharge := wind_gust / 100.0 * WIND_RECHARGE_RATE * wind_recharge_modifier
+	# Wind: based on current wind gust, buffed at night
+	var wind_tod_buff := 1.0
+	if time_of_day == "night":
+		wind_tod_buff = 1.35 # stronger winds at night
+	var wind_recharge := wind_gust / 100.0 * WIND_RECHARGE_RATE * wind_recharge_modifier * wind_tod_buff
 
 	# ── Apply net change ─────────────────────────────────────────────────────
 	coal_supply = clamp(coal_supply - coal_consume, 0.0, 100.0)
@@ -577,7 +606,7 @@ func _trigger_random_event() -> void:
 		{
 			"id": "storm",
 			"title": "⛈️ Storm Warning",
-			"desc": "Heavy storm hits the city!\nSolar drops, Wind surges.\nSolar stock damaged, wind recharge boosted.",
+			"desc": "Heavy storm hits the city!\nSolar drops, Wind surges +15-25 MW.\nSolar stock damaged, wind recharge boosted.",
 			"solar_mod": 0.1, "wind_mod": 1.8, "demand_mod": 1.1,
 			"duration": 20.0, "color": Color(0.3, 0.4, 0.8),
 			"special": "storm"
@@ -585,7 +614,7 @@ func _trigger_random_event() -> void:
 		{
 			"id": "heatwave",
 			"title": "🔥 Heatwave Alert",
-			"desc": "Record temperatures!\nDemand spikes as ACs run full blast.\nWind stock drained, solar recharge boosted.",
+			"desc": "Record temperatures!\nSolar output +12-20 MW. Demand spikes.\nWind stock drained, solar recharge boosted.",
 			"solar_mod": 1.1, "wind_mod": 0.7, "demand_mod": 1.5,
 			"duration": 18.0, "color": Color(0.9, 0.4, 0.1),
 			"special": "heatwave"
@@ -593,7 +622,7 @@ func _trigger_random_event() -> void:
 		{
 			"id": "factory",
 			"title": "🏭 Factory Boom",
-			"desc": "New factory opens!\nIndustrial demand rises sharply.\nCoal consumption increased.",
+			"desc": "New factory opens!\nCoal output +20-35 MW but pollution rises.\nIndustrial demand increases.",
 			"solar_mod": 1.0, "wind_mod": 1.0, "demand_mod": 1.35,
 			"duration": 22.0, "color": Color(0.6, 0.5, 0.3),
 			"special": "factory"
@@ -608,7 +637,7 @@ func _trigger_random_event() -> void:
 		{
 			"id": "calm",
 			"title": "🌤️ Perfect Conditions",
-			"desc": "Clear skies & steady breeze!\nRenewables perform at peak.\nSolar & wind recharge boosted.",
+			"desc": "Clear skies & steady breeze!\nSolar & Wind +12-18 MW each.\nRenewables recharge boosted.",
 			"solar_mod": 1.3, "wind_mod": 1.25, "demand_mod": 0.9,
 			"duration": 18.0, "color": Color(0.3, 0.8, 0.8),
 			"special": "calm"
@@ -649,14 +678,20 @@ func _trigger_random_event() -> void:
 			solar_supply = clamp(solar_supply - 20.0 * DEBUFF_CONSUME_MULTIPLIER, 0.0, 100.0)
 			solar_recharge_modifier = 0.2
 			wind_recharge_modifier = 1.8 # strong gusts boost wind recharge
+			wind_event_bonus = randf_range(15.0, 25.0) # wind output buff during storm
 		"heatwave":
 			wind_supply = clamp(wind_supply - 10.0 * DEBUFF_CONSUME_MULTIPLIER, 0.0, 100.0)
 			solar_recharge_modifier = 1.5 # intense sun boosts solar recharge
+			solar_event_bonus = randf_range(12.0, 20.0) # solar output buff during heatwave
 		"factory":
 			coal_consume_modifier = DEBUFF_CONSUME_MULTIPLIER # factory burns more coal
+			coal_event_bonus = randf_range(20.0, 35.0) # factory powers coal plants
+			event_pollution_modifier = 1.6 # but pollution increases
 		"calm":
 			solar_recharge_modifier = 1.4
 			wind_recharge_modifier = 1.4
+			solar_event_bonus = randf_range(12.0, 18.0) # calm conditions boost output
+			wind_event_bonus = randf_range(12.0, 18.0)
 		"drought":
 			drought_active = true
 			drought_timer = 45.0
@@ -676,6 +711,10 @@ func _clear_event() -> void:
 	solar_recharge_modifier = 1.0
 	wind_recharge_modifier = 1.0
 	coal_consume_modifier = 1.0
+	solar_event_bonus = 0.0
+	wind_event_bonus = 0.0
+	coal_event_bonus = 0.0
+	event_pollution_modifier = 1.0
 	active_event = {}
 
 # ─── Contracts ─────────────────────────────────────────────────────────────────
@@ -855,3 +894,10 @@ func get_time_of_day_label() -> String:
 		"evening": return "🌆 Evening"
 		"night": return "🌙 Night"
 	return "—"
+
+func get_active_contracts_for_source(source: String) -> Array:
+	var filtered: Array = []
+	for c in active_contracts:
+		if str(c.get("source", "")) == source:
+			filtered.append(c.duplicate(true))
+	return filtered

@@ -4,7 +4,6 @@ class_name SolarPlant
 func _init() -> void:
 	plant_id = "solar"
 	max_multiplier = 1.7
-	base_pollution_mult = 0.6
 	heat_rise_rate = 28.0
 	heat_cool_rate = 32.0
 	damage_rate = 7.0

@@ -1,3 +1,5 @@
-res://scenes/Main.tscn
 res://scenes/Map.gd
 res://scripts/Main.gd
+res://scripts/SolarPlant.gd
+res://scripts/WindPlant.gd
+res://scripts/GameManager.gd

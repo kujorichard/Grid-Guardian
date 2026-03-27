@@ -22,12 +22,19 @@ extends Control
 @onready var lbl_sat_val      : Label        = $Screens/GameScreen/Meters/SatisfactionRow/SatisfactionBar/LblVal
 
 # Contracts
+@onready var btn_show_contracts : Button = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/ContractsHeader/BtnShowContracts
 @onready var lbl_contract_coal  : Label   = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Contracts/RowCoal/LblOffer
 @onready var lbl_contract_solar : Label   = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Contracts/RowSolar/LblOffer
 @onready var lbl_contract_wind  : Label   = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Contracts/RowWind/LblOffer
 @onready var btn_contract_coal  : Button  = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Contracts/RowCoal/BtnAccept
 @onready var btn_contract_solar : Button  = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Contracts/RowSolar/BtnAccept
 @onready var btn_contract_wind  : Button  = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Contracts/RowWind/BtnAccept
+
+# Show contracts popup
+@onready var popup_contracts : PopupPanel = $Screens/GameScreen/ContractsPopup
+@onready var opt_contract_plant : OptionButton = $Screens/GameScreen/ContractsPopup/Margin/VBox/RowPlant/OptPlant
+@onready var lbl_contracts_list : Label = $Screens/GameScreen/ContractsPopup/Margin/VBox/RowList/LblContracts
+@onready var lbl_contracts_total : Label = $Screens/GameScreen/ContractsPopup/Margin/VBox/LblTotals
 
 # Capacity
 @onready var lbl_cap_coal   : Label = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Capacity/RowCoal/LblCap
@@ -106,6 +113,7 @@ extends Control
 var GM : Node
 var contract_offers_by_source : Dictionary = {}
 var current_overclock_plant : String = "coal"
+var current_contract_view_plant : String = "coal"
 
 func _ready() -> void:
 	GM = get_node("/root/GameManager")
@@ -131,12 +139,16 @@ func _ready() -> void:
 	panel_event.hide()
 	panel_flash.hide()
 	popup_overclock.hide()
+	popup_contracts.hide()
 	_opt_init_overclock()
+	_opt_init_contracts()
 
 func _process(_delta: float) -> void:
 	if screen_game.visible:
 		if popup_overclock.visible:
 			_update_overclock_popup()
+		if popup_contracts.visible:
+			_refresh_show_contracts_popup()
 
 # ─── Screen management ────────────────────────────────────────────────────────
 func _show_screen(name: String) -> void:
@@ -166,6 +178,7 @@ func _init_game_ui() -> void:
 	_on_energy_supply_updated(GM.coal_supply, GM.solar_supply, GM.wind_supply)
 	panel_flash.hide()
 	popup_overclock.hide()
+	popup_contracts.hide()
 
 # ─── Signal handlers ──────────────────────────────────────────────────────────
 func _on_meters_updated(stab: float, poll: float, sat: float) -> void:
@@ -278,9 +291,13 @@ func _on_contract_offers_updated(offers: Array) -> void:
 
 func _on_contract_accepted(_offer: Dictionary) -> void:
 	_refresh_contract_buttons()
+	if popup_contracts.visible:
+		_refresh_show_contracts_popup()
 
 func _on_contract_expired(_offer: Dictionary) -> void:
 	_refresh_contract_buttons()
+	if popup_contracts.visible:
+		_refresh_show_contracts_popup()
 
 func _on_capacity_updated(coal: float, solar: float, wind: float) -> void:
 	_refresh_capacity_labels(coal, solar, wind)
@@ -330,6 +347,19 @@ func _on_btn_boost_wind_pressed() -> void: GM.activate_boost("wind")
 
 func _on_btn_flash_accept_pressed() -> void:
 	GM.accept_flash_contract()
+
+func _on_btn_show_contracts_pressed() -> void:
+	popup_contracts.popup_centered()
+	_refresh_show_contracts_popup()
+
+func _on_contract_plant_selected(index: int) -> void:
+	var meta = opt_contract_plant.get_item_metadata(index)
+	if meta != null:
+		current_contract_view_plant = str(meta)
+	_refresh_show_contracts_popup()
+
+func _on_contracts_close_pressed() -> void:
+	popup_contracts.hide()
 
 func _on_btn_overclock_pressed() -> void:
 	popup_overclock.popup_centered()
@@ -452,6 +482,34 @@ func _opt_init_overclock() -> void:
 	opt_oc_plant.add_item("Wind")
 	opt_oc_plant.set_item_metadata(2, "wind")
 	opt_oc_plant.select(0)
+
+func _opt_init_contracts() -> void:
+	opt_contract_plant.clear()
+	opt_contract_plant.add_item("Coal")
+	opt_contract_plant.set_item_metadata(0, "coal")
+	opt_contract_plant.add_item("Solar")
+	opt_contract_plant.set_item_metadata(1, "solar")
+	opt_contract_plant.add_item("Wind")
+	opt_contract_plant.set_item_metadata(2, "wind")
+	opt_contract_plant.select(0)
+
+func _refresh_show_contracts_popup() -> void:
+	var contracts : Array = GM.get_active_contracts_for_source(current_contract_view_plant)
+	var lines : Array[String] = []
+	var total_upkeep := 0
+	for c in contracts:
+		var out := float(c.get("output", 0.0))
+		var remaining : float = maxf(float(c.get("remaining", 0.0)), 0.0)
+		var upkeep := int(c.get("upkeep", 0))
+		total_upkeep += upkeep
+		lines.append("• +%.0f MW | %.0fs left | Upkeep %d" % [out, remaining, upkeep])
+
+	if lines.is_empty():
+		lbl_contracts_list.text = "No active contracts for %s." % current_contract_view_plant.capitalize()
+	else:
+		lbl_contracts_list.text = "\n".join(lines)
+
+	lbl_contracts_total.text = "Active: %d | Total upkeep/tick: %d" % [contracts.size(), total_upkeep]
 
 func _sync_overclock_popup_from_status() -> void:
 	var s : Dictionary = GM.get_plant_status(current_overclock_plant)
