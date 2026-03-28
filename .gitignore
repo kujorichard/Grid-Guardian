@@ -1,0 +1,3 @@
+# Godot editor cache files
+.godot/editor/*.res
+.godot/editor/script_editor_cache.cfg
