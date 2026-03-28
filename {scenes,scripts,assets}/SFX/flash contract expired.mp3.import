@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://ww3bkfrjmn6t"
+path="res://.godot/imported/flash contract expired.mp3-59483e3ee79738bc4f96c7330cd1f6a6.mp3str"
+
+[deps]
+
+source_file="res://{scenes,scripts,assets}/SFX/flash contract expired.mp3"
+dest_files=["res://.godot/imported/flash contract expired.mp3-59483e3ee79738bc4f96c7330cd1f6a6.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

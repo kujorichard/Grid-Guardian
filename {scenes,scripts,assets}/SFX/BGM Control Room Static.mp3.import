@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bunbhkadu28c"
+path="res://.godot/imported/BGM Control Room Static.mp3-1d220098d60cb5959249e9bdbd191831.mp3str"
+
+[deps]
+
+source_file="res://{scenes,scripts,assets}/SFX/BGM Control Room Static.mp3"
+dest_files=["res://.godot/imported/BGM Control Room Static.mp3-1d220098d60cb5959249e9bdbd191831.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

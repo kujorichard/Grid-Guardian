@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://wc554n6ir2f4"
+path="res://.godot/imported/boost wind.mp3-76e34b8a75fc46fb1b869cb1675463f5.mp3str"
+
+[deps]
+
+source_file="res://{scenes,scripts,assets}/SFX/boost wind.mp3"
+dest_files=["res://.godot/imported/boost wind.mp3-76e34b8a75fc46fb1b869cb1675463f5.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

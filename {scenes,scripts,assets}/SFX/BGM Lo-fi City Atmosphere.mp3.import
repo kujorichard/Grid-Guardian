@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dtxtxrahxqr3b"
+path="res://.godot/imported/BGM Lo-fi City Atmosphere.mp3-b4514a823685ffe1a4f5e8a41a41d7c6.mp3str"
+
+[deps]
+
+source_file="res://{scenes,scripts,assets}/SFX/BGM Lo-fi City Atmosphere.mp3"
+dest_files=["res://.godot/imported/BGM Lo-fi City Atmosphere.mp3-b4514a823685ffe1a4f5e8a41a41d7c6.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

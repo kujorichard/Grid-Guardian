@@ -7,6 +7,22 @@
 [ext_resource type="Texture2D" uid="uid://cet85l1eq4pf2" path="res://{scenes,scripts,assets}/Map Assets/Coal Plant.png" id="3_vcsgt"]
 [ext_resource type="Texture2D" uid="uid://dntjatrxtdc8t" path="res://{scenes,scripts,assets}/Map Assets/WindTurbine.png" id="4_c01mt"]
 [ext_resource type="Texture2D" uid="uid://bd8fudnc8s88y" path="res://{scenes,scripts,assets}/Map Assets/SolarPanel.png" id="6_nxtc6"]
+[ext_resource type="AudioStream" uid="uid://oete44yj5x7i" path="res://{scenes,scripts,assets}/SFX/accept contract.mp3" id="8_q8u5g"]
+[ext_resource type="AudioStream" uid="uid://d0m6ohy4y82jv" path="res://{scenes,scripts,assets}/SFX/blackout warning.mp3" id="9_lhr70"]
+[ext_resource type="AudioStream" uid="uid://cnqiqndn1n5qs" path="res://{scenes,scripts,assets}/SFX/buy coal.mp3" id="10_wp0k4"]
+[ext_resource type="AudioStream" uid="uid://civ3mfi40ujm4" path="res://{scenes,scripts,assets}/SFX/flash contract appears.mp3" id="11_bjd11"]
+[ext_resource type="AudioStream" uid="uid://ww3bkfrjmn6t" path="res://{scenes,scripts,assets}/SFX/flash contract expired.mp3" id="12_qmy6f"]
+[ext_resource type="AudioStream" uid="uid://kh67y54qg5hi" path="res://{scenes,scripts,assets}/SFX/game over.mp3" id="13_mwfav"]
+[ext_resource type="AudioStream" uid="uid://byutu1rwml1qs" path="res://{scenes,scripts,assets}/SFX/game won.mp3" id="14_mwfav"]
+[ext_resource type="AudioStream" uid="uid://cpra138ts53oo" path="res://{scenes,scripts,assets}/SFX/random event.mp3" id="15_3p2gp"]
+[ext_resource type="AudioStream" uid="uid://bunbhkadu28c" path="res://{scenes,scripts,assets}/SFX/BGM Control Room Static.mp3" id="16_bb450"]
+[ext_resource type="AudioStream" uid="uid://ds1gui5f3drnm" path="res://{scenes,scripts,assets}/SFX/BGM Load Dispatch Loop.mp3" id="17_nfivy"]
+[ext_resource type="AudioStream" uid="uid://dtxtxrahxqr3b" path="res://{scenes,scripts,assets}/SFX/BGM Lo-fi City Atmosphere.mp3" id="18_1nqs0"]
+[ext_resource type="AudioStream" uid="uid://e2iq53auwx6d" path="res://{scenes,scripts,assets}/SFX/boost coal.mp3" id="19_1iba3"]
+[ext_resource type="AudioStream" uid="uid://c7ft266xaxgqe" path="res://{scenes,scripts,assets}/SFX/boost solar.mp3" id="20_yxlcp"]
+[ext_resource type="AudioStream" uid="uid://wc554n6ir2f4" path="res://{scenes,scripts,assets}/SFX/boost wind.mp3" id="21_ebg2g"]
+[ext_resource type="AudioStream" uid="uid://ceoikcsomevfw" path="res://{scenes,scripts,assets}/SFX/upgrade purchased.mp3" id="22_yxlcp"]
+[ext_resource type="AudioStream" uid="uid://dbklq2h558ckt" path="res://{scenes,scripts,assets}/SFX/start overclocking.mp3" id="23_ebg2g"]
 
 [sub_resource type="Gradient" id="Gradient_0bbpv"]
 offsets = PackedFloat32Array(0, 0.10638298, 0.25177306, 0.4007092, 0.4929078, 0.69148934, 0.86170214, 1)
@@ -50,7 +66,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.07, 0.09, 0.15, 1)
+color = Color(0.14117648, 0.21568628, 0.07450981, 1)
 
 [node name="Screens" type="Node" parent="." unique_id=1133756491]
 
@@ -69,14 +85,14 @@ alignment = 1
 
 [node name="LblTitle" type="Label" parent="Screens/MenuScreen/VBox" unique_id=905058462]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.3, 0.85, 1, 1)
+theme_override_colors/font_color = Color(0.9254902, 0.9529412, 0.98039216, 1)
 theme_override_font_sizes/font_size = 52
 text = "⚡ GRID GUARDIAN"
 horizontal_alignment = 1
 
 [node name="LblSubtitle" type="Label" parent="Screens/MenuScreen/VBox" unique_id=1755523036]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.75, 0.8, 0.9, 1)
+theme_override_colors/font_color = Color(0.7490196, 0.83137256, 0.9098039, 1)
 theme_override_font_sizes/font_size = 18
 text = "Manage your city's energy grid.
 Balance coal, solar, and wind.
@@ -95,7 +111,7 @@ text = "▶  START GAME"
 
 [node name="LblHint" type="Label" parent="Screens/MenuScreen/VBox" unique_id=295861234]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.55, 0.6, 0.7, 1)
+theme_override_colors/font_color = Color(0.9254902, 0.9529412, 0.98039216, 1)
 theme_override_font_sizes/font_size = 14
 text = "Survive 6 minutes without blackout or pollution crisis"
 horizontal_alignment = 1
@@ -138,7 +154,7 @@ theme_override_colors/font_color = Color(0.55, 0.65, 0.8, 1)
 theme_override_font_sizes/font_size = 13
 text = "ENERGY SUPPLY"
 
-[node name="LblOCWarning" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/Scroll/VBox"]
+[node name="LblOCWarning" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/Scroll/VBox" unique_id=848629804]
 visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.3, 0.2, 1)
@@ -388,11 +404,11 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 11
 text = "Hold"
 
-[node name="ContractsHeader" type="HBoxContainer" parent="Screens/GameScreen/RightSidebar/Margin/Scroll/VBox"]
+[node name="ContractsHeader" type="HBoxContainer" parent="Screens/GameScreen/RightSidebar/Margin/Scroll/VBox" unique_id=144644862]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="ContractsLabel" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/ContractsHeader"]
+[node name="ContractsLabel" type="Label" parent="Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/ContractsHeader" unique_id=481774773]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.55, 0.65, 0.8, 1)
@@ -608,7 +624,6 @@ theme_override_font_sizes/font_size = 11
 text = "🌬️ Stable Wind
 💰 450"
 
-
 [node name="TopBar" type="HBoxContainer" parent="Screens/GameScreen" unique_id=918481455]
 layout_mode = 1
 anchors_preset = 10
@@ -663,73 +678,8 @@ theme_override_font_sizes/font_size = 12
 text = "Overclock"
 
 [node name="OverclockPopup" type="PopupPanel" parent="Screens/GameScreen" unique_id=1458099800]
+oversampling_override = 1.0
 size = Vector2i(420, 320)
-
-[node name="ContractsPopup" type="PopupPanel" parent="Screens/GameScreen"]
-size = Vector2i(420, 320)
-
-[node name="Margin" type="MarginContainer" parent="Screens/GameScreen/ContractsPopup"]
-offset_left = 4.0
-offset_top = 4.0
-offset_right = 416.0
-offset_bottom = 316.0
-theme_override_constants/margin_left = 12
-theme_override_constants/margin_top = 12
-theme_override_constants/margin_right = 12
-theme_override_constants/margin_bottom = 12
-
-[node name="VBox" type="VBoxContainer" parent="Screens/GameScreen/ContractsPopup/Margin"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="LblTitle" type="Label" parent="Screens/GameScreen/ContractsPopup/Margin/VBox"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 16
-text = "Active Contracts"
-
-[node name="RowPlant" type="HBoxContainer" parent="Screens/GameScreen/ContractsPopup/Margin/VBox"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="LblPlant" type="Label" parent="Screens/GameScreen/ContractsPopup/Margin/VBox/RowPlant"]
-custom_minimum_size = Vector2(90, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 12
-text = "Plant"
-
-[node name="OptPlant" type="OptionButton" parent="Screens/GameScreen/ContractsPopup/Margin/VBox/RowPlant"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="RowList" type="VBoxContainer" parent="Screens/GameScreen/ContractsPopup/Margin/VBox"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="LblContracts" type="Label" parent="Screens/GameScreen/ContractsPopup/Margin/VBox/RowList"]
-custom_minimum_size = Vector2(0, 150)
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_font_sizes/font_size = 12
-text = "No active contracts."
-autowrap_mode = 3
-vertical_alignment = 1
-
-[node name="LblTotals" type="Label" parent="Screens/GameScreen/ContractsPopup/Margin/VBox"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.85, 0.9, 0.98, 1)
-theme_override_font_sizes/font_size = 12
-text = "Active: 0 | Total upkeep/tick: 0"
-
-[node name="RowButtons" type="HBoxContainer" parent="Screens/GameScreen/ContractsPopup/Margin/VBox"]
-layout_mode = 2
-theme_override_constants/separation = 10
-alignment = 2
-
-[node name="BtnClose" type="Button" parent="Screens/GameScreen/ContractsPopup/Margin/VBox/RowButtons"]
-custom_minimum_size = Vector2(110, 28)
-layout_mode = 2
-theme_override_font_sizes/font_size = 12
-text = "Close"
 
 [node name="Margin" type="MarginContainer" parent="Screens/GameScreen/OverclockPopup" unique_id=2008741072]
 offset_left = 4.0
@@ -870,6 +820,73 @@ theme_override_font_sizes/font_size = 12
 text = "Safe"
 
 [node name="BtnClose" type="Button" parent="Screens/GameScreen/OverclockPopup/Margin/VBox/RowButtons" unique_id=1723810384]
+custom_minimum_size = Vector2(110, 28)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Close"
+
+[node name="ContractsPopup" type="PopupPanel" parent="Screens/GameScreen" unique_id=2040108142]
+oversampling_override = 1.0
+size = Vector2i(420, 472)
+
+[node name="Margin" type="MarginContainer" parent="Screens/GameScreen/ContractsPopup" unique_id=713309294]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 416.0
+offset_bottom = 468.0
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="Screens/GameScreen/ContractsPopup/Margin" unique_id=1372444133]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="LblTitle" type="Label" parent="Screens/GameScreen/ContractsPopup/Margin/VBox" unique_id=77300729]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Active Contracts"
+
+[node name="RowPlant" type="HBoxContainer" parent="Screens/GameScreen/ContractsPopup/Margin/VBox" unique_id=544301124]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LblPlant" type="Label" parent="Screens/GameScreen/ContractsPopup/Margin/VBox/RowPlant" unique_id=1942277771]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Plant"
+
+[node name="OptPlant" type="OptionButton" parent="Screens/GameScreen/ContractsPopup/Margin/VBox/RowPlant" unique_id=96887822]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RowList" type="VBoxContainer" parent="Screens/GameScreen/ContractsPopup/Margin/VBox" unique_id=1931151695]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LblContracts" type="Label" parent="Screens/GameScreen/ContractsPopup/Margin/VBox/RowList" unique_id=2007785974]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 12
+text = "No active contracts."
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="LblTotals" type="Label" parent="Screens/GameScreen/ContractsPopup/Margin/VBox" unique_id=2040669564]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.98, 1)
+theme_override_font_sizes/font_size = 12
+text = "Active: 0 | Total upkeep/tick: 0"
+
+[node name="RowButtons" type="HBoxContainer" parent="Screens/GameScreen/ContractsPopup/Margin/VBox" unique_id=1338193250]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 2
+
+[node name="BtnClose" type="Button" parent="Screens/GameScreen/ContractsPopup/Margin/VBox/RowButtons" unique_id=554522839]
 custom_minimum_size = Vector2(110, 28)
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
@@ -1042,7 +1059,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 15
 text = "✅ +5 MW surplus"
 
-[node name="LblEventStatus" type="Label" parent="Screens/GameScreen/SupplyDemand"]
+[node name="LblEventStatus" type="Label" parent="Screens/GameScreen/SupplyDemand" unique_id=110344371]
 visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
@@ -1050,6 +1067,8 @@ theme_override_font_sizes/font_size = 15
 text = "🎯 Storm: 15s"
 
 [node name="Map" type="Node2D" parent="Screens/GameScreen" unique_id=1852244671]
+position = Vector2(-20, -60)
+scale = Vector2(1.1, 1.1)
 script = ExtResource("2_rarhs")
 
 [node name="Buildings" type="Node2D" parent="Screens/GameScreen/Map" unique_id=1151160845]
@@ -1145,7 +1164,7 @@ color = Color(0.3764706, 0.3764706, 0.3764706, 0.60784316)
 
 [node name="Character" type="Sprite2D" parent="Screens/GameScreen" unique_id=153435969]
 
-[node name="EventOverlay" type="PanelContainer" parent="Screens/GameScreen"]
+[node name="EventOverlay" type="PanelContainer" parent="Screens/GameScreen" unique_id=1520587760]
 visible = false
 z_index = 100
 layout_mode = 1
@@ -1159,19 +1178,19 @@ offset_top = 10.0
 offset_right = -10.0
 offset_bottom = -10.0
 
-[node name="VBox" type="VBoxContainer" parent="Screens/GameScreen/EventOverlay"]
+[node name="VBox" type="VBoxContainer" parent="Screens/GameScreen/EventOverlay" unique_id=256050211]
 layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="LblTitle" type="Label" parent="Screens/GameScreen/EventOverlay/VBox"]
+[node name="LblTitle" type="Label" parent="Screens/GameScreen/EventOverlay/VBox" unique_id=1261761212]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
 theme_override_font_sizes/font_size = 26
 text = "⛈️ Storm Warning"
 horizontal_alignment = 1
 
-[node name="LblDesc" type="Label" parent="Screens/GameScreen/EventOverlay/VBox"]
+[node name="LblDesc" type="Label" parent="Screens/GameScreen/EventOverlay/VBox" unique_id=399145525]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9, 0.92, 0.96, 1)
 theme_override_font_sizes/font_size = 16
@@ -1180,9 +1199,62 @@ Solar drops, Wind surges."
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="HideTimer" type="Timer" parent="Screens/GameScreen/EventOverlay"]
+[node name="HideTimer" type="Timer" parent="Screens/GameScreen/EventOverlay" unique_id=1058439945]
 wait_time = 3.0
 one_shot = true
+
+[node name="Sounds" type="FoldableContainer" parent="Screens/GameScreen" unique_id=826273748]
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 32.0
+
+[node name="AcceptContract" type="AudioStreamPlayer" parent="Screens/GameScreen/Sounds" unique_id=1555821765]
+stream = ExtResource("8_q8u5g")
+
+[node name="BlackoutWarning" type="AudioStreamPlayer" parent="Screens/GameScreen/Sounds" unique_id=1522009793]
+stream = ExtResource("9_lhr70")
+
+[node name="BuyCoal" type="AudioStreamPlayer" parent="Screens/GameScreen/Sounds" unique_id=1028261916]
+stream = ExtResource("10_wp0k4")
+
+[node name="FlashContractAppear" type="AudioStreamPlayer" parent="Screens/GameScreen/Sounds" unique_id=943630154]
+stream = ExtResource("11_bjd11")
+
+[node name="FlashContractExpire" type="AudioStreamPlayer" parent="Screens/GameScreen/Sounds" unique_id=436716257]
+stream = ExtResource("12_qmy6f")
+
+[node name="GameOver" type="AudioStreamPlayer" parent="Screens/GameScreen/Sounds" unique_id=644098159]
+stream = ExtResource("13_mwfav")
+
+[node name="GameWon" type="AudioStreamPlayer" parent="Screens/GameScreen/Sounds" unique_id=1959536310]
+stream = ExtResource("14_mwfav")
+
+[node name="RandomEvent" type="AudioStreamPlayer" parent="Screens/GameScreen/Sounds" unique_id=1084609220]
+stream = ExtResource("15_3p2gp")
+
+[node name="BGM1" type="AudioStreamPlayer" parent="Screens/GameScreen/Sounds" unique_id=1905339739]
+stream = ExtResource("16_bb450")
+
+[node name="BGM2" type="AudioStreamPlayer" parent="Screens/GameScreen/Sounds" unique_id=1870691073]
+stream = ExtResource("17_nfivy")
+
+[node name="BGM3" type="AudioStreamPlayer" parent="Screens/GameScreen/Sounds" unique_id=1814396274]
+stream = ExtResource("18_1nqs0")
+
+[node name="BoostCoal" type="AudioStreamPlayer" parent="Screens/GameScreen/Sounds" unique_id=436758228]
+stream = ExtResource("19_1iba3")
+
+[node name="BoostSolar" type="AudioStreamPlayer" parent="Screens/GameScreen/Sounds" unique_id=1765018179]
+stream = ExtResource("20_yxlcp")
+
+[node name="BoostWind" type="AudioStreamPlayer" parent="Screens/GameScreen/Sounds" unique_id=683331630]
+stream = ExtResource("21_ebg2g")
+
+[node name="UpgradePurchase" type="AudioStreamPlayer" parent="Screens/GameScreen/Sounds" unique_id=162540028]
+stream = ExtResource("22_yxlcp")
+
+[node name="StartOverclock" type="AudioStreamPlayer" parent="Screens/GameScreen/Sounds" unique_id=1244618002]
+stream = ExtResource("23_ebg2g")
 
 [node name="GameOverScreen" type="CenterContainer" parent="Screens" unique_id=1632994653]
 visible = false
@@ -1286,15 +1358,15 @@ text = "🔄  PLAY AGAIN"
 [connection signal="pressed" from="Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Upgrades/BtnGrid" to="." method="_on_btn_grid_pressed"]
 [connection signal="pressed" from="Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Upgrades/BtnBetterSolar" to="." method="_on_btn_better_solar_pressed"]
 [connection signal="pressed" from="Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Upgrades/BtnStableWind" to="." method="_on_btn_stable_wind_pressed"]
-[connection signal="timeout" from="Screens/GameScreen/EventOverlay/HideTimer" to="." method="_on_hide_timer_timeout"]
 [connection signal="pressed" from="Screens/GameScreen/TopBar/BtnOverclock" to="." method="_on_btn_overclock_pressed"]
-[connection signal="item_selected" from="Screens/GameScreen/ContractsPopup/Margin/VBox/RowPlant/OptPlant" to="." method="_on_contract_plant_selected"]
-[connection signal="pressed" from="Screens/GameScreen/ContractsPopup/Margin/VBox/RowButtons/BtnClose" to="." method="_on_contracts_close_pressed"]
 [connection signal="popup_hide" from="Screens/GameScreen/OverclockPopup" to="." method="_on_overclock_popup_hide"]
 [connection signal="item_selected" from="Screens/GameScreen/OverclockPopup/Margin/VBox/RowPlant/OptPlant" to="." method="_on_oc_plant_selected"]
 [connection signal="value_changed" from="Screens/GameScreen/OverclockPopup/Margin/VBox/RowVoltage/VoltageSlider" to="." method="_on_oc_voltage_changed"]
 [connection signal="value_changed" from="Screens/GameScreen/OverclockPopup/Margin/VBox/RowCooling/CoolingSlider" to="." method="_on_oc_cooling_changed"]
 [connection signal="pressed" from="Screens/GameScreen/OverclockPopup/Margin/VBox/RowButtons/BtnSafe" to="." method="_on_oc_safe_pressed"]
 [connection signal="pressed" from="Screens/GameScreen/OverclockPopup/Margin/VBox/RowButtons/BtnClose" to="." method="_on_oc_close_pressed"]
+[connection signal="item_selected" from="Screens/GameScreen/ContractsPopup/Margin/VBox/RowPlant/OptPlant" to="." method="_on_contract_plant_selected"]
+[connection signal="pressed" from="Screens/GameScreen/ContractsPopup/Margin/VBox/RowButtons/BtnClose" to="." method="_on_contracts_close_pressed"]
+[connection signal="timeout" from="Screens/GameScreen/EventOverlay/HideTimer" to="." method="_on_hide_timer_timeout"]
 [connection signal="pressed" from="Screens/GameOverScreen/VBox/BtnRestart" to="." method="_on_btn_restart_pressed"]
 [connection signal="pressed" from="Screens/WinScreen/VBox/BtnRestart" to="." method="_on_btn_restart_pressed"]

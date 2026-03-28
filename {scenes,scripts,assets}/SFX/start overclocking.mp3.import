@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dbklq2h558ckt"
+path="res://.godot/imported/start overclocking.mp3-ed5e747c852a37a15240ce0c8164e14f.mp3str"
+
+[deps]
+
+source_file="res://{scenes,scripts,assets}/SFX/start overclocking.mp3"
+dest_files=["res://.godot/imported/start overclocking.mp3-ed5e747c852a37a15240ce0c8164e14f.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

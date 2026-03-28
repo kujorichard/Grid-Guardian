@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://ds1gui5f3drnm"
+path="res://.godot/imported/BGM Load Dispatch Loop.mp3-ba40e5684b86ff9b53ce1d30aea11ca3.mp3str"
+
+[deps]
+
+source_file="res://{scenes,scripts,assets}/SFX/BGM Load Dispatch Loop.mp3"
+dest_files=["res://.godot/imported/BGM Load Dispatch Loop.mp3-ba40e5684b86ff9b53ce1d30aea11ca3.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://c7ft266xaxgqe"
+path="res://.godot/imported/boost solar.mp3-4bb5c5e495f06e90cdc916f84052144d.mp3str"
+
+[deps]
+
+source_file="res://{scenes,scripts,assets}/SFX/boost solar.mp3"
+dest_files=["res://.godot/imported/boost solar.mp3-4bb5c5e495f06e90cdc916f84052144d.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

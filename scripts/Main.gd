@@ -108,6 +108,26 @@ extends Control
 @onready var lbl_go_score     : Label = $Screens/GameOverScreen/VBox/LblScore
 @onready var lbl_win_score    : Label = $Screens/WinScreen/VBox/LblScore
 
+# ─── SFX Objects ──────────────────────────────────────────────────────────────
+@onready var accept_contract_sfx = $Screens/GameScreen/Sounds/AcceptContract
+@onready var blackout_warning_sfx = $Screens/GameScreen/Sounds/BlackoutWarning
+@onready var buy_coal_sfx = $Screens/GameScreen/Sounds/BuyCoal
+@onready var flash_contract_appear_sfx = $Screens/GameScreen/Sounds/FlashContractAppear
+@onready var flash_contract_expire_sfx = $Screens/GameScreen/Sounds/FlashContractExpire
+@onready var game_over_sfx = $Screens/GameScreen/Sounds/GameOver
+@onready var game_won_sfx = $Screens/GameScreen/Sounds/GameWon
+@onready var random_event_sfx = $Screens/GameScreen/Sounds/RandomEvent
+@onready var boost_coal_sfx = $Screens/GameScreen/Sounds/BoostCoal
+@onready var boost_solar_sfx = $Screens/GameScreen/Sounds/BoostSolar
+@onready var boost_wind_sfx = $Screens/GameScreen/Sounds/BoostWind
+@onready var upgrade_purchase_sfx = $Screens/GameScreen/Sounds/UpgradePurchase
+@onready var start_overclock_sfx = $Screens/GameScreen/Sounds/StartOverclock
+@onready var bgm_players = [
+	$Screens/GameScreen/Sounds/BGM1,
+	$Screens/GameScreen/Sounds/BGM2,
+	$Screens/GameScreen/Sounds/BGM3
+]
+
 # Map Display
 @onready var map : Node2D = $Screens/GameScreen/Map
 
@@ -186,6 +206,7 @@ func _init_game_ui() -> void:
 	_safe_hide(panel_event)
 	_safe_hide(lbl_event_status)
 	_safe_hide(lbl_oc_warning)
+	_play_random_bgm()
 
 # ─── Signal handlers ──────────────────────────────────────────────────────────
 func _on_meters_updated(stab: float, poll: float, sat: float) -> void:
@@ -200,6 +221,7 @@ func _on_meters_updated(stab: float, poll: float, sat: float) -> void:
 	# Blackout warning
 	if stab < 20.0:
 		lbl_blackout.show()
+		blackout_warning_sfx.play()
 		lbl_blackout.text = "⚠️ BLACKOUT RISK!"
 	else:
 		_safe_hide(lbl_blackout)
@@ -220,6 +242,7 @@ func _on_demand_updated(demand: float, supply: float) -> void:
 func _on_event_triggered(ev: Dictionary) -> void:
 	if lbl_event_title == null or lbl_event_desc == null:
 		return
+	random_event_sfx.play()
 	lbl_event_title.text = ev.get("title", "Event")
 	lbl_event_desc.text  = ev.get("desc",  "")
 	if panel_event != null:
@@ -281,9 +304,12 @@ func _on_flash_contract_updated(offer: Dictionary, time_left: float, time_total:
 	lbl_flash_desc.text = "%s +%.0f MW | %.0fs | 💰 %d | Upkeep %d" % [source, out, dur, upfront, upkeep]
 	bar_flash_timer.value = (time_left / max(time_total, 0.1)) * 100.0
 	btn_flash_accept.disabled = GM.coins < upfront
-	panel_flash.show()
+	if not panel_flash.visible:
+		panel_flash.show()
+		flash_contract_appear_sfx.play()
 
 func _on_flash_contract_ended(_reason: String) -> void:
+	flash_contract_expire_sfx.play()
 	_safe_hide(panel_flash)
 
 func _on_time_updated(elapsed: float, total: float) -> void:
@@ -300,10 +326,14 @@ func _on_game_over(reason: String) -> void:
 		"satisfaction":msg = "😡 Public Revolt!\nCitizens lost all faith."
 	lbl_go_reason.text = msg
 	lbl_go_score.text  = "Final Score: %d" % GM.score
+	_stop_all_bgm()
+	game_over_sfx.play()
 	_show_screen("gameover")
 
 func _on_game_won() -> void:
 	lbl_win_score.text = "🏆 Final Score: %d" % GM.score
+	_stop_all_bgm()
+	game_won_sfx.play()
 	_show_screen("win")
 
 func _on_upgrade_purchased(_id: String) -> void:
@@ -322,6 +352,7 @@ func _on_coal_price_updated(price: int) -> void:
 	_update_buy_coal_button(price)
 
 func _on_btn_buy_coal_pressed() -> void:
+	buy_coal_sfx.play()
 	GM.buy_coal()
 
 func _update_buy_coal_button(price: int) -> void:
@@ -367,13 +398,21 @@ func _on_boost_state_updated(ready: bool, _cooldown: float) -> void:
 	btn_boost_wind.disabled = not ready
 
 # ─── Upgrade button handlers ──────────────────────────────────────────────────
-func _on_btn_battery_pressed()      -> void: _try_upgrade("battery")
-func _on_btn_grid_pressed()         -> void: _try_upgrade("grid")
-func _on_btn_better_solar_pressed() -> void: _try_upgrade("better_solar")
-func _on_btn_stable_wind_pressed()  -> void: _try_upgrade("stable_wind")
+func _on_btn_battery_pressed() -> void:
+	if GM.try_buy_upgrade("battery"):
+		upgrade_purchase_sfx.play()
 
-func _try_upgrade(id: String) -> void:
-	GM.try_buy_upgrade(id)
+func _on_btn_grid_pressed() -> void:
+	if GM.try_buy_upgrade("grid"):
+		upgrade_purchase_sfx.play()
+
+func _on_btn_better_solar_pressed() -> void:
+	if GM.try_buy_upgrade("better_solar"):
+		upgrade_purchase_sfx.play()
+
+func _on_btn_stable_wind_pressed() -> void:
+	if GM.try_buy_upgrade("stable_wind"):
+		upgrade_purchase_sfx.play()
 
 func _refresh_upgrade_buttons() -> void:
 	_set_upgrade_btn(btn_battery,      "battery")
@@ -390,15 +429,24 @@ func _try_accept_contract(source: String) -> void:
 	if not contract_offers_by_source.has(source):
 		return
 	var offer : Dictionary = contract_offers_by_source[source]
+	accept_contract_sfx.play()
 	GM.accept_contract(str(offer.get("id", "")))
 
 func _on_btn_buy_cap_coal_pressed() -> void: GM.buy_capacity("coal")
 func _on_btn_buy_cap_solar_pressed() -> void: GM.buy_capacity("solar")
 func _on_btn_buy_cap_wind_pressed() -> void: GM.buy_capacity("wind")
 
-func _on_btn_boost_coal_pressed() -> void: GM.activate_boost("coal")
-func _on_btn_boost_solar_pressed() -> void: GM.activate_boost("solar")
-func _on_btn_boost_wind_pressed() -> void: GM.activate_boost("wind")
+func _on_btn_boost_coal_pressed() -> void:
+	GM.activate_boost("coal")
+	boost_coal_sfx.play()
+
+func _on_btn_boost_solar_pressed() -> void:
+	GM.activate_boost("solar")
+	boost_solar_sfx.play()
+
+func _on_btn_boost_wind_pressed() -> void:
+	GM.activate_boost("wind")
+	boost_wind_sfx.play()
 
 func _on_btn_flash_accept_pressed() -> void:
 	GM.accept_flash_contract()
@@ -414,6 +462,7 @@ func _on_contracts_close_pressed() -> void:
 
 func _on_btn_overclock_pressed() -> void:
 	popup_overclock.popup_centered()
+	start_overclock_sfx.play()
 	_sync_overclock_popup_from_status()
 
 func _on_overclock_coal_down() -> void:
@@ -624,3 +673,15 @@ func _update_overclock_popup() -> void:
 
 func _apply_overclock_safe_defaults() -> void:
 	GM.set_overclock_targets(current_overclock_plant, 0.0, 0.5)
+
+# Background music functions
+func _play_random_bgm():
+	_stop_all_bgm()
+
+	var player = bgm_players.pick_random()
+	player.play()
+
+func _stop_all_bgm():
+	for p in bgm_players:
+		if p.playing:
+			p.stop()

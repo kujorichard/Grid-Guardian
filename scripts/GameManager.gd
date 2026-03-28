@@ -160,6 +160,7 @@ var wind_plant : WindPlant
 var base_demand: float = 65.0
 var coin_income_carry: float = 0.0
 
+
 func _ready() -> void:
 	randomize()
 	_init_plants()
@@ -462,7 +463,7 @@ func _game_tick() -> void:
 	# ── Score & coins ─────────────────────────────────────────────────────────
 	var tick_score := int(stability * 0.5 + satisfaction * 0.3 - pollution * 0.2)
 	score += max(tick_score, 0)
-	var base_coin_income := 8.0
+	var base_coin_income := 10.0
 
 	# ── Balance streak (planning + stability) ────────────────────────────────
 	if abs(gap) <= BALANCE_TOLERANCE:
