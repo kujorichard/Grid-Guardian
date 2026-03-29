@@ -1,3 +1,2 @@
 res://scenes/Main.tscn
 res://{scenes,scripts,assets}/Fonts/DefaultTheme.tres
-res://scripts/GameManager.gd
