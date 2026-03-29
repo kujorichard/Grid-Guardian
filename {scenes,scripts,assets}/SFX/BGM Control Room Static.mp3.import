@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/BGM Control Room Static.mp3-1d220098d60cb5959
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0
 bpm=0
 beat_count=0

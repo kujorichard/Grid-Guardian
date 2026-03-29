@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/BGM Lo-fi City Atmosphere.mp3-b4514a823685ffe
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0
 bpm=0
 beat_count=0
