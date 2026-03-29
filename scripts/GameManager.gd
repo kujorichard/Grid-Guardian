@@ -66,10 +66,10 @@ var wind_capacity: float = 27.0
 
 # ─── Upgrades ──────────────────────────────────────────────────────────────────
 var upgrades := {
-	"battery": {"owned": false, "cost": 650, "label": "Battery Storage", "desc": "Store excess energy. Stronger surplus buffer."},
-	"grid": {"owned": false, "cost": 550, "label": "Grid Upgrade", "desc": "Absorbs demand spikes better."},
-	"better_solar": {"owned": false, "cost": 500, "label": "Better Solar", "desc": "Solar works longer into evening."},
-	"stable_wind": {"owned": false, "cost": 450, "label": "Stable Wind", "desc": "Wind output is more predictable."},
+	"battery": {"owned": false, "cost": 450, "label": "Battery Storage", "desc": "Store excess energy. Stronger surplus buffer."},
+	"grid": {"owned": false, "cost": 350, "label": "Grid Upgrade", "desc": "Absorbs demand spikes better."},
+	"better_solar": {"owned": false, "cost": 300, "label": "Better Solar", "desc": "Solar works longer into evening."},
+	"stable_wind": {"owned": false, "cost": 250, "label": "Stable Wind", "desc": "Wind output is more predictable."},
 }
 
 # ─── Meters (0–100) ────────────────────────────────────────────────────────────
@@ -339,9 +339,9 @@ func _get_demand() -> float:
 	var d := base_demand
 	match time_of_day:
 		"morning": d = 75.0
-		"afternoon": d = 83.0
-		"evening": d = 96.0
-		"night": d = 89.0
+		"afternoon": d = 91.0
+		"evening": d = 105.0
+		"night": d = 79.0
 	d *= demand_modifier
 	# Add slight random fluctuation
 	d += randf_range(-3.0, 3.0)
@@ -366,19 +366,18 @@ func _get_effective_wind_capacity() -> float:
 func _get_solar_tod_factor() -> float:
 	var tod_factor := 1.0
 	match time_of_day:
-		"morning": tod_factor = 0.8
-		"afternoon": tod_factor = 1.0
-		"evening": tod_factor = 0.6
-		"night": 
-			if bool(upgrades["better_solar"]["owned"]):
-				tod_factor = 0.45  # 45% output with upgrade
-			else:
-				tod_factor = 0.15  # 15% output without upgrade
-	
-	# Evening gets slight boost with upgrade
-	if time_of_day == "evening" and bool(upgrades["better_solar"]["owned"]):
-		tod_factor = 0.75  # Better evening performance
-	
+		"morning":
+			tod_factor = 0.8   # morning sun
+		"afternoon":
+			tod_factor = 1.0   # peak solar
+		"evening":
+			tod_factor = 0.6   # standard evening
+			if upgrades["better_solar"]["owned"]:
+				tod_factor = 0.75  # slightly better evening output with upgrade
+		"night":
+			tod_factor = 0.15  # very low at night
+			if upgrades["better_solar"]["owned"]:
+				tod_factor = 0.30  # moderate output with upgrade
 	return tod_factor
 
 func _get_wind_tod_factor() -> float:
@@ -463,7 +462,7 @@ func _game_tick() -> void:
 	# ── Score & coins ─────────────────────────────────────────────────────────
 	var tick_score := int(stability * 0.5 + satisfaction * 0.3 - pollution * 0.2)
 	score += max(tick_score, 0)
-	var base_coin_income := 10.0
+	var base_coin_income := 12.0
 
 	# ── Balance streak (planning + stability) ────────────────────────────────
 	if abs(gap) <= BALANCE_TOLERANCE:

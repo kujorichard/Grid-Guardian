@@ -1,8 +1,3 @@
-res://scripts/GameManager.gd
-res://scripts/Main.gd
 res://scenes/Main.tscn
 res://{scenes,scripts,assets}/Fonts/DefaultTheme.tres
-res://scenes/Map.gd
-res://{scenes,scripts,assets}/Shaders/UIEventBorder.gdshader
-res://{scenes,scripts,assets}/Shaders/UIScanlines.gdshader
-res://{scenes,scripts,assets}/Shaders/UIGradientSweep.gdshader
+res://scripts/GameManager.gd
