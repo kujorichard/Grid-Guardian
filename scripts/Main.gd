@@ -181,6 +181,10 @@ func _ready() -> void:
 	_opt_init_overclock()
 	_opt_init_contracts()
 	_cache_event_border_color()
+	
+	if ticker_label != null:
+		ticker_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+		ticker_label.fit_content = true
 
 func _process(delta: float) -> void:
 	if screen_game.visible:
@@ -194,7 +198,7 @@ func _process(delta: float) -> void:
 		_process_ticker_scroll(delta)
 
 func _process_ticker_scroll(delta: float) -> void:
-	if ticker_label == null: return
+	if ticker_label == null or ticker_label.text == "": return
 	
 	# Move text to the left
 	ticker_label.position.x -= ticker_scroll_speed * delta
@@ -202,8 +206,8 @@ func _process_ticker_scroll(delta: float) -> void:
 	# Get the actual width of the text content
 	var text_width = ticker_label.get_content_width()
 	
-	# If the label has fully scrolled off to the left, reset it to the right of the window
-	if ticker_label.position.x < -text_width:
+	# If the label has fully scrolled off to the left (with some padding), reset it
+	if ticker_label.position.x < -(text_width + 50):
 		ticker_label.position.x = ticker_label.get_parent().size.x
 
 # ─── Screen management ────────────────────────────────────────────────────────
@@ -311,7 +315,8 @@ func _on_event_triggered(ev: Dictionary) -> void:
 
 	# Add to ticker history
 	var time_str = "[color=#888888][%s][/color] " % GM.get_time_of_day_label()
-	event_history.push_front(time_str + "[color=#ffaa00]" + title.to_upper() + ":[/color] " + ev.get("desc", ""))
+	var clean_desc = ev.get("desc", "").replace("\n", " ")
+	event_history.push_front(time_str + "[color=#ffaa00]" + title.to_upper() + ":[/color] " + clean_desc)
 	if event_history.size() > 5:
 		event_history.pop_back()
 	_update_ticker_display()
@@ -324,7 +329,7 @@ func _on_event_triggered(ev: Dictionary) -> void:
 
 func _update_ticker_display() -> void:
 	var full_text = "  •  ".join(event_history)
-	ticker_label.text = "[center]" + full_text + "[/center]"
+	ticker_label.text = full_text
 
 
 # Updates the event status line (name + timer) near supply/demand

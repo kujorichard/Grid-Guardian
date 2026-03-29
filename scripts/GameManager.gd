@@ -651,7 +651,7 @@ func _trigger_random_event() -> void:
 		{
 			"id": "storm",
 			"title": "Storm Warning",
-			"desc": "Heavy storm hits the city!\nSolar drops, Wind surges +15-25 MW.\nSolar stock damaged, wind recharge boosted.",
+			"desc": "Heavy storm hits the city! Solar drops, Wind surges +15-25 MW. Solar stock damaged, wind recharge boosted.",
 			"solar_mod": 0.1, "wind_mod": 1.8, "demand_mod": 1.1,
 			"duration": 20.0, "color": Color(0.3, 0.4, 0.8),
 			"special": "storm"
@@ -659,7 +659,7 @@ func _trigger_random_event() -> void:
 		{
 			"id": "heatwave",
 			"title": "Heatwave Alert",
-			"desc": "Record temperatures!\nSolar output +12-20 MW. Demand spikes.\nWind stock drained, solar recharge boosted.",
+			"desc": "Record temperatures! Solar output +12-20 MW. Demand spikes. Wind stock drained, solar recharge boosted.",
 			"solar_mod": 1.1, "wind_mod": 0.7, "demand_mod": 1.5,
 			"duration": 18.0, "color": Color(0.9, 0.4, 0.1),
 			"special": "heatwave"
@@ -667,7 +667,7 @@ func _trigger_random_event() -> void:
 		{
 			"id": "factory",
 			"title": "Factory Boom",
-			"desc": "New factory opens!\nCoal output +20-35 MW but pollution rises.\nIndustrial demand increases.",
+			"desc": "New factory opens! Coal output +20-35 MW but pollution rises. Industrial demand increases.",
 			"solar_mod": 1.0, "wind_mod": 1.0, "demand_mod": 1.35,
 			"duration": 22.0, "color": Color(0.6, 0.5, 0.3),
 			"special": "factory"
@@ -675,14 +675,14 @@ func _trigger_random_event() -> void:
 		{
 			"id": "policy",
 			"title": "Green Policy Reward",
-			"desc": "Government rewards clean energy!\nBonus coins if pollution is low.",
+			"desc": "Government rewards clean energy! Bonus coins if pollution is low.",
 			"solar_mod": 1.0, "wind_mod": 1.0, "demand_mod": 1.0,
 			"duration": 15.0, "color": Color(0.2, 0.7, 0.3), "special": "policy"
 		},
 		{
 			"id": "calm",
 			"title": "Perfect Conditions",
-			"desc": "Clear skies & steady breeze!\nSolar & Wind +12-18 MW each.\nRenewables recharge boosted.",
+			"desc": "Clear skies & steady breeze! Solar & Wind +12-18 MW each. Renewables recharge boosted.",
 			"solar_mod": 1.3, "wind_mod": 1.25, "demand_mod": 0.9,
 			"duration": 18.0, "color": Color(0.3, 0.8, 0.8),
 			"special": "calm"
@@ -690,7 +690,7 @@ func _trigger_random_event() -> void:
 		{
 			"id": "drought",
 			"title": "Absolute Dryness",
-			"desc": "Intense heat scorches the land!\nWind gust drops to near zero for 45 seconds.\nDemand rises.",
+			"desc": "Intense heat scorches the land! Wind gust drops to near zero for 45 seconds. Demand rises.",
 			"solar_mod": 1.2, "wind_mod": 0.3, "demand_mod": 1.3,
 			"duration": 45.0, "color": Color(0.85, 0.55, 0.1),
 			"special": "drought"
@@ -698,7 +698,7 @@ func _trigger_random_event() -> void:
 		{
 			"id": "inflation",
 			"title": "Inflation",
-			"desc": "Market prices surge!\nCoal costs permanently increase.",
+			"desc": "Market prices surge! Coal costs permanently increase.",
 			"solar_mod": 1.0, "wind_mod": 1.0, "demand_mod": 1.0,
 			"duration": 10.0, "color": Color(0.9, 0.2, 0.2),
 			"special": "inflation"
