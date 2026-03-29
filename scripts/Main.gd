@@ -6,6 +6,10 @@ extends Control
 @onready var screen_gameover: Control = $Screens/GameOverScreen
 @onready var screen_win     : Control = $Screens/WinScreen
 
+@onready var background      : ColorRect   = $Background
+@onready var menu_background : TextureRect = $Background/MenuBackground
+@onready var game_over_background : TextureRect = $Background/GameOverBackground
+
 # GameScreen children
 @onready var lbl_time_of_day  : Label        = $Screens/GameScreen/TopBar/LblTimeOfDay
 @onready var lbl_timer        : Label        = $Screens/GameScreen/TopBar/LblTimer
@@ -180,6 +184,9 @@ func _show_screen(name: String) -> void:
 	screen_game.visible     = (name == "game")
 	screen_gameover.visible = (name == "gameover")
 	screen_win.visible      = (name == "win")
+	menu_background.visible = (name == "menu")
+	game_over_background.visible = (name == "gameover")
+	background.visible = true
 
 # ─── Menu buttons ─────────────────────────────────────────────────────────────
 func _on_btn_play_pressed() -> void:

@@ -1,2 +1,4 @@
+res://{scenes,scripts,assets}/Fonts/DefaultTheme.tres
 res://scenes/Main.tscn
+res://{scenes,scripts,assets}/Shaders/CRT.gdshader
 res://scripts/Main.gd
