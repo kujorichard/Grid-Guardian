@@ -1,7 +1,11 @@
 extends Node2D
 
 @onready var smoke : GPUParticles2D = $Smoke
+@onready var buildings : Node2D = $Buildings
 var _smoke_active: bool = false
+var _parallax_time: float = 0.0
+var _base_buildings_pos: Vector2
+var _base_smoke_pos: Vector2
 
 @onready var coal_sprites  : Array = [
 	$Buildings/CoalPlant/Coal1,
@@ -26,6 +30,26 @@ func _ready():
 	# Hide all pre-placed sprites initially
 	for s in coal_sprites + solar_sprites + wind_sprites:
 		s.visible = false
+	_base_buildings_pos = buildings.position
+	_base_smoke_pos = smoke.position
+
+func _process(delta: float) -> void:
+	_parallax_time += delta
+	var viewport := get_viewport()
+	var size := viewport.get_visible_rect().size
+	if size.x <= 0.0 or size.y <= 0.0:
+		return
+	var mouse := viewport.get_mouse_position()
+	var norm := (mouse / size) * 2.0 - Vector2.ONE
+	var drift := Vector2(sin(_parallax_time * 0.3), cos(_parallax_time * 0.2)) * 0.25
+	var target := (norm + drift) * 6.0
+	_apply_parallax(target)
+
+func _apply_parallax(target: Vector2) -> void:
+	var buildings_target := _base_buildings_pos + target * 0.65
+	var smoke_target := _base_smoke_pos + target * 0.7
+	buildings.position = buildings.position.lerp(buildings_target, 0.08)
+	smoke.position = smoke.position.lerp(smoke_target, 0.08)
 
 func _percent_to_count(percent: float) -> int:
 	if percent <= 0: return 0

@@ -66,16 +66,16 @@ var wind_capacity: float = 27.0
 
 # ─── Upgrades ──────────────────────────────────────────────────────────────────
 var upgrades := {
-	"battery": {"owned": false, "cost": 650, "label": "🔋 Battery Storage", "desc": "Store excess energy. Stronger surplus buffer."},
-	"grid": {"owned": false, "cost": 550, "label": "🔌 Grid Upgrade", "desc": "Absorbs demand spikes better."},
-	"better_solar": {"owned": false, "cost": 500, "label": "🌞 Better Solar", "desc": "Solar works longer into evening."},
-	"stable_wind": {"owned": false, "cost": 450, "label": "🌬️ Stable Wind", "desc": "Wind output is more predictable."},
+	"battery": {"owned": false, "cost": 650, "label": "Battery Storage", "desc": "Store excess energy. Stronger surplus buffer."},
+	"grid": {"owned": false, "cost": 550, "label": "Grid Upgrade", "desc": "Absorbs demand spikes better."},
+	"better_solar": {"owned": false, "cost": 500, "label": "Better Solar", "desc": "Solar works longer into evening."},
+	"stable_wind": {"owned": false, "cost": 450, "label": "Stable Wind", "desc": "Wind output is more predictable."},
 }
 
 # ─── Meters (0–100) ────────────────────────────────────────────────────────────
-var stability: float = 80.0 # ⚡ Power stability
-var pollution: float = 20.0 # 🌫️ Pollution level
-var satisfaction: float = 70.0 # 😊 Public satisfaction
+var stability: float = 80.0 # Power stability
+var pollution: float = 20.0 # Pollution level
+var satisfaction: float = 70.0 # Public satisfaction
 var score: int = 0
 var coins: int = 200
 
@@ -651,7 +651,7 @@ func _trigger_random_event() -> void:
 	var events := [
 		{
 			"id": "storm",
-			"title": "⛈️ Storm Warning",
+			"title": "Storm Warning",
 			"desc": "Heavy storm hits the city!\nSolar drops, Wind surges +15-25 MW.\nSolar stock damaged, wind recharge boosted.",
 			"solar_mod": 0.1, "wind_mod": 1.8, "demand_mod": 1.1,
 			"duration": 20.0, "color": Color(0.3, 0.4, 0.8),
@@ -659,7 +659,7 @@ func _trigger_random_event() -> void:
 		},
 		{
 			"id": "heatwave",
-			"title": "🔥 Heatwave Alert",
+			"title": "Heatwave Alert",
 			"desc": "Record temperatures!\nSolar output +12-20 MW. Demand spikes.\nWind stock drained, solar recharge boosted.",
 			"solar_mod": 1.1, "wind_mod": 0.7, "demand_mod": 1.5,
 			"duration": 18.0, "color": Color(0.9, 0.4, 0.1),
@@ -667,7 +667,7 @@ func _trigger_random_event() -> void:
 		},
 		{
 			"id": "factory",
-			"title": "🏭 Factory Boom",
+			"title": "Factory Boom",
 			"desc": "New factory opens!\nCoal output +20-35 MW but pollution rises.\nIndustrial demand increases.",
 			"solar_mod": 1.0, "wind_mod": 1.0, "demand_mod": 1.35,
 			"duration": 22.0, "color": Color(0.6, 0.5, 0.3),
@@ -675,14 +675,14 @@ func _trigger_random_event() -> void:
 		},
 		{
 			"id": "policy",
-			"title": "🌱 Green Policy Reward",
+			"title": "Green Policy Reward",
 			"desc": "Government rewards clean energy!\nBonus coins if pollution is low.",
 			"solar_mod": 1.0, "wind_mod": 1.0, "demand_mod": 1.0,
 			"duration": 15.0, "color": Color(0.2, 0.7, 0.3), "special": "policy"
 		},
 		{
 			"id": "calm",
-			"title": "🌤️ Perfect Conditions",
+			"title": "Perfect Conditions",
 			"desc": "Clear skies & steady breeze!\nSolar & Wind +12-18 MW each.\nRenewables recharge boosted.",
 			"solar_mod": 1.3, "wind_mod": 1.25, "demand_mod": 0.9,
 			"duration": 18.0, "color": Color(0.3, 0.8, 0.8),
@@ -690,7 +690,7 @@ func _trigger_random_event() -> void:
 		},
 		{
 			"id": "drought",
-			"title": "🏜️ Absolute Dryness",
+			"title": "Absolute Dryness",
 			"desc": "Intense heat scorches the land!\nWind gust drops to near zero for 45 seconds.\nDemand rises.",
 			"solar_mod": 1.2, "wind_mod": 0.3, "demand_mod": 1.3,
 			"duration": 45.0, "color": Color(0.85, 0.55, 0.1),
@@ -698,7 +698,7 @@ func _trigger_random_event() -> void:
 		},
 		{
 			"id": "inflation",
-			"title": "📈 Inflation",
+			"title": "Inflation",
 			"desc": "Market prices surge!\nCoal costs permanently increase.",
 			"solar_mod": 1.0, "wind_mod": 1.0, "demand_mod": 1.0,
 			"duration": 10.0, "color": Color(0.9, 0.2, 0.2),
@@ -935,11 +935,11 @@ func activate_boost(source: String) -> bool:
 
 func get_time_of_day_label() -> String:
 	match time_of_day:
-		"morning": return "🌅 Morning"
-		"afternoon": return "☀️ Afternoon"
-		"evening": return "🌆 Evening"
-		"night": return "🌙 Night"
-	return "—"
+		"morning": return "Morning"
+		"afternoon": return "Afternoon"
+		"evening": return "Evening"
+		"night": return "Night"
+	return "-"
 
 func get_active_contracts_for_source(source: String) -> Array:
 	var filtered: Array = []

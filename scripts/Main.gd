@@ -21,6 +21,9 @@ extends Control
 @onready var bar_stability    : ProgressBar  = $Screens/GameScreen/Meters/StabilityRow/StabilityBar
 @onready var bar_pollution    : ProgressBar  = $Screens/GameScreen/Meters/PollutionRow/PollutionBar
 @onready var bar_satisfaction : ProgressBar  = $Screens/GameScreen/Meters/SatisfactionRow/SatisfactionBar
+@onready var lbl_stab_title   : Label        = $Screens/GameScreen/Meters/StabilityRow/LblStabTitle
+@onready var lbl_poll_title   : Label        = $Screens/GameScreen/Meters/PollutionRow/LblPollTitle
+@onready var lbl_sat_title    : Label        = $Screens/GameScreen/Meters/SatisfactionRow/LblSatTitle
 @onready var lbl_stab_val     : Label        = $Screens/GameScreen/Meters/StabilityRow/StabilityBar/LblVal
 @onready var lbl_poll_val     : Label        = $Screens/GameScreen/Meters/PollutionRow/PollutionBar/LblVal
 @onready var lbl_sat_val      : Label        = $Screens/GameScreen/Meters/SatisfactionRow/SatisfactionBar/LblVal
@@ -74,6 +77,7 @@ extends Control
 @onready var lbl_event_title  : Label          = $Screens/GameScreen/EventOverlay/VBox/LblTitle
 @onready var lbl_event_desc   : Label          = $Screens/GameScreen/EventOverlay/VBox/LblDesc
 @onready var timer_event_hide : Timer          = $Screens/GameScreen/EventOverlay/HideTimer
+@onready var event_panel      : PanelContainer = $Screens/GameScreen/EventOverlay
 
 # Flash contract panel
 @onready var panel_flash      : PanelContainer = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/FlashPanel
@@ -139,6 +143,11 @@ var GM : Node
 var contract_offers_by_source : Dictionary = {}
 var current_overclock_plant : String = "coal"
 var current_contract_view_plant : String = "coal"
+var last_stability : float = -1.0
+var last_pollution : float = -1.0
+var last_satisfaction : float = -1.0
+var event_border_tween : Tween
+var event_border_base_color : Color = Color(0.35, 0.42, 0.5, 1)
 
 func _ready() -> void:
 	GM = get_node("/root/GameManager")
@@ -167,6 +176,7 @@ func _ready() -> void:
 	_safe_hide(popup_contracts)
 	_opt_init_overclock()
 	_opt_init_contracts()
+	_cache_event_border_color()
 
 func _process(_delta: float) -> void:
 	if screen_game.visible:
@@ -218,19 +228,30 @@ func _init_game_ui() -> void:
 
 # ─── Signal handlers ──────────────────────────────────────────────────────────
 func _on_meters_updated(stab: float, poll: float, sat: float) -> void:
+	if last_stability >= 0.0 and _crossed_threshold(last_stability, stab):
+		_pulse_meter(bar_stability, lbl_stab_val, lbl_stab_title, Color(0.6, 0.9, 1.0))
+	if last_pollution >= 0.0 and _crossed_threshold(last_pollution, poll):
+		_pulse_meter(bar_pollution, lbl_poll_val, lbl_poll_title, Color(0.9, 0.5, 0.3))
+	if last_satisfaction >= 0.0 and _crossed_threshold(last_satisfaction, sat):
+		_pulse_meter(bar_satisfaction, lbl_sat_val, lbl_sat_title, Color(0.6, 1.0, 0.7))
+
+	last_stability = stab
+	last_pollution = poll
+	last_satisfaction = sat
+
 	_set_bar(bar_stability,    lbl_stab_val,  stab, Color(0.2, 0.7, 1.0),  Color(1.0, 0.3, 0.2))
 	_set_bar(bar_pollution,    lbl_poll_val,  poll, Color(0.3, 0.8, 0.3),  Color(0.9, 0.2, 0.1), true)
 	_set_bar(bar_satisfaction, lbl_sat_val,   sat,  Color(0.3, 0.9, 0.5),  Color(1.0, 0.4, 0.1))
 
 	lbl_score.text = "Score: %d" % GM.score
-	lbl_coins.text = "💰 %d" % GM.coins
+	lbl_coins.text = "Coins: %d" % GM.coins
 	lbl_time_of_day.text = GM.get_time_of_day_label()
 
 	# Blackout warning
 	if stab < 20.0:
 		lbl_blackout.show()
 		blackout_warning_sfx.play()
-		lbl_blackout.text = "⚠️ BLACKOUT RISK!"
+		lbl_blackout.text = "BLACKOUT RISK!"
 	else:
 		_safe_hide(lbl_blackout)
 
@@ -244,7 +265,7 @@ func _on_demand_updated(demand: float, supply: float) -> void:
 	lbl_demand.text = "Demand: %.0f MW" % demand
 	lbl_supply.text = "Supply: %.0f MW" % supply
 	var balance := supply - demand
-	lbl_balance.text = ("✅ +%.0f MW surplus" % balance) if balance >= 0 else ("❌ %.0f MW deficit" % balance)
+	lbl_balance.text = ("Surplus +%.0f MW" % balance) if balance >= 0 else ("Deficit %.0f MW" % balance)
 	lbl_balance.add_theme_color_override("font_color", Color(0.3, 0.9, 0.3) if balance >= 0 else Color(1.0, 0.3, 0.2))
 
 func _on_event_triggered(ev: Dictionary) -> void:
@@ -253,6 +274,7 @@ func _on_event_triggered(ev: Dictionary) -> void:
 	random_event_sfx.play()
 	lbl_event_title.text = ev.get("title", "Event")
 	lbl_event_desc.text  = ev.get("desc",  "")
+	_start_event_border_pulse(ev.get("color", Color(1.0, 0.8, 0.3)))
 	if panel_event != null:
 		panel_event.show()
 	if timer_event_hide != null:
@@ -263,7 +285,7 @@ func _update_event_status() -> void:
 	if lbl_event_status == null:
 		return
 	if GM.active_event_id != "" and GM.event_time_remaining > 0:
-		lbl_event_status.text = "🎯 %s: %.0fs" % [GM.active_event_id.capitalize(), GM.event_time_remaining]
+		lbl_event_status.text = "%s: %.0fs" % [GM.active_event_id.capitalize(), GM.event_time_remaining]
 		lbl_event_status.show()
 	else:
 		_safe_hide(lbl_event_status)
@@ -281,14 +303,14 @@ func _update_overclock_warning() -> void:
 		
 		# Show warnings for all non-safe states
 		if plant_state == "disabled":
-			warnings.append("🚫 %s OFFLINE (%.0fs)" % [source.capitalize(), state.get("disabled", 0.0)])
+			warnings.append("%s OFFLINE (%.0fs)" % [source.capitalize(), state.get("disabled", 0.0)])
 		elif voltage > 0.0:  # Only show if actively overclocking
 			if plant_state == "failing":
-				warnings.append("🔥 %s FAILING (%.0f°C)" % [source.capitalize(), heat])
+				warnings.append("%s FAILING (%.0fC)" % [source.capitalize(), heat])
 			elif plant_state == "critical":
-				warnings.append("⚠️ %s CRITICAL (%.0f°C)" % [source.capitalize(), heat])
+				warnings.append("%s CRITICAL (%.0fC)" % [source.capitalize(), heat])
 			elif plant_state == "warning":
-				warnings.append("🔶 %s Warning (%.0f°C)" % [source.capitalize(), heat])
+				warnings.append("%s Warning (%.0fC)" % [source.capitalize(), heat])
 	
 	if warnings.size() > 0:
 		lbl_oc_warning.text = " | ".join(warnings)
@@ -308,8 +330,8 @@ func _on_flash_contract_updated(offer: Dictionary, time_left: float, time_total:
 	var dur := float(offer.get("duration", 0.0))
 	var upfront := int(offer.get("upfront", 0))
 	var upkeep := int(offer.get("upkeep", 0))
-	lbl_flash_title.text = "⚡ Flash Contract"
-	lbl_flash_desc.text = "%s +%.0f MW | %.0fs | 💰 %d | Upkeep %d" % [source, out, dur, upfront, upkeep]
+	lbl_flash_title.text = "Flash Contract"
+	lbl_flash_desc.text = "%s +%.0f MW | %.0fs | Upfront %d | Upkeep %d" % [source, out, dur, upfront, upkeep]
 	bar_flash_timer.value = (time_left / max(time_total, 0.1)) * 100.0
 	btn_flash_accept.disabled = GM.coins < upfront
 	if not panel_flash.visible:
@@ -329,9 +351,9 @@ func _on_time_updated(elapsed: float, total: float) -> void:
 func _on_game_over(reason: String) -> void:
 	var msg := ""
 	match reason:
-		"blackout":    msg = "💀 Total Blackout!\nThe city went dark."
-		"pollution":   msg = "☠️ Pollution Crisis!\nThe city choked on smog."
-		"satisfaction":msg = "😡 Public Revolt!\nCitizens lost all faith."
+		"blackout":    msg = "Total Blackout!\nThe city went dark."
+		"pollution":   msg = "Pollution Crisis!\nThe city choked on smog."
+		"satisfaction":msg = "Public Revolt!\nCitizens lost all faith."
 	lbl_go_reason.text = msg
 	lbl_go_score.text  = "Final Score: %d" % GM.score
 	_stop_all_bgm()
@@ -339,7 +361,7 @@ func _on_game_over(reason: String) -> void:
 	_show_screen("gameover")
 
 func _on_game_won() -> void:
-	lbl_win_score.text = "🏆 Final Score: %d" % GM.score
+	lbl_win_score.text = "Final Score: %d" % GM.score
 	_stop_all_bgm()
 	game_won_sfx.play()
 	_show_screen("win")
@@ -349,6 +371,7 @@ func _on_upgrade_purchased(_id: String) -> void:
 
 func _on_hide_timer_timeout() -> void:
 	_safe_hide(panel_event)
+	_stop_event_border_pulse()
 
 func _on_energy_supply_updated(coal_sup: float, solar_sup: float, wind_sup: float) -> void:
 	_set_bar(bar_coal_supply,  lbl_coal_sup_val,  coal_sup, Color(0.8, 0.6, 0.3), Color(0.4, 0.2, 0.1))
@@ -364,7 +387,7 @@ func _on_btn_buy_coal_pressed() -> void:
 	GM.buy_coal()
 
 func _update_buy_coal_button(price: int) -> void:
-	btn_buy_coal.text = "⛏️ Buy Coal (+20%%)\n💰 %d" % price
+	btn_buy_coal.text = "Buy Coal (+20%%)\nCost: %d" % price
 	btn_buy_coal.disabled = GM.coins < price or GM.coal_supply >= 100.0
 
 func _on_balance_streak_updated(streak: float, tier: int) -> void:
@@ -523,15 +546,66 @@ func _set_upgrade_btn(btn: Button, id: String) -> void:
 	var cost  : int        = int(u["cost"])
 	var label : String     = str(u["label"])
 	if owned:
-		btn.text     = label + " ✓"
+		btn.text     = label + " (Owned)"
 		btn.disabled = true
 	else:
-		btn.text     = "%s\n💰 %d" % [label, cost]
+		btn.text     = "%s\nCost: %d" % [label, cost]
 		btn.disabled = GM.coins < cost
 
 func _safe_hide(node: Variant) -> void:
 	if node != null and is_instance_valid(node) and node.has_method("hide"):
 		node.hide()
+
+func _cache_event_border_color() -> void:
+	if event_panel == null:
+		return
+	var style := event_panel.get_theme_stylebox("panel")
+	if style is StyleBoxFlat:
+		event_border_base_color = (style as StyleBoxFlat).border_color
+
+func _start_event_border_pulse(event_color: Color) -> void:
+	if event_panel == null:
+		return
+	if event_border_tween != null:
+		event_border_tween.kill()
+		event_border_tween = null
+	var style := event_panel.get_theme_stylebox("panel")
+	if not (style is StyleBoxFlat):
+		return
+	var style_box := (style as StyleBoxFlat).duplicate() as StyleBoxFlat
+	style_box.border_color = event_border_base_color
+	event_panel.add_theme_stylebox_override("panel", style_box)
+	var pulse_color := event_border_base_color.lerp(event_color, 0.6)
+	event_border_tween = create_tween()
+	event_border_tween.set_loops()
+	event_border_tween.tween_property(style_box, "border_color", pulse_color, 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	event_border_tween.tween_property(style_box, "border_color", event_border_base_color, 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+func _stop_event_border_pulse() -> void:
+	if event_border_tween != null:
+		event_border_tween.kill()
+		event_border_tween = null
+	if event_panel != null:
+		var style := event_panel.get_theme_stylebox("panel")
+		if style is StyleBoxFlat:
+			(style as StyleBoxFlat).border_color = event_border_base_color
+
+func _crossed_threshold(prev: float, cur: float) -> bool:
+	return (prev >= 20.0 and cur < 20.0) or (prev <= 80.0 and cur > 80.0)
+
+func _pulse_meter(bar: Control, val: Control, title: Control, glow: Color) -> void:
+	_pulse_control(bar, glow)
+	_pulse_control(val, glow)
+	_pulse_control(title, glow)
+
+func _pulse_control(ctrl: Control, glow: Color) -> void:
+	var base_scale := ctrl.scale
+	var base_mod := ctrl.self_modulate
+	var tween := create_tween()
+	tween.tween_property(ctrl, "scale", base_scale * 1.03, 0.12).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(ctrl, "self_modulate", base_mod.lerp(glow, 0.35), 0.12).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(ctrl, "scale", base_scale, 0.18).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	tween.parallel().tween_property(ctrl, "self_modulate", base_mod, 0.18).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 
 # ─── Helpers ──────────────────────────────────────────────────────────────────
 func _set_bar(bar: ProgressBar, lbl: Label, val: float,
@@ -563,7 +637,7 @@ func _set_contract_label(lbl: Label, source: String, offer: Dictionary) -> void:
 		var out := float(c.get("output", 0.0))
 		var remaining := maxf(float(c.get("remaining", 0.0)), 0.0)
 		var upkeep := int(c.get("upkeep", 0))
-		lbl.text = "✅ +%.0f MW | %.0fs left | 💸 %d" % [out, remaining, upkeep]
+		lbl.text = "Active +%.0f MW | %.0fs left | Upkeep %d" % [out, remaining, upkeep]
 		lbl.add_theme_color_override("font_color", Color(0.3, 0.9, 0.4))
 		return
 	
@@ -576,7 +650,7 @@ func _set_contract_label(lbl: Label, source: String, offer: Dictionary) -> void:
 	var dur := float(offer.get("duration", 0.0))
 	var upfront := int(offer.get("upfront", 0))
 	var upkeep := int(offer.get("upkeep", 0))
-	lbl.text = "+%.0f MW | %.0fs | 💰 %d | Upkeep %d" % [out, dur, upfront, upkeep]
+	lbl.text = "+%.0f MW | %.0fs | Upfront %d | Upkeep %d" % [out, dur, upfront, upkeep]
 
 func _set_contract_btn(btn: Button, source: String, offer: Dictionary) -> void:
 	# Hide button if active contract exists for this source

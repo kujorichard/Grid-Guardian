@@ -8,16 +8,16 @@
 
 For detailed mechanics, see **README.md** which now includes:
 
-- ⚡ Core mechanics and supply vs demand
-- 🏭 Energy sources with time-of-day modifiers
-- 🔋 Stock system with recharge rates
-- 📊 City meters and lose conditions
-- 💰 Economy and balance streaks
-- 📜 Contracts and flash contracts
-- 🔧 Upgrades and overclock system
-- 🎲 Random events with output bonuses
-- 💡 Time-based and event-based tips & tricks
-- 🎨 Complete configuration guide for balancing
+- Core mechanics and supply vs demand
+- Energy sources with time-of-day modifiers
+- Stock system with recharge rates
+- City meters and lose conditions
+- Economy and balance streaks
+- Contracts and flash contracts
+- Upgrades and overclock system
+- Random events with output bonuses
+- Time-based and event-based tips & tricks
+- Complete configuration guide for balancing
 
 ---
 
