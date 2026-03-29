@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var smoke : GPUParticles2D = $Smoke
 @onready var buildings : Node2D = $Buildings
+
 var _smoke_active: bool = false
 var _parallax_time: float = 0.0
 var _base_buildings_pos: Vector2
@@ -27,9 +28,10 @@ var _base_smoke_pos: Vector2
 ]
 
 func _ready():
-	# Hide all pre-placed sprites initially
+	# Start all buildings as visible but grayed out
 	for s in coal_sprites + solar_sprites + wind_sprites:
-		s.visible = false
+		s.visible = true
+		s.modulate = Color(0.2, 0.2, 0.2) 
 	_base_buildings_pos = buildings.position
 	_base_smoke_pos = smoke.position
 
@@ -63,14 +65,18 @@ func update_city(coal: int, solar: int, wind: int, pollution: float) -> void:
 	var solar_count = _percent_to_count(solar)
 	var wind_count  = _percent_to_count(wind)
 
-	for i in range(coal_sprites.size()):
-		coal_sprites[i].visible = i < coal_count
-	for i in range(solar_sprites.size()):
-		solar_sprites[i].visible = i < solar_count
-	for i in range(wind_sprites.size()):
-		wind_sprites[i].visible = i < wind_count
+	_update_sprites_modulate(coal_sprites, coal_count)
+	_update_sprites_modulate(solar_sprites, solar_count)
+	_update_sprites_modulate(wind_sprites, wind_count)
 	
 	_update_smoke(pollution)
+
+func _update_sprites_modulate(sprites: Array, active_count: int) -> void:
+	for i in range(sprites.size()):
+		if i < active_count:
+			sprites[i].modulate = Color(1, 1, 1) # Active
+		else:
+			sprites[i].modulate = Color(0.2, 0.2, 0.2) # Grayed out
 
 func _update_smoke(pollution: float) -> void:
 	smoke.amount = 10  

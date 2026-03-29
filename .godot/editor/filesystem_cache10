@@ -1,57 +1,57 @@
 63f7b34db8d8cdea90c76aacccf841ec
-::res://::1774792363
-autoload.cfg::TextFile::-1::1774439840::0::1::::<><><>0<>0<><>::
-CurrentMechanics.md::TextFile::-1::1774781701::0::1::::<><><>0<>0<><>::
-export_presets.cfg::TextFile::-1::1774781701::0::1::::<><><>0<>0<><>::
-icon.svg::CompressedTexture2D::8536497646466336907::1774439840::1774787471::1::::<><><>0<>0<>8413a5043bbe1cfb5c14bb628752e641<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
-README.md::TextFile::-1::1774687681::0::1::::<><><>0<>0<><>::
-::res://scenes/::1774789362
-Main.tscn::PackedScene::545555565::1774789362::0::1::::<><><>0<>0<><>::uid://cmh0hmd2ohn2e::::res://scripts/Main.gd<>uid://8tsxfjob445i::::res://scenes/Map.gd<>uid://doq5udfxamg6f::::res://{scenes,scripts,assets}/Map Assets/City Background.png<>uid://bua53528au7ic::::res://{scenes,scripts,assets}/Map Assets/Smoke particle.png<>uid://cet85l1eq4pf2::::res://{scenes,scripts,assets}/Map Assets/Coal Plant.png<>uid://dntjatrxtdc8t::::res://{scenes,scripts,assets}/Map Assets/WindTurbine.png<>uid://bd8fudnc8s88y::::res://{scenes,scripts,assets}/Map Assets/SolarPanel.png<>uid://oete44yj5x7i::::res://{scenes,scripts,assets}/SFX/accept contract.mp3<>uid://d0m6ohy4y82jv::::res://{scenes,scripts,assets}/SFX/blackout warning.mp3<>uid://cnqiqndn1n5qs::::res://{scenes,scripts,assets}/SFX/buy coal.mp3<>uid://civ3mfi40ujm4::::res://{scenes,scripts,assets}/SFX/flash contract appears.mp3<>uid://ww3bkfrjmn6t::::res://{scenes,scripts,assets}/SFX/flash contract expired.mp3<>uid://kh67y54qg5hi::::res://{scenes,scripts,assets}/SFX/game over.mp3<>uid://byutu1rwml1qs::::res://{scenes,scripts,assets}/SFX/game won.mp3<>uid://cpra138ts53oo::::res://{scenes,scripts,assets}/SFX/random event.mp3<>uid://bunbhkadu28c::::res://{scenes,scripts,assets}/SFX/BGM Control Room Static.mp3<>uid://dtxtxrahxqr3b::::res://{scenes,scripts,assets}/SFX/BGM Lo-fi City Atmosphere.mp3<>uid://e2iq53auwx6d::::res://{scenes,scripts,assets}/SFX/boost coal.mp3<>uid://c7ft266xaxgqe::::res://{scenes,scripts,assets}/SFX/boost solar.mp3<>uid://wc554n6ir2f4::::res://{scenes,scripts,assets}/SFX/boost wind.mp3<>uid://ceoikcsomevfw::::res://{scenes,scripts,assets}/SFX/upgrade purchased.mp3<>uid://dbklq2h558ckt::::res://{scenes,scripts,assets}/SFX/start overclocking.mp3<>uid://cxr3xujcgo3pd::::res://{scenes,scripts,assets}/Shaders/CRT.gdshader<>uid://d34jtq4obkw7o::::res://{scenes,scripts,assets}/Shaders/UIGradientSweep.gdshader<>uid://vxak1s6lg0eh::::res://{scenes,scripts,assets}/Main Menu/main-menu.png<>uid://ddal5rgel1id::::res://{scenes,scripts,assets}/Shaders/UIScanlines.gdshader
-Map.gd::GDScript::2356589273670410480::1774781701::0::1::::<>Node2D<><>0<>0<><>::
-::res://scripts/::1774789045
-CoalPlant.gd::GDScript::1190474039080288805::1774787418::0::1::::CoalPlant<>RefCounted<><>0<>0<><>::
-GameManager.gd::GDScript::397598135984744894::1774789045::0::1::::<>Node<><>0<>0<><>::
-Main.gd::GDScript::5631089196857876230::1774787418::0::1::::<>Control<><>0<>0<><>::
-PowerPlant.gd::GDScript::204303588980027667::1774787418::0::1::::<>RefCounted<><>0<>0<><>::
-SolarPlant.gd::GDScript::8622896692299967459::1774787418::0::1::::SolarPlant<>RefCounted<><>0<>0<><>::
-WindPlant.gd::GDScript::6114432827808712810::1774787418::0::1::::WindPlant<>RefCounted<><>0<>0<><>::
-::res://web/::1774787471
-Grid Guardian.png::CompressedTexture2D::1331797324478434064::1774781701::1774787471::1::::<><><>0<>0<>ba3a9468b464c423c86728acfc23bab1<>res://.godot/imported/Grid Guardian.png-6b154b3912a1848897d2bf682b51ab9b.ctex::
-index.apple-touch-icon.png::CompressedTexture2D::440387488675584383::1774781701::1774787471::1::::<><><>0<>0<>6b7ea165718d3a232dea9ac2a0e42cf6<>res://.godot/imported/index.apple-touch-icon.png-939ec69c79bbf504b92ad8ceed469d51.ctex::
-index.icon.png::CompressedTexture2D::2475751171351024912::1774781701::1774787471::1::::<><><>0<>0<>4613b1f962eaa83b1939493c77f0e4f5<>res://.godot/imported/index.icon.png-c615af856eabc03ca93d51f6a8f07b60.ctex::
-index.png::CompressedTexture2D::5623750218734794487::1774781701::1774787471::1::::<><><>0<>0<>fd81f2b7625458446b6e44d24ba438b1<>res://.godot/imported/index.png-80964ad67552d78b1e33f58ad16188ff.ctex::
-::res://{scenes,scripts,assets}/::1774781702
-::res://{scenes,scripts,assets}/Fonts/::1774787798
-DefaultTheme.tres::Theme::850332089898202133::1774787798::0::1::::<><><>0<>0<><>::uid://diwtfn01wf0mf::::res://{scenes,scripts,assets}/Fonts/Jersey10-Regular.ttf
-Jersey10-Regular.ttf::FontFile::7767352385239573129::1774533461::1774533494::1::::<><><>0<>0<>3fa8dcf650e88b151485bfda3f03d4e2<>res://.godot/imported/Jersey10-Regular.ttf-2957db6acf9458354e556620bb40812c.fontdata::
-::res://{scenes,scripts,assets}/Main Menu/::1774787472
-game-over.jpg::CompressedTexture2D::6785346928988592660::1774781702::1774787472::1::::<><><>0<>0<>2038f526485be77592d7945ba9b7d303<>res://.godot/imported/game-over.jpg-b828a3439fb97bf99526f98e5ac37a26.ctex::
-main-menu.png::CompressedTexture2D::1521465657518149811::1774781702::1774787472::1::::<><><>0<>0<>9afa74d8b211c82b5bb0d6437d11e8c5<>res://.godot/imported/main-menu.png-625e57b8e91356c2479e780242430244.ctex::
-::res://{scenes,scripts,assets}/Map Assets/::1774537402
-City Background.png::CompressedTexture2D::8176793298077371707::1774441456::1774441490::1::::<><><>0<>0<>d8ae547d0fe112816fb011b3523af88a<>res://.godot/imported/City Background.png-5bbe60ec354e13f495d6a5616392916f.ctex::
-Coal Plant.png::CompressedTexture2D::5094877771969954409::1774533901::1774533951::1::::<><><>0<>0<>09637f523edf3b14ad3fadba364ad658<>res://.godot/imported/Coal Plant.png-428ecb3284d6adbc817911494574777a.ctex::
-Smoke particle.png::CompressedTexture2D::3792070687376495634::1774442257::1774442262::1::::<><><>0<>0<>8b7f9e8bdee57702c760e81ea9fa7c9c<>res://.godot/imported/Smoke particle.png-356abc6500ae81d822da1fb277634555.ctex::
-SolarPanel.png::CompressedTexture2D::2665451159121325598::1774537374::1774537402::1::::<><><>0<>0<>86eef7ed9ed8ee3fb2a731d0f17737d0<>res://.godot/imported/SolarPanel.png-b90a39857990525727fbe09775795bdb.ctex::
-WindTurbine.png::CompressedTexture2D::8111487673911612389::1774534970::1774535081::1::::<><><>0<>0<>089581a0eadc633a1b20e0bb9abf6b03<>res://.godot/imported/WindTurbine.png-c09bdf651172024e41336b276c3df364.ctex::
-::res://{scenes,scripts,assets}/SFX/::1774787471
-accept contract.mp3::AudioStreamMP3::992063657067041124::1774691700::1774691713::1::::<><><>0<>0<>9ccf16bd09b9612cc9f951501c3d838e<>res://.godot/imported/accept contract.mp3-7b3b6a38bff00b2f08ae57508d6bf999.mp3str::
-BGM Control Room Static.mp3::AudioStreamMP3::112267888535419424::1774694562::1774787471::1::::<><><>0<>0<>15bb565225b10e5257f77828c5b2adcf<>res://.godot/imported/BGM Control Room Static.mp3-1d220098d60cb5959249e9bdbd191831.mp3str::
-BGM Lo-fi City Atmosphere.mp3::AudioStreamMP3::8541526357914054349::1774694563::1774787471::1::::<><><>0<>0<>60e08497253de861a66b75376eff6ca3<>res://.godot/imported/BGM Lo-fi City Atmosphere.mp3-b4514a823685ffe1a4f5e8a41a41d7c6.mp3str::
-BGM Load Dispatch Loop.mp3::AudioStreamMP3::8476735542799803138::1774694563::1774787471::1::::<><><>0<>0<>c94fdc6f4bfa5f5669a09ff7af1861da<>res://.godot/imported/BGM Load Dispatch Loop.mp3-ba40e5684b86ff9b53ce1d30aea11ca3.mp3str::
-blackout warning.mp3::AudioStreamMP3::8940663309059043931::1774691700::1774691713::1::::<><><>0<>0<>a2691da38fc55885ce5e4cf04e4de793<>res://.godot/imported/blackout warning.mp3-8fb7e104dab9c152a91a5b23dd22fa07.mp3str::
-boost coal.mp3::AudioStreamMP3::337009501539000557::1774694563::1774694575::1::::<><><>0<>0<>56fda8c84126ca0ab2d1e814f2e185e2<>res://.godot/imported/boost coal.mp3-4f7e5959368f84340647545cfaee7f46.mp3str::
-boost solar.mp3::AudioStreamMP3::7030409769030249876::1774694563::1774694575::1::::<><><>0<>0<>66f84d059bc248c65f6b56e95c70a337<>res://.godot/imported/boost solar.mp3-4bb5c5e495f06e90cdc916f84052144d.mp3str::
-boost wind.mp3::AudioStreamMP3::1550159943824472795::1774694563::1774694575::1::::<><><>0<>0<>c011167dfe4d136fb222e41370a1ca07<>res://.godot/imported/boost wind.mp3-76e34b8a75fc46fb1b869cb1675463f5.mp3str::
-buy coal.mp3::AudioStreamMP3::5718841375454106130::1774691699::1774691713::1::::<><><>0<>0<>f65f3506a6d15355be083a88b8d8aff0<>res://.godot/imported/buy coal.mp3-106332b4cf55f4f673862ace03eaf71c.mp3str::
-flash contract appears.mp3::AudioStreamMP3::5379425830977054889::1774691699::1774691713::1::::<><><>0<>0<>3edddcdb061c0f910ae9df799a96d021<>res://.godot/imported/flash contract appears.mp3-ac5b6dedc591c8537e4927190f2ac31d.mp3str::
-flash contract expired.mp3::AudioStreamMP3::1591273265959833909::1774691699::1774691713::1::::<><><>0<>0<>bb04850834963397af75f170923d09bc<>res://.godot/imported/flash contract expired.mp3-59483e3ee79738bc4f96c7330cd1f6a6.mp3str::
-game over.mp3::AudioStreamMP3::718279761083274686::1774691699::1774691713::1::::<><><>0<>0<>bbdcdc4735e3877297f419cf705f25ee<>res://.godot/imported/game over.mp3-56f31c6fc053b880f7961d4ee59341d5.mp3str::
-game won.mp3::AudioStreamMP3::4113431217712591666::1774691699::1774691713::1::::<><><>0<>0<>f9a4f455d37393fa8412dbf8bd4f8908<>res://.godot/imported/game won.mp3-a1a0dfa208948d5e2ba176d3af9b2dbf.mp3str::
-random event.mp3::AudioStreamMP3::5860816396938120202::1774691699::1774691713::1::::<><><>0<>0<>d6b2ee65a5ec8299c39b8d0db37f61e9<>res://.godot/imported/random event.mp3-b3cd3523e15ab55c9c957b3cb69cd894.mp3str::
-start overclocking.mp3::AudioStreamMP3::7250792562229380055::1774694563::1774694575::1::::<><><>0<>0<>102cd0558d2a10bca348bd6c654615a3<>res://.godot/imported/start overclocking.mp3-ed5e747c852a37a15240ce0c8164e14f.mp3str::
-upgrade purchased.mp3::AudioStreamMP3::5083001757881842612::1774694563::1774694575::1::::<><><>0<>0<>93444f22c41bf606e6b51d44767168fc<>res://.godot/imported/upgrade purchased.mp3-5303858083beab29a5f37ba378a918ad.mp3str::
-::res://{scenes,scripts,assets}/Shaders/::1774781702
-CRT.gdshader::Shader::6424021406406951361::1774781702::0::1::::<><><>0<>0<><>::
-UIEventBorder.gdshader::Shader::912445200393656840::1774781702::0::1::::<><><>0<>0<><>::
-UIGradientSweep.gdshader::Shader::9184997896641816838::1774781702::0::1::::<><><>0<>0<><>::
-UIScanlines.gdshader::Shader::216780910149830291::1774781702::0::1::::<><><>0<>0<><>::
+::res://::1774808381
+autoload.cfg::TextFile::-1::1774796588::0::1::::<><><>0<>0<><>::
+CurrentMechanics.md::TextFile::-1::1774796588::0::1::::<><><>0<>0<><>::
+export_presets.cfg::TextFile::-1::1774808327::0::1::::<><><>0<>0<><>::
+icon.svg::CompressedTexture2D::8536497646466336907::1774796588::1774797924::1::::<><><>0<>0<>8413a5043bbe1cfb5c14bb628752e641<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
+README.md::TextFile::-1::1774796588::0::1::::<><><>0<>0<><>::
+::res://scenes/::1774808311
+Main.tscn::PackedScene::545555565::1774808311::0::1::::<><><>0<>0<><>::uid://cmh0hmd2ohn2e::::res://scripts/Main.gd<>uid://8tsxfjob445i::::res://scenes/Map.gd<>uid://doq5udfxamg6f::::res://{scenes,scripts,assets}/Map Assets/City Background.png<>uid://bua53528au7ic::::res://{scenes,scripts,assets}/Map Assets/Smoke particle.png<>uid://c3w4w4qv73bl1::::res://{scenes,scripts,assets}/Main Menu/game-over.jpg<>uid://cet85l1eq4pf2::::res://{scenes,scripts,assets}/Map Assets/Coal Plant.png<>uid://dntjatrxtdc8t::::res://{scenes,scripts,assets}/Map Assets/WindTurbine.png<>uid://bd8fudnc8s88y::::res://{scenes,scripts,assets}/Map Assets/SolarPanel.png<>uid://oete44yj5x7i::::res://{scenes,scripts,assets}/SFX/accept contract.mp3<>uid://d0m6ohy4y82jv::::res://{scenes,scripts,assets}/SFX/blackout warning.mp3<>uid://cnqiqndn1n5qs::::res://{scenes,scripts,assets}/SFX/buy coal.mp3<>uid://civ3mfi40ujm4::::res://{scenes,scripts,assets}/SFX/flash contract appears.mp3<>uid://ww3bkfrjmn6t::::res://{scenes,scripts,assets}/SFX/flash contract expired.mp3<>uid://kh67y54qg5hi::::res://{scenes,scripts,assets}/SFX/game over.mp3<>uid://byutu1rwml1qs::::res://{scenes,scripts,assets}/SFX/game won.mp3<>uid://cpra138ts53oo::::res://{scenes,scripts,assets}/SFX/random event.mp3<>uid://bunbhkadu28c::::res://{scenes,scripts,assets}/SFX/BGM Control Room Static.mp3<>uid://ds1gui5f3drnm::::res://{scenes,scripts,assets}/SFX/BGM Load Dispatch Loop.mp3<>uid://dtxtxrahxqr3b::::res://{scenes,scripts,assets}/SFX/BGM Lo-fi City Atmosphere.mp3<>uid://e2iq53auwx6d::::res://{scenes,scripts,assets}/SFX/boost coal.mp3<>uid://c7ft266xaxgqe::::res://{scenes,scripts,assets}/SFX/boost solar.mp3<>uid://wc554n6ir2f4::::res://{scenes,scripts,assets}/SFX/boost wind.mp3<>uid://ceoikcsomevfw::::res://{scenes,scripts,assets}/SFX/upgrade purchased.mp3<>uid://dbklq2h558ckt::::res://{scenes,scripts,assets}/SFX/start overclocking.mp3<>uid://cxr3xujcgo3pd::::res://{scenes,scripts,assets}/Shaders/CRT.gdshader<>uid://vxak1s6lg0eh::::res://{scenes,scripts,assets}/Main Menu/main-menu.png<>uid://ddal5rgel1id::::res://{scenes,scripts,assets}/Shaders/UIScanlines.gdshader
+Map.gd::GDScript::2356589273670410480::1774803533::0::1::::<>Node2D<><>0<>0<><>::
+::res://scripts/::1774796588
+CoalPlant.gd::GDScript::1190474039080288805::1774796588::0::1::::CoalPlant<>RefCounted<><>0<>0<><>::
+GameManager.gd::GDScript::397598135984744894::1774796588::0::1::::<>Node<><>0<>0<><>::
+Main.gd::GDScript::5631089196857876230::1774807975::0::1::::<>Control<><>0<>0<><>::
+PowerPlant.gd::GDScript::204303588980027667::1774796588::0::1::::<>RefCounted<><>0<>0<><>::
+SolarPlant.gd::GDScript::8622896692299967459::1774796588::0::1::::SolarPlant<>RefCounted<><>0<>0<><>::
+WindPlant.gd::GDScript::6114432827808712810::1774796588::0::1::::WindPlant<>RefCounted<><>0<>0<><>::
+::res://web/::1774808327
+Grid Guardian.png::CompressedTexture2D::1331797324478434064::1774796588::1774797924::1::::<><><>0<>0<>ba3a9468b464c423c86728acfc23bab1<>res://.godot/imported/Grid Guardian.png-6b154b3912a1848897d2bf682b51ab9b.ctex::
+index.apple-touch-icon.png::CompressedTexture2D::440387488675584383::1774808327::1774797924::1::::<><><>0<>0<>6b7ea165718d3a232dea9ac2a0e42cf6<>res://.godot/imported/index.apple-touch-icon.png-939ec69c79bbf504b92ad8ceed469d51.ctex::
+index.icon.png::CompressedTexture2D::2475751171351024912::1774808327::1774797924::1::::<><><>0<>0<>4613b1f962eaa83b1939493c77f0e4f5<>res://.godot/imported/index.icon.png-c615af856eabc03ca93d51f6a8f07b60.ctex::
+index.png::CompressedTexture2D::5623750218734794487::1774808327::1774797924::1::::<><><>0<>0<>fd81f2b7625458446b6e44d24ba438b1<>res://.godot/imported/index.png-80964ad67552d78b1e33f58ad16188ff.ctex::
+::res://{scenes,scripts,assets}/::1774796589
+::res://{scenes,scripts,assets}/Fonts/::1774800274
+DefaultTheme.tres::Theme::850332089898202133::1774800274::0::1::::<><><>0<>0<><>::uid://diwtfn01wf0mf::::res://{scenes,scripts,assets}/Fonts/Jersey10-Regular.ttf
+Jersey10-Regular.ttf::FontFile::7767352385239573129::1774796589::1774797923::1::::<><><>0<>0<>3fa8dcf650e88b151485bfda3f03d4e2<>res://.godot/imported/Jersey10-Regular.ttf-2957db6acf9458354e556620bb40812c.fontdata::
+::res://{scenes,scripts,assets}/Main Menu/::1774797925
+game-over.jpg::CompressedTexture2D::6785346928988592660::1774796589::1774797924::1::::<><><>0<>0<>2038f526485be77592d7945ba9b7d303<>res://.godot/imported/game-over.jpg-b828a3439fb97bf99526f98e5ac37a26.ctex::
+main-menu.png::CompressedTexture2D::1521465657518149811::1774796589::1774797925::1::::<><><>0<>0<>9afa74d8b211c82b5bb0d6437d11e8c5<>res://.godot/imported/main-menu.png-625e57b8e91356c2479e780242430244.ctex::
+::res://{scenes,scripts,assets}/Map Assets/::1774797924
+City Background.png::CompressedTexture2D::8176793298077371707::1774796589::1774797924::1::::<><><>0<>0<>d8ae547d0fe112816fb011b3523af88a<>res://.godot/imported/City Background.png-5bbe60ec354e13f495d6a5616392916f.ctex::
+Coal Plant.png::CompressedTexture2D::5094877771969954409::1774796589::1774797924::1::::<><><>0<>0<>09637f523edf3b14ad3fadba364ad658<>res://.godot/imported/Coal Plant.png-428ecb3284d6adbc817911494574777a.ctex::
+Smoke particle.png::CompressedTexture2D::3792070687376495634::1774796589::1774797924::1::::<><><>0<>0<>8b7f9e8bdee57702c760e81ea9fa7c9c<>res://.godot/imported/Smoke particle.png-356abc6500ae81d822da1fb277634555.ctex::
+SolarPanel.png::CompressedTexture2D::2665451159121325598::1774796589::1774797924::1::::<><><>0<>0<>86eef7ed9ed8ee3fb2a731d0f17737d0<>res://.godot/imported/SolarPanel.png-b90a39857990525727fbe09775795bdb.ctex::
+WindTurbine.png::CompressedTexture2D::8111487673911612389::1774796589::1774797924::1::::<><><>0<>0<>089581a0eadc633a1b20e0bb9abf6b03<>res://.godot/imported/WindTurbine.png-c09bdf651172024e41336b276c3df364.ctex::
+::res://{scenes,scripts,assets}/SFX/::1774797923
+accept contract.mp3::AudioStreamMP3::992063657067041124::1774796589::1774797923::1::::<><><>0<>0<>9ccf16bd09b9612cc9f951501c3d838e<>res://.godot/imported/accept contract.mp3-7b3b6a38bff00b2f08ae57508d6bf999.mp3str::
+BGM Control Room Static.mp3::AudioStreamMP3::112267888535419424::1774796589::1774797923::1::::<><><>0<>0<>15bb565225b10e5257f77828c5b2adcf<>res://.godot/imported/BGM Control Room Static.mp3-1d220098d60cb5959249e9bdbd191831.mp3str::
+BGM Lo-fi City Atmosphere.mp3::AudioStreamMP3::8541526357914054349::1774796589::1774797923::1::::<><><>0<>0<>60e08497253de861a66b75376eff6ca3<>res://.godot/imported/BGM Lo-fi City Atmosphere.mp3-b4514a823685ffe1a4f5e8a41a41d7c6.mp3str::
+BGM Load Dispatch Loop.mp3::AudioStreamMP3::8476735542799803138::1774796589::1774797923::1::::<><><>0<>0<>c94fdc6f4bfa5f5669a09ff7af1861da<>res://.godot/imported/BGM Load Dispatch Loop.mp3-ba40e5684b86ff9b53ce1d30aea11ca3.mp3str::
+blackout warning.mp3::AudioStreamMP3::8940663309059043931::1774796589::1774797923::1::::<><><>0<>0<>a2691da38fc55885ce5e4cf04e4de793<>res://.godot/imported/blackout warning.mp3-8fb7e104dab9c152a91a5b23dd22fa07.mp3str::
+boost coal.mp3::AudioStreamMP3::337009501539000557::1774796589::1774797923::1::::<><><>0<>0<>56fda8c84126ca0ab2d1e814f2e185e2<>res://.godot/imported/boost coal.mp3-4f7e5959368f84340647545cfaee7f46.mp3str::
+boost solar.mp3::AudioStreamMP3::7030409769030249876::1774796589::1774797923::1::::<><><>0<>0<>66f84d059bc248c65f6b56e95c70a337<>res://.godot/imported/boost solar.mp3-4bb5c5e495f06e90cdc916f84052144d.mp3str::
+boost wind.mp3::AudioStreamMP3::1550159943824472795::1774796589::1774797923::1::::<><><>0<>0<>c011167dfe4d136fb222e41370a1ca07<>res://.godot/imported/boost wind.mp3-76e34b8a75fc46fb1b869cb1675463f5.mp3str::
+buy coal.mp3::AudioStreamMP3::5718841375454106130::1774796589::1774797923::1::::<><><>0<>0<>f65f3506a6d15355be083a88b8d8aff0<>res://.godot/imported/buy coal.mp3-106332b4cf55f4f673862ace03eaf71c.mp3str::
+flash contract appears.mp3::AudioStreamMP3::5379425830977054889::1774796589::1774797923::1::::<><><>0<>0<>3edddcdb061c0f910ae9df799a96d021<>res://.godot/imported/flash contract appears.mp3-ac5b6dedc591c8537e4927190f2ac31d.mp3str::
+flash contract expired.mp3::AudioStreamMP3::1591273265959833909::1774796589::1774797923::1::::<><><>0<>0<>bb04850834963397af75f170923d09bc<>res://.godot/imported/flash contract expired.mp3-59483e3ee79738bc4f96c7330cd1f6a6.mp3str::
+game over.mp3::AudioStreamMP3::718279761083274686::1774796589::1774797923::1::::<><><>0<>0<>bbdcdc4735e3877297f419cf705f25ee<>res://.godot/imported/game over.mp3-56f31c6fc053b880f7961d4ee59341d5.mp3str::
+game won.mp3::AudioStreamMP3::4113431217712591666::1774796589::1774797923::1::::<><><>0<>0<>f9a4f455d37393fa8412dbf8bd4f8908<>res://.godot/imported/game won.mp3-a1a0dfa208948d5e2ba176d3af9b2dbf.mp3str::
+random event.mp3::AudioStreamMP3::5860816396938120202::1774796589::1774797923::1::::<><><>0<>0<>d6b2ee65a5ec8299c39b8d0db37f61e9<>res://.godot/imported/random event.mp3-b3cd3523e15ab55c9c957b3cb69cd894.mp3str::
+start overclocking.mp3::AudioStreamMP3::7250792562229380055::1774796589::1774797923::1::::<><><>0<>0<>102cd0558d2a10bca348bd6c654615a3<>res://.godot/imported/start overclocking.mp3-ed5e747c852a37a15240ce0c8164e14f.mp3str::
+upgrade purchased.mp3::AudioStreamMP3::5083001757881842612::1774796589::1774797923::1::::<><><>0<>0<>93444f22c41bf606e6b51d44767168fc<>res://.godot/imported/upgrade purchased.mp3-5303858083beab29a5f37ba378a918ad.mp3str::
+::res://{scenes,scripts,assets}/Shaders/::1774796589
+CRT.gdshader::Shader::6424021406406951361::1774796589::0::1::::<><><>0<>0<><>::
+UIEventBorder.gdshader::Shader::912445200393656840::1774796589::0::1::::<><><>0<>0<><>::
+UIGradientSweep.gdshader::Shader::9184997896641816838::1774796589::0::1::::<><><>0<>0<><>::
+UIScanlines.gdshader::Shader::216780910149830291::1774796589::0::1::::<><><>0<>0<><>::

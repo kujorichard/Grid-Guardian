@@ -11,133 +11,135 @@ extends Control
 @onready var game_over_background : TextureRect = $Background/GameOverBackground
 
 # GameScreen children
-@onready var lbl_time_of_day  : Label        = $Screens/GameScreen/TopBar/LblTimeOfDay
-@onready var lbl_timer        : Label        = $Screens/GameScreen/TopBar/LblTimer
-@onready var lbl_score        : Label        = $Screens/GameScreen/TopBar/LblScore
-@onready var lbl_coins        : Label        = $Screens/GameScreen/TopBar/LblCoins
-@onready var lbl_streak       : Label        = $Screens/GameScreen/TopBar/LblStreak
+@onready var lbl_time_of_day  : Label        = %LblTimeOfDay
+@onready var lbl_timer        : Label        = %LblTimer
+@onready var lbl_score        : Label        = %LblScore
+@onready var lbl_coins        : Label        = %LblCoins
+@onready var lbl_streak       : Label        = %LblStreak
 
 # Meters
-@onready var bar_stability    : ProgressBar  = $Screens/GameScreen/Meters/StabilityRow/StabilityBar
-@onready var bar_pollution    : ProgressBar  = $Screens/GameScreen/Meters/PollutionRow/PollutionBar
-@onready var bar_satisfaction : ProgressBar  = $Screens/GameScreen/Meters/SatisfactionRow/SatisfactionBar
-@onready var lbl_stab_title   : Label        = $Screens/GameScreen/Meters/StabilityRow/LblStabTitle
-@onready var lbl_poll_title   : Label        = $Screens/GameScreen/Meters/PollutionRow/LblPollTitle
-@onready var lbl_sat_title    : Label        = $Screens/GameScreen/Meters/SatisfactionRow/LblSatTitle
-@onready var lbl_stab_val     : Label        = $Screens/GameScreen/Meters/StabilityRow/StabilityBar/LblVal
-@onready var lbl_poll_val     : Label        = $Screens/GameScreen/Meters/PollutionRow/PollutionBar/LblVal
-@onready var lbl_sat_val      : Label        = $Screens/GameScreen/Meters/SatisfactionRow/SatisfactionBar/LblVal
+@onready var bar_stability    : ProgressBar  = %StabilityBar
+@onready var bar_pollution    : ProgressBar  = %PollutionBar
+@onready var bar_satisfaction : ProgressBar  = %SatisfactionBar
+@onready var lbl_stab_title   : Label        = %LblStabTitle
+@onready var lbl_poll_title   : Label        = %LblPollTitle
+@onready var lbl_sat_title    : Label        = %LblSatTitle
+@onready var lbl_stab_val     : Label        = %LblStabVal
+@onready var lbl_poll_val     : Label        = %LblPollVal
+@onready var lbl_sat_val      : Label        = %LblSatVal
 
 # Contracts
-@onready var lbl_contract_coal  : Label   = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Contracts/RowCoal/LblOffer
-@onready var lbl_contract_solar : Label   = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Contracts/RowSolar/LblOffer
-@onready var lbl_contract_wind  : Label   = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Contracts/RowWind/LblOffer
-@onready var btn_contract_coal  : Button  = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Contracts/RowCoal/BtnAccept
-@onready var btn_contract_solar : Button  = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Contracts/RowSolar/BtnAccept
-@onready var btn_contract_wind  : Button  = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Contracts/RowWind/BtnAccept
+@onready var lbl_contract_coal  : Label   = %LblCoalOffer
+@onready var lbl_contract_solar : Label   = %LblSolarOffer
+@onready var lbl_contract_wind  : Label   = %LblWindOffer
+@onready var btn_contract_coal  : Button  = %BtnAcceptCoalContract
+@onready var btn_contract_solar : Button  = %BtnAcceptSolarContract
+@onready var btn_contract_wind  : Button  = %BtnAcceptWindContract
 
 # Show contracts popup
-@onready var popup_contracts : PopupPanel = $Screens/GameScreen/ContractsPopup
-@onready var opt_contract_plant : OptionButton = $Screens/GameScreen/ContractsPopup/Margin/VBox/RowPlant/OptPlant
-@onready var lbl_contracts_list : Label = $Screens/GameScreen/ContractsPopup/Margin/VBox/RowList/LblContracts
-@onready var lbl_contracts_total : Label = $Screens/GameScreen/ContractsPopup/Margin/VBox/LblTotals
+@onready var popup_contracts : PopupPanel = %ContractsPopup
+@onready var opt_contract_plant : OptionButton = %OptContractPlant
+@onready var lbl_contracts_list : Label = %LblContracts
+@onready var lbl_contracts_total : Label = %LblTotals
 
 # Capacity
-@onready var lbl_cap_coal   : Label = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Capacity/RowCoal/LblCap
-@onready var lbl_cap_solar  : Label = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Capacity/RowSolar/LblCap
-@onready var lbl_cap_wind   : Label = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Capacity/RowWind/LblCap
-@onready var btn_cap_coal   : Button = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Capacity/RowCoal/BtnBuy
-@onready var btn_cap_solar  : Button = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Capacity/RowSolar/BtnBuy
-@onready var btn_cap_wind   : Button = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Capacity/RowWind/BtnBuy
+@onready var lbl_cap_coal   : Label = %LblCapCoal
+@onready var lbl_cap_solar  : Label = %LblCapSolar
+@onready var lbl_cap_wind   : Label = %LblCapWind
+@onready var btn_cap_coal   : Button = %BtnBuyCoalCap
+@onready var btn_cap_solar  : Button = %BtnBuySolarCap
+@onready var btn_cap_wind   : Button = %BtnBuyWindCap
 
 # Emergency boost
-@onready var lbl_boost_status : Label = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Boost/RowStatus/LblStatus
-@onready var btn_boost_coal   : Button = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Boost/RowButtons/BtnBoostCoal
-@onready var btn_boost_solar  : Button = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Boost/RowButtons/BtnBoostSolar
-@onready var btn_boost_wind   : Button = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Boost/RowButtons/BtnBoostWind
+@onready var lbl_boost_status : Label = %LblStatus
+@onready var btn_boost_coal   : Button = %BtnBoostCoal
+@onready var btn_boost_solar  : Button = %BtnBoostSolar
+@onready var btn_boost_wind   : Button = %BtnBoostWind
 
 # Supply/demand
-@onready var lbl_demand       : Label        = $Screens/GameScreen/SupplyDemand/LblDemand
-@onready var lbl_supply       : Label        = $Screens/GameScreen/SupplyDemand/LblSupply
-@onready var lbl_balance      : Label        = $Screens/GameScreen/SupplyDemand/LblBalance
-@onready var lbl_event_status : Label        = get_node_or_null("Screens/GameScreen/SupplyDemand/LblEventStatus")
+@onready var lbl_demand       : Label        = %LblDemand
+@onready var lbl_supply       : Label        = %LblSupply
+@onready var lbl_balance      : Label        = %LblBalance
+@onready var bar_balance      : ProgressBar  = %BalanceBar
+@onready var lbl_event_status : Label        = get_node_or_null("%LblEventStatus")
 
 # Energy supply meters
-@onready var bar_coal_supply   : ProgressBar  = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/EnergySupply/CoalSupplyRow/CoalSupplyBar
-@onready var bar_solar_supply  : ProgressBar  = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/EnergySupply/SolarSupplyRow/SolarSupplyBar
-@onready var bar_wind_supply   : ProgressBar  = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/EnergySupply/WindSupplyRow/WindSupplyBar
-@onready var lbl_coal_sup_val  : Label        = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/EnergySupply/CoalSupplyRow/CoalSupplyBar/LblVal
-@onready var lbl_solar_sup_val : Label        = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/EnergySupply/SolarSupplyRow/SolarSupplyBar/LblVal
-@onready var lbl_wind_sup_val  : Label        = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/EnergySupply/WindSupplyRow/WindSupplyBar/LblVal
-@onready var btn_buy_coal      : Button       = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/EnergySupply/BtnBuyCoal
-@onready var lbl_oc_warning    : Label        = get_node_or_null("Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/LblOCWarning")
+@onready var bar_coal_supply   : ProgressBar  = %CoalSupplyBar
+@onready var bar_solar_supply  : ProgressBar  = %SolarSupplyBar
+@onready var bar_wind_supply   : ProgressBar  = %WindSupplyBar
+@onready var lbl_coal_sup_val  : Label        = %LblCoalSupVal
+@onready var lbl_solar_sup_val : Label        = %LblSolarSupVal
+@onready var lbl_wind_sup_val  : Label        = %LblWindSupVal
+@onready var btn_buy_coal      : Button       = %BtnBuyCoal
+@onready var lbl_oc_warning    : Label        = %LblOCWarning
 
 # Event panel
-@onready var panel_event      : PanelContainer = $Screens/GameScreen/EventOverlay
-@onready var lbl_event_title  : Label          = $Screens/GameScreen/EventOverlay/VBox/LblTitle
-@onready var lbl_event_desc   : Label          = $Screens/GameScreen/EventOverlay/VBox/LblDesc
-@onready var timer_event_hide : Timer          = $Screens/GameScreen/EventOverlay/HideTimer
-@onready var event_panel      : PanelContainer = $Screens/GameScreen/EventOverlay
+@onready var panel_event      : PanelContainer = %EventOverlay
+@onready var lbl_event_title  : Label          = %LblEventTitle
+@onready var lbl_event_desc   : Label          = %LblEventDesc
+@onready var timer_event_hide : Timer          = %HideTimer
+@onready var event_panel      : PanelContainer = %EventOverlay
 
 # Flash contract panel
-@onready var panel_flash      : PanelContainer = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/FlashPanel
-@onready var lbl_flash_title  : Label          = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/FlashPanel/VBox/LblFlashTitle
-@onready var lbl_flash_desc   : Label          = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/FlashPanel/VBox/LblFlashDesc
-@onready var bar_flash_timer  : ProgressBar    = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/FlashPanel/VBox/FlashTimerBar
-@onready var btn_flash_accept : Button         = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/FlashPanel/VBox/BtnFlashAccept
+@onready var panel_flash      : PanelContainer = %FlashPanel
+@onready var lbl_flash_title  : Label          = %LblFlashTitle
+@onready var lbl_flash_desc   : Label          = %LblFlashDesc
+@onready var bar_flash_timer  : ProgressBar    = %FlashTimerBar
+@onready var btn_flash_accept : Button         = %BtnFlashAccept
 
 # Overclock popup
-@onready var btn_overclock_open : Button = $Screens/GameScreen/TopBar/BtnOverclock
-@onready var popup_overclock : PopupPanel = $Screens/GameScreen/OverclockPopup
-@onready var opt_oc_plant : OptionButton = $Screens/GameScreen/OverclockPopup/Margin/VBox/RowPlant/OptPlant
-@onready var slider_oc_voltage : HSlider = $Screens/GameScreen/OverclockPopup/Margin/VBox/RowVoltage/VoltageSlider
-@onready var slider_oc_cooling : HSlider = $Screens/GameScreen/OverclockPopup/Margin/VBox/RowCooling/CoolingSlider
-@onready var lbl_oc_voltage : Label = $Screens/GameScreen/OverclockPopup/Margin/VBox/RowVoltage/LblVoltageVal
-@onready var lbl_oc_cooling : Label = $Screens/GameScreen/OverclockPopup/Margin/VBox/RowCooling/LblCoolingVal
-@onready var bar_oc_heat : ProgressBar = $Screens/GameScreen/OverclockPopup/Margin/VBox/RowHeat/HeatBar
-@onready var bar_oc_damage : ProgressBar = $Screens/GameScreen/OverclockPopup/Margin/VBox/RowDamage/DamageBar
-@onready var lbl_oc_state : Label = $Screens/GameScreen/OverclockPopup/Margin/VBox/RowStatus/LblState
-@onready var lbl_oc_mult : Label = $Screens/GameScreen/OverclockPopup/Margin/VBox/RowStatus/LblMult
-@onready var btn_oc_safe : Button = $Screens/GameScreen/OverclockPopup/Margin/VBox/RowButtons/BtnSafe
-@onready var btn_oc_close : Button = $Screens/GameScreen/OverclockPopup/Margin/VBox/RowButtons/BtnClose
+@onready var btn_overclock_open : Button = %BtnOverclock
+@onready var popup_overclock : PopupPanel = %OverclockPopup
+@onready var opt_oc_plant : OptionButton = %OptOcPlant
+@onready var slider_oc_voltage : HSlider = %VoltageSlider
+@onready var slider_oc_cooling : HSlider = %CoolingSlider
+@onready var lbl_oc_voltage : Label = %LblVoltageVal
+@onready var lbl_oc_cooling : Label = %LblCoolingVal
+@onready var bar_oc_heat : ProgressBar = %HeatBar
+@onready var bar_oc_damage : ProgressBar = %DamageBar
+@onready var lbl_oc_state : Label = %LblState
+@onready var lbl_oc_mult : Label = %LblMult
+@onready var btn_oc_safe : Button = %BtnSafe
+@onready var btn_oc_close : Button = %BtnOcClose
 
 # Upgrade buttons
-@onready var btn_battery      : Button = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Upgrades/BtnBattery
-@onready var btn_grid         : Button = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Upgrades/BtnGrid
-@onready var btn_better_solar : Button = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Upgrades/BtnBetterSolar
-@onready var btn_stable_wind  : Button = $Screens/GameScreen/RightSidebar/Margin/Scroll/VBox/Upgrades/BtnStableWind
+@onready var btn_battery      : Button = %BtnBatteryUpgrade
+@onready var btn_grid         : Button = %BtnGridUpgrade
+@onready var btn_better_solar : Button = %BtnBetterSolarUpgrade
+@onready var btn_stable_wind  : Button = %BtnStableWindUpgrade
 
 # City skyline
-@onready var city_overlay     : Control = $Screens/GameScreen/CityOverlay
-@onready var lbl_blackout     : Label   = $Screens/GameScreen/CityOverlay/LblBlackout
+@onready var city_overlay     : Control = %CityOverlay
+@onready var lbl_blackout     : Label   = %LblBlackout
+@onready var ticker_label     : RichTextLabel = %TickerLabel
 
 # Game over / win
-@onready var lbl_go_reason    : Label = $Screens/GameOverScreen/VBox/LblReason
-@onready var lbl_go_score     : Label = $Screens/GameOverScreen/VBox/LblScore
-@onready var lbl_win_score    : Label = $Screens/WinScreen/VBox/LblScore
+@onready var lbl_go_reason    : Label = %LblReason
+@onready var lbl_go_score     : Label = %LblGOScore
+@onready var lbl_win_score    : Label = %LblWinScore
 
 # ─── SFX Objects ──────────────────────────────────────────────────────────────
-@onready var accept_contract_sfx = $Screens/GameScreen/Sounds/AcceptContract
-@onready var blackout_warning_sfx = $Screens/GameScreen/Sounds/BlackoutWarning
-@onready var buy_coal_sfx = $Screens/GameScreen/Sounds/BuyCoal
-@onready var flash_contract_appear_sfx = $Screens/GameScreen/Sounds/FlashContractAppear
-@onready var flash_contract_expire_sfx = $Screens/GameScreen/Sounds/FlashContractExpire
-@onready var game_over_sfx = $Screens/GameScreen/Sounds/GameOver
-@onready var game_won_sfx = $Screens/GameScreen/Sounds/GameWon
-@onready var random_event_sfx = $Screens/GameScreen/Sounds/RandomEvent
-@onready var boost_coal_sfx = $Screens/GameScreen/Sounds/BoostCoal
-@onready var boost_solar_sfx = $Screens/GameScreen/Sounds/BoostSolar
-@onready var boost_wind_sfx = $Screens/GameScreen/Sounds/BoostWind
-@onready var upgrade_purchase_sfx = $Screens/GameScreen/Sounds/UpgradePurchase
-@onready var start_overclock_sfx = $Screens/GameScreen/Sounds/StartOverclock
+@onready var accept_contract_sfx = %AcceptContract
+@onready var blackout_warning_sfx = %BlackoutWarning
+@onready var buy_coal_sfx = %BuyCoal
+@onready var flash_contract_appear_sfx = %FlashContractAppear
+@onready var flash_contract_expire_sfx = %FlashContractExpire
+@onready var game_over_sfx = %GameOver
+@onready var game_won_sfx = %GameWon
+@onready var random_event_sfx = %RandomEvent
+@onready var boost_coal_sfx = %BoostCoal
+@onready var boost_solar_sfx = %BoostSolar
+@onready var boost_wind_sfx = %BoostWind
+@onready var upgrade_purchase_sfx = %UpgradePurchase
+@onready var start_overclock_sfx = %StartOverclock
 @onready var bgm_players = [
-	$Screens/GameScreen/Sounds/BGM1,
-	$Screens/GameScreen/Sounds/BGM2,
-	$Screens/GameScreen/Sounds/BGM3
+	%BGM1,
+	%BGM2,
+	%BGM3
 ]
 
 # Map Display
-@onready var map : Node2D = $Screens/GameScreen/Map
+@onready var map : Node2D = %Map
 
 var GM : Node
 var contract_offers_by_source : Dictionary = {}
@@ -148,6 +150,8 @@ var last_pollution : float = -1.0
 var last_satisfaction : float = -1.0
 var event_border_tween : Tween
 var event_border_base_color : Color = Color(0.35, 0.42, 0.5, 1)
+var event_history : Array[String] = []
+var ticker_scroll_speed : float = 120.0
 
 func _ready() -> void:
 	GM = get_node("/root/GameManager")
@@ -178,7 +182,7 @@ func _ready() -> void:
 	_opt_init_contracts()
 	_cache_event_border_color()
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if screen_game.visible:
 		if popup_overclock.visible:
 			_update_overclock_popup()
@@ -187,6 +191,20 @@ func _process(_delta: float) -> void:
 		_update_event_status()
 		_update_overclock_warning()
 		_update_contract_displays()
+		_process_ticker_scroll(delta)
+
+func _process_ticker_scroll(delta: float) -> void:
+	if ticker_label == null: return
+	
+	# Move text to the left
+	ticker_label.position.x -= ticker_scroll_speed * delta
+	
+	# Get the actual width of the text content
+	var text_width = ticker_label.get_content_width()
+	
+	# If the label has fully scrolled off to the left, reset it to the right of the window
+	if ticker_label.position.x < -text_width:
+		ticker_label.position.x = ticker_label.get_parent().size.x
 
 # ─── Screen management ────────────────────────────────────────────────────────
 func _show_screen(name: String) -> void:
@@ -262,23 +280,52 @@ func _on_meters_updated(stab: float, poll: float, sat: float) -> void:
 	_refresh_upgrade_buttons()
 
 func _on_demand_updated(demand: float, supply: float) -> void:
-	lbl_demand.text = "Demand: %.0f MW" % demand
-	lbl_supply.text = "Supply: %.0f MW" % supply
+	lbl_demand.text = "%.0f MW" % demand
+	lbl_supply.text = "%.0f MW" % supply
 	var balance := supply - demand
-	lbl_balance.text = ("Surplus +%.0f MW" % balance) if balance >= 0 else ("Deficit %.0f MW" % balance)
-	lbl_balance.add_theme_color_override("font_color", Color(0.3, 0.9, 0.3) if balance >= 0 else Color(1.0, 0.3, 0.2))
+	
+	# Update Balance Text
+	if balance >= 0:
+		lbl_balance.text = "+%.0f MW surplus" % balance
+		lbl_balance.add_theme_color_override("font_color", Color(0.3, 0.9, 0.5))
+	else:
+		lbl_balance.text = "%.0f MW deficit" % balance
+		lbl_balance.add_theme_color_override("font_color", Color(1.0, 0.3, 0.2))
+	
+	# Update Balance Gauge (50 is center/perfect balance)
+	# +/- 50MW covers the bar range roughly for quick visual
+	var gauge_val := 50.0 + (balance / 2.0) 
+	bar_balance.value = clamp(gauge_val, 0, 100)
+	
+	# Visual feedback: pulse the bar if in deficit
+	if balance < 0:
+		_pulse_control(bar_balance, Color(1.0, 0.3, 0.2))
 
 func _on_event_triggered(ev: Dictionary) -> void:
 	if lbl_event_title == null or lbl_event_desc == null:
 		return
 	random_event_sfx.play()
-	lbl_event_title.text = ev.get("title", "Event")
+	var title = ev.get("title", "Event")
+	lbl_event_title.text = title
 	lbl_event_desc.text  = ev.get("desc",  "")
+
+	# Add to ticker history
+	var time_str = "[color=#888888][%s][/color] " % GM.get_time_of_day_label()
+	event_history.push_front(time_str + "[color=#ffaa00]" + title.to_upper() + ":[/color] " + ev.get("desc", ""))
+	if event_history.size() > 5:
+		event_history.pop_back()
+	_update_ticker_display()
+
 	_start_event_border_pulse(ev.get("color", Color(1.0, 0.8, 0.3)))
 	if panel_event != null:
 		panel_event.show()
 	if timer_event_hide != null:
 		timer_event_hide.start(3.0)
+
+func _update_ticker_display() -> void:
+	var full_text = "  •  ".join(event_history)
+	ticker_label.text = "[center]" + full_text + "[/center]"
+
 
 # Updates the event status line (name + timer) near supply/demand
 func _update_event_status() -> void:
