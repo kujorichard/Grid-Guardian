@@ -207,6 +207,7 @@ func _init_game_ui() -> void:
 	_safe_hide(lbl_event_status)
 	_safe_hide(lbl_oc_warning)
 	_play_random_bgm()
+	_on_boost_state_updated(true, 0.0)
 
 # ─── Signal handlers ──────────────────────────────────────────────────────────
 func _on_meters_updated(stab: float, poll: float, sat: float) -> void:
@@ -587,9 +588,9 @@ func _set_contract_btn(btn: Button, source: String, offer: Dictionary) -> void:
 	btn.disabled = GM.coins < upfront
 
 func _refresh_capacity_labels(coal: float, solar: float, wind: float) -> void:
-	lbl_cap_coal.text = "Cap: %.0f MW" % coal
-	lbl_cap_solar.text = "Cap: %.0f MW" % solar
-	lbl_cap_wind.text = "Cap: %.0f MW" % wind
+	lbl_cap_coal.text = "Coal Cap: %.0f MW" % coal
+	lbl_cap_solar.text = "Solar Cap: %.0f MW" % solar
+	lbl_cap_wind.text = "Wind Cap: %.0f MW" % wind
 
 func _refresh_capacity_buttons() -> void:
 	var can_buy = GM.coins >= 160
